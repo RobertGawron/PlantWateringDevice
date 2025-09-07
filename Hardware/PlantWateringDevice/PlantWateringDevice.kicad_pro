@@ -649,12 +649,8 @@
       "DataHandling"
     ],
     [
-      "b556fc9c-2b57-414f-b713-b004fb10476e",
-      "InMUX"
-    ],
-    [
-      "629e2f9e-20b0-49f8-94b7-bc96790705e4",
-      "OutMUX"
+      "d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e",
+      "Display"
     ]
   ],
   "text_variables": {}
