@@ -634,7 +634,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Device:D"
+		(symbol "Device:D_Schottky"
 			(pin_numbers
 				(hide yes)
 			)
@@ -653,7 +653,7 @@
 					)
 				)
 			)
-			(property "Value" "D"
+			(property "Value" "D_Schottky"
 				(at 0 -2.54 0)
 				(effects
 					(font
@@ -679,7 +679,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Diode"
+			(property "Description" "Schottky diode"
 				(at 0 0 0)
 				(effects
 					(font
@@ -688,25 +688,7 @@
 					(hide yes)
 				)
 			)
-			(property "Sim.Device" "D"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Sim.Pins" "1=K 2=A"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "diode"
+			(property "ki_keywords" "diode Schottky"
 				(at 0 0 0)
 				(effects
 					(font
@@ -724,10 +706,10 @@
 					(hide yes)
 				)
 			)
-			(symbol "D_0_1"
+			(symbol "D_Schottky_0_1"
 				(polyline
 					(pts
-						(xy -1.27 1.27) (xy -1.27 -1.27)
+						(xy -1.905 0.635) (xy -1.905 1.27) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.635 -1.27) (xy -0.635 -0.635)
 					)
 					(stroke
 						(width 0.254)
@@ -762,7 +744,7 @@
 					)
 				)
 			)
-			(symbol "D_1_1"
+			(symbol "D_Schottky_1_1"
 				(pin passive line
 					(at -3.81 0 0)
 					(length 2.54)
@@ -934,6 +916,168 @@
 					(at 0 -3.81 90)
 					(length 2.54)
 					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Device:L"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "L"
+				(at -1.27 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "L"
+				(at 1.905 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Inductor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "inductor choke coil reactor magnetic"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Choke_* *Coil* Inductor_* L_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "L_0_1"
+				(arc
+					(start 0 2.54)
+					(mid 0.6323 1.905)
+					(end 0 1.27)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0 1.27)
+					(mid 0.6323 0.635)
+					(end 0 0)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0 0)
+					(mid 0.6323 -0.635)
+					(end 0 -1.27)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0 -1.27)
+					(mid 0.6323 -1.905)
+					(end 0 -2.54)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "L_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1666,23 +1810,12 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Regulator_Linear:L78L33_SO8"
-			(pin_names
-				(offset 0.254)
-			)
+		(symbol "Regulator_Switching:LM2596S-3.3"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "U"
-				(at -3.81 3.175 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "L78L33_SO8"
-				(at 0 3.175 0)
+				(at -10.16 6.35 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1690,26 +1823,27 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
-				(at 2.54 5.08 0)
+			(property "Value" "LM2596S-3.3"
+				(at 0 6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:TO-263-5_TabPin3"
+				(at 1.27 -6.35 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 						(italic yes)
 					)
+					(justify left)
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "http://www.st.com/content/ccc/resource/technical/document/datasheet/15/55/e5/aa/23/5b/43/fd/CD00000446.pdf/files/CD00000446.pdf/jcr:content/translations/en.CD00000446.pdf"
-				(at 5.08 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Positive 100mA 30V Linear Regulator, Fixed Output 3.3V, SO-8"
+			(property "Datasheet" "http://www.ti.com/lit/ds/symlink/lm2596.pdf"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1718,7 +1852,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_keywords" "Voltage Regulator 100mA Positive"
+			(property "Description" "3.3V 3A Step-Down Voltage Regulator, TO-263"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1727,7 +1861,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "SOIC*3.9x4.9mm*P1.27mm*"
+			(property "ki_keywords" "Step-Down Voltage Regulator 3.3V 3A"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1736,10 +1870,19 @@
 					(hide yes)
 				)
 			)
-			(symbol "L78L33_SO8_0_1"
+			(property "ki_fp_filters" "TO?263*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LM2596S-3.3_0_1"
 				(rectangle
-					(start -5.08 1.905)
-					(end 5.08 -5.08)
+					(start -10.16 5.08)
+					(end 10.16 -5.08)
 					(stroke
 						(width 0.254)
 						(type default)
@@ -1749,18 +1892,18 @@
 					)
 				)
 			)
-			(symbol "L78L33_SO8_1_1"
+			(symbol "LM2596S-3.3_1_1"
 				(pin power_in line
-					(at -7.62 0 0)
+					(at -12.7 2.54 0)
 					(length 2.54)
-					(name "IN"
+					(name "VIN"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "8"
+					(number "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1768,18 +1911,17 @@
 						)
 					)
 				)
-				(pin no_connect line
-					(at -5.08 -2.54 0)
+				(pin input line
+					(at -12.7 -2.54 0)
 					(length 2.54)
-					(hide yes)
-					(name "NC"
+					(name "~{ON}/OFF"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "4"
+					(number "5"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1787,29 +1929,9 @@
 						)
 					)
 				)
-				(pin passive line
+				(pin power_in line
 					(at 0 -7.62 90)
 					(length 2.54)
-					(hide yes)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -7.62 90)
-					(length 2.54)
-					(hide yes)
 					(name "GND"
 						(effects
 							(font
@@ -1825,18 +1947,17 @@
 						)
 					)
 				)
-				(pin passive line
-					(at 0 -7.62 90)
+				(pin input line
+					(at 12.7 2.54 180)
 					(length 2.54)
-					(hide yes)
-					(name "GND"
+					(name "FB"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "6"
+					(number "4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1844,45 +1965,8 @@
 						)
 					)
 				)
-				(pin power_in line
-					(at 0 -7.62 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at 5.08 -2.54 180)
-					(length 2.54)
-					(hide yes)
-					(name "NC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_out line
-					(at 7.62 0 180)
+				(pin output line
+					(at 12.7 -2.54 180)
 					(length 2.54)
 					(name "OUT"
 						(effects
@@ -1891,7 +1975,7 @@
 							)
 						)
 					)
-					(number "1"
+					(number "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2325,131 +2409,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "power:+5V"
-			(power)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR"
-				(at 0 -3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "+5V"
-				(at 0 3.556 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"+5V\""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "+5V_0_1"
-				(polyline
-					(pts
-						(xy -0.762 1.27) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "+5V_1_1"
-				(pin power_in line
-					(at 0 0 90)
-					(length 0)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "power:GND"
 			(power)
 			(pin_numbers
@@ -2653,7 +2612,7 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "3v3 Power Supply for digital side\n\ncheck usb footprint\n"
+	(text "3v3 Power Supply for digital side\n"
 		(exclude_from_sim no)
 		(at 158.242 33.528 0)
 		(effects
@@ -2667,7 +2626,7 @@
 	)
 	(text "Pump"
 		(exclude_from_sim no)
-		(at 138.684 113.792 0)
+		(at 145.796 101.6 0)
 		(effects
 			(font
 				(size 1.778 1.778)
@@ -2702,40 +2661,28 @@
 		(uuid "0d390789-e6cb-4f8c-b9be-c96c5937933e")
 	)
 	(junction
+		(at 116.84 53.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1d425aa3-6f15-475d-a284-391e8293391e")
+	)
+	(junction
 		(at 157.48 128.27)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "22fb688d-150d-4244-8960-b5f263a96696")
 	)
 	(junction
-		(at 132.08 53.34)
+		(at 184.15 58.42)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "296afc0d-9dc7-4e48-86de-478ff609f04d")
-	)
-	(junction
-		(at 92.71 53.34)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2a5d3c17-341b-4824-9000-ceddf5a9ca1a")
-	)
-	(junction
-		(at 193.04 53.34)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "3db58c34-246c-4cec-9207-0e4824ee7b5c")
+		(uuid "2c510d6c-d207-46a4-b7f6-41d9d3842c99")
 	)
 	(junction
 		(at 124.46 107.95)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5ee4d4fa-b4ac-4a9c-a356-6ff18def1f45")
-	)
-	(junction
-		(at 173.99 53.34)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "6055728e-f5ea-40d8-b273-0bc09e2ac1e8")
 	)
 	(junction
 		(at 82.55 53.34)
@@ -2762,10 +2709,22 @@
 		(uuid "96e7e693-e472-4878-9953-4955904b36c3")
 	)
 	(junction
+		(at 217.17 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9a0e819c-af5d-4277-82ca-2dfe9dda1baf")
+	)
+	(junction
 		(at 111.76 107.95)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9c680c57-c51a-43f0-bbd6-7853846c782e")
+	)
+	(junction
+		(at 203.2 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a1862e9b-b4c1-43e1-92ac-16b5e4207b36")
 	)
 	(junction
 		(at 147.32 128.27)
@@ -2792,22 +2751,28 @@
 		(uuid "c04c65ae-d690-44cd-9985-041e32a41666")
 	)
 	(junction
-		(at 191.77 41.91)
+		(at 228.6 58.42)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "e568eec3-986e-4a66-a329-ae72c1000241")
+		(uuid "db8833f3-09c8-4143-9bf0-d16d5682f8e8")
 	)
 	(junction
-		(at 116.84 53.34)
+		(at 137.16 53.34)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "e92a4605-df5c-495f-9727-4f82f649e393")
+		(uuid "db93cb62-e958-48ab-9f30-24d3b1d46f6c")
 	)
 	(junction
-		(at 147.32 53.34)
-		(diameter 1.016)
+		(at 207.01 58.42)
+		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "eb473045-2b6e-475f-888a-5d895b4655f6")
+		(uuid "df0b5ee5-e0fb-418d-9c5f-d426625293be")
+	)
+	(junction
+		(at 222.25 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fcec0780-bba8-4ef7-80ca-bea22510abc4")
 	)
 	(junction
 		(at 157.48 107.95)
@@ -2867,16 +2832,6 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 53.34) (xy 173.99 58.42)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "0d0b14c9-9c02-4bb8-a8f3-619b92b0a829")
-	)
-	(wire
-		(pts
 			(xy 147.32 137.16) (xy 154.94 137.16)
 		)
 		(stroke
@@ -2907,13 +2862,13 @@
 	)
 	(wire
 		(pts
-			(xy 143.51 53.34) (xy 147.32 53.34)
+			(xy 184.15 58.42) (xy 184.15 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "17eab6ef-b1b9-4945-9bc2-4fac677ffda6")
+		(uuid "14a6b85d-8de9-4f92-9f7a-78229e207af8")
 	)
 	(wire
 		(pts
@@ -2924,16 +2879,6 @@
 			(type default)
 		)
 		(uuid "1831c066-2002-4228-ac4c-9ffbcb90c400")
-	)
-	(wire
-		(pts
-			(xy 191.77 41.91) (xy 207.01 41.91)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1c21cf65-9371-4ddd-918a-8eaff104894c")
 	)
 	(wire
 		(pts
@@ -2977,16 +2922,6 @@
 	)
 	(wire
 		(pts
-			(xy 193.04 52.07) (xy 193.04 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "29b2d2a3-657c-4fbc-a4dd-a20f8feff4f0")
-	)
-	(wire
-		(pts
 			(xy 116.84 57.15) (xy 116.84 53.34)
 		)
 		(stroke
@@ -2994,6 +2929,16 @@
 			(type default)
 		)
 		(uuid "2b2c6bef-5c8a-484f-a2d7-875393243fa5")
+	)
+	(wire
+		(pts
+			(xy 203.2 58.42) (xy 207.01 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3074528e-4b20-4628-af42-2b728a49ea16")
 	)
 	(wire
 		(pts
@@ -3007,13 +2952,13 @@
 	)
 	(wire
 		(pts
-			(xy 170.18 53.34) (xy 173.99 53.34)
+			(xy 222.25 68.58) (xy 222.25 71.12)
 		)
 		(stroke
 			(width 0)
-			(type solid)
+			(type default)
 		)
-		(uuid "31cf7b11-3344-45ee-b9b6-c6e55dceef38")
+		(uuid "3095ec78-0fbf-4e80-bcd0-f12fcc95dc83")
 	)
 	(wire
 		(pts
@@ -3037,13 +2982,13 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 41.91) (xy 92.71 53.34)
+			(xy 180.34 53.34) (xy 203.2 53.34)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "34ac54c9-e89c-4c1a-937d-6f7da697f7c1")
+		(uuid "372a3a6d-5bcb-4ac6-ae36-a17e16fd73a9")
 	)
 	(wire
 		(pts
@@ -3057,33 +3002,23 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 53.34) (xy 135.89 53.34)
+			(xy 152.4 58.42) (xy 152.4 71.12)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3f71ef5e-92f5-4ea0-9643-241e5ae5a875")
+		(uuid "3f0f7e09-be30-4eb8-83c8-29c8df4564d4")
 	)
 	(wire
 		(pts
-			(xy 147.32 49.53) (xy 147.32 53.34)
+			(xy 184.15 58.42) (xy 190.5 58.42)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "407e0cab-ff12-45bc-9352-218dd986190c")
-	)
-	(wire
-		(pts
-			(xy 147.32 57.15) (xy 147.32 53.34)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "48513aba-a72f-4f4d-8934-27952d5aaa18")
+		(uuid "4097181f-9b09-474a-85fe-5c241d60c8a9")
 	)
 	(wire
 		(pts
@@ -3127,23 +3062,33 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 40.64) (xy 207.01 41.91)
+			(xy 207.01 68.58) (xy 207.01 71.12)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "55e6ba5c-198e-4f1d-977d-3fba71048097")
+		(uuid "55e1e5ff-e7e8-47bf-97ca-4f27d6ead972")
 	)
 	(wire
 		(pts
-			(xy 191.77 40.64) (xy 191.77 41.91)
+			(xy 180.34 58.42) (xy 184.15 58.42)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "58760807-0776-436a-b4f2-6b7f68ed91cc")
+		(uuid "56266596-6fd0-46b3-acd6-bb2af9d51a1e")
+	)
+	(wire
+		(pts
+			(xy 154.94 53.34) (xy 137.16 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "56fe8a59-e789-4295-af83-005b5f6d1670")
 	)
 	(wire
 		(pts
@@ -3154,16 +3099,6 @@
 			(type default)
 		)
 		(uuid "59aa5e15-8825-4caa-b8a3-b7bcc4b7e414")
-	)
-	(wire
-		(pts
-			(xy 132.08 64.77) (xy 132.08 68.58)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "59c82d06-c7b5-49f1-9457-c7bfaba6a4bb")
 	)
 	(wire
 		(pts
@@ -3187,33 +3122,43 @@
 	)
 	(wire
 		(pts
-			(xy 116.84 53.34) (xy 132.08 53.34)
+			(xy 243.84 55.88) (xy 243.84 58.42)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "636126e2-4fc9-4f92-a0cb-24d7d97dd1f8")
+	)
+	(wire
+		(pts
+			(xy 217.17 54.61) (xy 217.17 58.42)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6139452f-ac5c-4665-a7c1-548520611128")
+		(uuid "6439bb54-036f-468c-a190-a0a9bcd495ac")
 	)
 	(wire
 		(pts
-			(xy 173.99 53.34) (xy 193.04 53.34)
+			(xy 116.84 53.34) (xy 137.16 53.34)
 		)
 		(stroke
 			(width 0)
-			(type solid)
+			(type default)
 		)
-		(uuid "733be6fe-8d3d-4a2e-851f-015aded8866a")
+		(uuid "71d91b1c-45af-4985-8dfa-988acb7b5c8e")
 	)
 	(wire
 		(pts
-			(xy 162.56 60.96) (xy 162.56 68.58)
+			(xy 207.01 58.42) (xy 217.17 58.42)
 		)
 		(stroke
 			(width 0)
-			(type solid)
+			(type default)
 		)
-		(uuid "79724b34-cb8f-4f8f-bd95-25cdd6a1c20e")
+		(uuid "772374db-8b3f-4d8f-98dc-dbf108bd1782")
 	)
 	(wire
 		(pts
@@ -3227,7 +3172,7 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 53.34) (xy 92.71 53.34)
+			(xy 82.55 53.34) (xy 116.84 53.34)
 		)
 		(stroke
 			(width 0)
@@ -3244,16 +3189,6 @@
 			(type default)
 		)
 		(uuid "818c7afc-f3ae-4cb1-b782-de9b41583213")
-	)
-	(wire
-		(pts
-			(xy 132.08 57.15) (xy 132.08 53.34)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "8ad7e9e1-524b-4fdb-9479-e1955c05c80a")
 	)
 	(wire
 		(pts
@@ -3317,16 +3252,6 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 53.34) (xy 147.32 53.34)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "98fbe35d-86c2-41e4-a010-286a628f1d97")
-	)
-	(wire
-		(pts
 			(xy 167.64 107.95) (xy 167.64 115.57)
 		)
 		(stroke
@@ -3357,16 +3282,6 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 53.34) (xy 116.84 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a3e2e686-42ef-4248-a2ea-6c0192aba01e")
-	)
-	(wire
-		(pts
 			(xy 147.32 128.27) (xy 147.32 137.16)
 		)
 		(stroke
@@ -3374,6 +3289,16 @@
 			(type default)
 		)
 		(uuid "a7b0db14-145e-4206-a967-fba8e262ca05")
+	)
+	(wire
+		(pts
+			(xy 154.94 58.42) (xy 152.4 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a977cf12-b7ff-4abe-9e3e-ee03808c6513")
 	)
 	(wire
 		(pts
@@ -3387,13 +3312,13 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 41.91) (xy 92.71 41.91)
+			(xy 198.12 58.42) (xy 203.2 58.42)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ab364cf2-3dc1-443f-b47e-38c353aadf9c")
+		(uuid "aa8e9961-7ac9-4e3b-ae5e-821f39450ae0")
 	)
 	(wire
 		(pts
@@ -3407,16 +3332,6 @@
 	)
 	(wire
 		(pts
-			(xy 208.28 52.07) (xy 208.28 53.34)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "af16fdd3-2406-4e1c-b5ac-56def7e14934")
-	)
-	(wire
-		(pts
 			(xy 147.32 148.59) (xy 147.32 157.48)
 		)
 		(stroke
@@ -3424,6 +3339,16 @@
 			(type default)
 		)
 		(uuid "b6b6899a-d56d-4778-afff-9d607163c895")
+	)
+	(wire
+		(pts
+			(xy 222.25 58.42) (xy 228.6 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b736a55d-c3a4-420b-8b7c-0889aa79dc64")
 	)
 	(wire
 		(pts
@@ -3437,6 +3362,16 @@
 	)
 	(wire
 		(pts
+			(xy 222.25 60.96) (xy 222.25 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bd04954a-88f6-4ae4-96b0-30d68a4b6e87")
+	)
+	(wire
+		(pts
 			(xy 93.98 107.95) (xy 93.98 111.76)
 		)
 		(stroke
@@ -3447,6 +3382,26 @@
 	)
 	(wire
 		(pts
+			(xy 228.6 55.88) (xy 228.6 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c372e39f-3954-430c-b9d9-2d4f9c777e30")
+	)
+	(wire
+		(pts
+			(xy 184.15 69.85) (xy 184.15 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c45b2657-3bd9-4099-a86b-f97b4d86cc8c")
+	)
+	(wire
+		(pts
 			(xy 69.85 62.23) (xy 69.85 60.96)
 		)
 		(stroke
@@ -3454,6 +3409,16 @@
 			(type default)
 		)
 		(uuid "c5d9cbcd-df7e-4e38-9f79-07adfff336d5")
+	)
+	(wire
+		(pts
+			(xy 137.16 67.31) (xy 137.16 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cda416ad-0364-4ce8-bed8-3fe85d293221")
 	)
 	(wire
 		(pts
@@ -3507,13 +3472,13 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 66.04) (xy 173.99 68.58)
+			(xy 137.16 53.34) (xy 137.16 59.69)
 		)
 		(stroke
 			(width 0)
-			(type solid)
+			(type default)
 		)
-		(uuid "db8fcacb-ab53-4566-9bb7-4c4bb232db5d")
+		(uuid "e0792b29-93f7-4462-86a0-657b9a1676f9")
 	)
 	(wire
 		(pts
@@ -3547,13 +3512,13 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 64.77) (xy 147.32 68.58)
+			(xy 217.17 58.42) (xy 222.25 58.42)
 		)
 		(stroke
 			(width 0)
-			(type solid)
+			(type default)
 		)
-		(uuid "e663412f-01d7-4794-8f68-ce866507cfca")
+		(uuid "e4eaaa1b-fbb3-45ef-bed7-52a4127b31ab")
 	)
 	(wire
 		(pts
@@ -3587,13 +3552,43 @@
 	)
 	(wire
 		(pts
-			(xy 193.04 53.34) (xy 208.28 53.34)
+			(xy 228.6 58.42) (xy 243.84 58.42)
 		)
 		(stroke
 			(width 0)
-			(type solid)
+			(type default)
 		)
-		(uuid "f7039503-0e5c-4618-819e-fd87a10ea36d")
+		(uuid "f55b6d43-b6ed-4350-a23e-715b90b90945")
+	)
+	(wire
+		(pts
+			(xy 203.2 53.34) (xy 203.2 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f746bb0d-07cc-4334-830b-4cb0da4b8a93")
+	)
+	(wire
+		(pts
+			(xy 207.01 60.96) (xy 207.01 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8a8837c-715e-4730-afbf-f971e4da2e56")
+	)
+	(wire
+		(pts
+			(xy 167.64 63.5) (xy 167.64 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ff205b5f-e8a0-462f-a2df-cdcc74f43f4c")
 	)
 	(global_label "PUMP_ON_OFF"
 		(shape input)
@@ -3687,155 +3682,17 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 147.32 60.96 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "00000000-0000-0000-0000-00006145cc78")
-		(property "Reference" "C10"
-			(at 150.241 59.7916 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1u"
-			(at 150.241 62.103 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 148.2852 64.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 147.32 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 147.32 60.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "aa462d3d-685f-4255-8d47-9267d4dbb406")
-		)
-		(pin "2"
-			(uuid "5aba6934-5752-43f5-9bd6-463aa40f534c")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "C10")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 173.99 62.23 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "00000000-0000-0000-0000-00006145d035")
-		(property "Reference" "C12"
-			(at 176.911 61.0616 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1u"
-			(at 176.911 63.373 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 174.9552 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 173.99 62.23 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 173.99 62.23 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "1123e27f-33c2-4c96-8b7a-492055a73aa6")
-		)
-		(pin "2"
-			(uuid "acc7462e-22e1-4763-aaba-5b0b12d7f300")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "C12")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
-		(at 162.56 68.58 0)
+		(at 184.15 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "04fdc576-ec33-4441-b190-1ba0ec9900c2")
-		(property "Reference" "#PWR024"
-			(at 162.56 74.93 0)
+		(uuid "03051144-c697-4bc6-b28e-6b2d8d247b49")
+		(property "Reference" "#PWR053"
+			(at 184.15 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3844,7 +3701,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 162.56 73.66 0)
+			(at 184.15 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3852,7 +3709,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 162.56 68.58 0)
+			(at 184.15 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3861,7 +3718,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 162.56 68.58 0)
+			(at 184.15 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3870,7 +3727,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 162.56 68.58 0)
+			(at 184.15 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3879,55 +3736,29 @@
 			)
 		)
 		(pin "1"
-			(uuid "c45c1790-b484-41da-8a6f-f8ec9465a7d3")
+			(uuid "21ee1781-dcfe-41b5-9cda-b3c3eaaafa03")
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "#PWR024")
+					(reference "#PWR053")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "Regulator_Linear:L78L33_SO8")
-		(at 162.56 53.34 0)
+		(lib_id "power:+3V3")
+		(at 243.84 55.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "05ffa0c5-148a-41e8-ba8b-99f968417d18")
-		(property "Reference" "U2"
-			(at 162.56 46.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "L78L33_SO8"
-			(at 162.56 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
-			(at 165.1 48.26 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-					(italic yes)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "http://www.st.com/content/ccc/resource/technical/document/datasheet/15/55/e5/aa/23/5b/43/fd/CD00000446.pdf/files/CD00000446.pdf/jcr:content/translations/en.CD00000446.pdf"
-			(at 167.64 53.34 0)
+		(uuid "10f2890c-0622-4f3f-a2cd-ed5177342363")
+		(property "Reference" "#PWR049"
+			(at 243.84 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3935,8 +3766,34 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Positive 100mA 30V Linear Regulator, Fixed Output 3.3V, SO-8"
-			(at 162.56 53.34 0)
+		(property "Value" "+3V3"
+			(at 243.84 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 243.84 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 243.84 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 243.84 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3945,68 +3802,29 @@
 			)
 		)
 		(pin "1"
-			(uuid "93a5ff27-a036-400c-b7b4-4672a9c11c17")
-		)
-		(pin "3"
-			(uuid "33d5be58-995e-4cfb-8cdf-bf21b4a60715")
-		)
-		(pin "8"
-			(uuid "6fb229ce-d64c-4680-b87e-3ab566c0be27")
-		)
-		(pin "7"
-			(uuid "b4809316-9c39-4366-b0b9-6128649111c7")
-		)
-		(pin "6"
-			(uuid "469e9d04-4d05-491e-910a-b22c55329b90")
-		)
-		(pin "5"
-			(uuid "2f0bc732-3a53-4f90-941f-45209b6043f2")
-		)
-		(pin "4"
-			(uuid "3922ac1d-1b5a-496d-a598-57cc909732ec")
-		)
-		(pin "2"
-			(uuid "5f8b9550-b8c1-4613-9487-83a7606f7a4a")
+			(uuid "cb2cd2c4-91aa-46e6-844b-6a9e9f6efe2e")
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "U2")
+					(reference "#PWR049")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 191.77 40.64 0)
+		(lib_id "power:GND")
+		(at 137.16 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "11b01a16-713e-4847-a3c6-6bd214d2e4c2")
-		(property "Reference" "TP5"
-			(at 194.31 36.0679 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "TestPoint"
-			(at 194.31 38.6079 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
-			(at 196.85 40.64 0)
+		(uuid "1146864a-b0b5-4e99-be95-0d5349160a43")
+		(property "Reference" "#PWR050"
+			(at 137.16 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4014,8 +3832,16 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 196.85 40.64 0)
+		(property "Value" "GND"
+			(at 137.16 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 137.16 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4023,8 +3849,17 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
-			(at 191.77 40.64 0)
+		(property "Datasheet" ""
+			(at 137.16 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 137.16 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4033,12 +3868,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "2d49fc47-96ef-4755-a29a-d460142d00b2")
+			(uuid "2acfd791-dae3-4811-90f3-df58f35728cc")
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "TP5")
+					(reference "#PWR050")
 					(unit 1)
 				)
 			)
@@ -4111,17 +3946,33 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 147.32 68.58 0)
+		(lib_id "Device:L")
+		(at 194.31 58.42 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "157d4e9d-b5e4-49b8-bcc0-98dcfb3293ac")
-		(property "Reference" "#PWR022"
-			(at 147.32 74.93 0)
+		(uuid "2b30981b-073d-479b-a040-f625396f108d")
+		(property "Reference" "L1"
+			(at 194.31 60.96 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "33u"
+			(at 194.31 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PlantWateringDevice:SDR1006-330KL"
+			(at 194.31 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4129,16 +3980,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GND"
-			(at 147.32 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 147.32 68.58 0)
+		(property "Datasheet" "~"
+			(at 194.31 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4146,17 +3989,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
-			(at 147.32 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 147.32 68.58 0)
+		(property "Description" "Inductor"
+			(at 194.31 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4165,12 +3999,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "6f34bcf9-b99e-47a6-b428-3d6964dfa9c1")
+			(uuid "ec68b2ab-23ef-490d-8e61-e14e25ff4742")
+		)
+		(pin "2"
+			(uuid "abae556e-ef1a-44b2-b3a9-7eeeebbb6a63")
 		)
 		(instances
-			(project "PlantWateringDevice"
+			(project ""
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "#PWR022")
+					(reference "L1")
 					(unit 1)
 				)
 			)
@@ -4237,76 +4074,6 @@
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
 					(reference "#FLG05")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Polarized")
-		(at 93.98 115.57 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "3cfa41a1-cbc2-4961-9a1d-992611d8a15e")
-		(property "Reference" "C11"
-			(at 97.79 113.4109 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100u/12v"
-			(at 97.79 115.9509 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:CP_Elec_6.3x5.8"
-			(at 94.9452 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 93.98 115.57 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Polarized capacitor"
-			(at 93.98 115.57 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "fbd6befd-982f-4a92-b4d4-58f6fa6a9dcf")
-		)
-		(pin "2"
-			(uuid "af1473b2-a88b-41d1-9e84-13f67e53ba81")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "C11")
 					(unit 1)
 				)
 			)
@@ -4520,72 +4287,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:PWR_FLAG")
-		(at 147.32 49.53 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "44dc33f3-8076-4b06-b248-1e8717b1ba0f")
-		(property "Reference" "#FLG02"
-			(at 147.32 47.625 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "PWR_FLAG"
-			(at 147.32 44.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 147.32 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 147.32 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 147.32 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "30b1f1b0-a299-4df8-8ded-05ab18022392")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "#FLG02")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 154.94 135.89 0)
 		(unit 1)
@@ -4720,16 +4421,17 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 132.08 60.96 0)
+		(lib_id "Device:D_Schottky")
+		(at 167.64 119.38 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "512289d1-6de8-42c2-8471-1fc48bd0174c")
-		(property "Reference" "C4"
-			(at 135.001 59.7916 0)
+		(fields_autoplaced yes)
+		(uuid "4a87bfa3-8135-4480-9ce9-0dd2ee7e9dfd")
+		(property "Reference" "D1"
+			(at 170.18 117.7924 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4737,8 +4439,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1u"
-			(at 135.001 62.103 0)
+		(property "Value" "D_Schottky"
+			(at 170.18 120.3324 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4746,8 +4448,8 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 133.0452 64.77 0)
+		(property "Footprint" "Diode_SMD:D_SMA"
+			(at 167.64 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4756,7 +4458,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 132.08 60.96 0)
+			(at 167.64 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4764,124 +4466,60 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
-			(at 132.08 60.96 0)
+		(property "Description" "Schottky diode"
+			(at 167.64 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
 			)
-		)
-		(pin "1"
-			(uuid "28eb9f31-5314-4118-8c32-f69d170df335")
 		)
 		(pin "2"
-			(uuid "0207b31f-1fa2-46c7-a78a-efe1ca05c93f")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "C4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 173.99 68.58 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "5559bf8d-2fde-4305-8515-d9cb346864d0")
-		(property "Reference" "#PWR025"
-			(at 173.99 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 173.99 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 173.99 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 173.99 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 173.99 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+			(uuid "2ad8093c-98d0-463e-9e17-82b8c49e0116")
 		)
 		(pin "1"
-			(uuid "506bc337-fe99-47f7-a8e5-c215d52aadc7")
+			(uuid "db37c437-fd41-4a6d-aacb-5dfff2d3a761")
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "#PWR025")
+					(reference "D1")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "Device:FerriteBead")
-		(at 139.7 53.34 90)
+		(lib_id "Device:C_Polarized")
+		(at 222.25 64.77 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "5dced983-2c1d-4891-9dda-80e41074034b")
-		(property "Reference" "FB2"
-			(at 139.6492 45.72 90)
+		(uuid "586d8959-26ac-46b4-ac0c-57cdfb46fce6")
+		(property "Reference" "C10"
+			(at 226.06 62.6109 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "FerriteBead"
-			(at 139.6492 48.26 90)
+		(property "Value" "220u"
+			(at 226.06 65.1509 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_0805_2012Metric_Pad1.15x1.40mm_HandSolder"
-			(at 139.7 55.118 90)
+		(property "Footprint" "Capacitor_SMD:CP_Elec_6.3x5.8"
+			(at 223.2152 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4890,7 +4528,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 139.7 53.34 0)
+			(at 222.25 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4898,8 +4536,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Ferrite bead"
-			(at 139.7 53.34 0)
+		(property "Description" "Polarized capacitor"
+			(at 222.25 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4908,15 +4546,85 @@
 			)
 		)
 		(pin "1"
-			(uuid "2fc5b039-443a-48c0-b3c4-81e41db0e00b")
+			(uuid "362a0e5b-13b0-43cf-ad56-09ab2fd1ce15")
 		)
 		(pin "2"
-			(uuid "5ecb0c3d-fd5d-4b78-833f-d959062469eb")
+			(uuid "d30c8f4e-158d-4312-8814-2367e693454d")
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "FB2")
+					(reference "C10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Polarized")
+		(at 93.98 115.57 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "639c4ee8-03c6-4271-a4c3-92fe554c73ae")
+		(property "Reference" "C12"
+			(at 97.79 113.4109 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "680u/12v"
+			(at 97.79 115.9509 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:CP_Elec_10x10"
+			(at 94.9452 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 93.98 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Polarized capacitor"
+			(at 93.98 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e7095745-b878-4714-99fa-9f420e3de74b")
+		)
+		(pin "2"
+			(uuid "751bb722-1f93-448d-b930-88e2f5bcb058")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+					(reference "C12")
 					(unit 1)
 				)
 			)
@@ -4991,6 +4699,72 @@
 	)
 	(symbol
 		(lib_id "power:GND")
+		(at 167.64 71.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "6ef5097f-3b2b-47fa-a77f-ba562908900a")
+		(property "Reference" "#PWR055"
+			(at 167.64 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 167.64 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 167.64 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 167.64 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 167.64 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "55bcf9d7-e771-4ba3-8286-79c2737f1581")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+					(reference "#PWR055")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
 		(at 93.98 123.19 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5049,6 +4823,76 @@
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
 					(reference "#PWR023")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Polarized")
+		(at 137.16 63.5 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7448df5a-c9f4-40b4-900d-b9bf7c0055e9")
+		(property "Reference" "C5"
+			(at 140.97 61.3409 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "680u/12v"
+			(at 140.97 63.8809 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:CP_Elec_10x10"
+			(at 138.1252 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 137.16 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Polarized capacitor"
+			(at 137.16 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "798ce79c-9dc5-43e9-87f2-ddb401927800")
+		)
+		(pin "2"
+			(uuid "3fe080b1-2ad3-411e-9c22-8b58fab40183")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+					(reference "C5")
 					(unit 1)
 				)
 			)
@@ -5125,6 +4969,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 207.01 71.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7c468063-b1ad-42cd-ba10-5222b96db01c")
+		(property "Reference" "#PWR054"
+			(at 207.01 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 207.01 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 207.01 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 207.01 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 207.01 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "48b9dd14-a1c5-43a7-b773-65a68a1b8b21")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+					(reference "#PWR054")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector:TestPoint")
 		(at 135.89 140.97 0)
 		(unit 1)
@@ -5193,35 +5103,44 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 193.04 52.07 0)
+		(lib_id "Regulator_Switching:LM2596S-3.3")
+		(at 167.64 55.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "8258295d-b138-4c05-871f-537a24454169")
-		(property "Reference" "TP6"
-			(at 195.58 47.4979 0)
+		(uuid "89aa140c-b6f3-41f8-bd5f-f07b36fb7376")
+		(property "Reference" "U5"
+			(at 167.64 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LM2596S-3.3"
+			(at 167.64 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_SO:Infineon_PG-DSO-8-27_3.9x4.9mm_EP2.65x3mm"
+			(at 168.91 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
-		(property "Value" "TestPoint"
-			(at 195.58 50.0379 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "TestPoint:TestPoint_Pad_D2.0mm"
-			(at 198.12 52.07 0)
+		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/lm2596.pdf"
+			(at 167.64 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5229,8 +5148,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 198.12 52.07 0)
+		(property "Description" "3.3V 3A Step-Down Voltage Regulator, TO-263"
+			(at 167.64 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5238,127 +5157,42 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "test point"
-			(at 193.04 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "fc91e94b-24b9-43bc-ad36-dbb7f5b3879d")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "TP6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:D")
-		(at 167.64 119.38 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "84525f47-d774-4752-aad0-b44a51c5e00a")
-		(property "Reference" "D3"
-			(at 170.18 118.1099 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "D"
-			(at 170.18 120.6499 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Diode_SMD:D_MiniMELF"
-			(at 167.64 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 167.64 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Diode"
-			(at 167.64 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Device" "D"
-			(at 167.64 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Pins" "1=K 2=A"
-			(at 167.64 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "892df467-077c-45a0-b88f-db4f1b0a5418")
+		(pin "5"
+			(uuid "1ca0e137-9bdc-4302-9fa3-29ec89bfb6c5")
 		)
 		(pin "2"
-			(uuid "4af64758-29b9-4708-8790-bbd248cd9cd4")
+			(uuid "ce51d503-9f7d-40d1-baf9-878e29ec7d13")
+		)
+		(pin "3"
+			(uuid "39c19855-9cc4-46b9-a2a2-a5edfb181848")
+		)
+		(pin "4"
+			(uuid "3b6ce1e7-7ca0-4ab7-b21f-5955dbc8da64")
+		)
+		(pin "1"
+			(uuid "37019cdd-ff73-4e32-92f5-19fedbf4bc3e")
 		)
 		(instances
-			(project "PlantWateringDevice"
+			(project ""
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "D3")
+					(reference "U5")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
-		(at 208.28 52.07 0)
+		(lib_id "power:PWR_FLAG")
+		(at 217.17 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "8f836c09-c2d9-4669-b0f7-c5139826864f")
-		(property "Reference" "#PWR030"
-			(at 208.28 55.88 0)
+		(uuid "8d54d625-8666-4de3-a155-59bcb42b41d8")
+		(property "Reference" "#FLG02"
+			(at 217.17 52.705 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5366,8 +5200,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+3V3"
-			(at 208.28 46.99 0)
+		(property "Value" "PWR_FLAG"
+			(at 217.17 49.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5375,7 +5209,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 208.28 52.07 0)
+			(at 217.17 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5383,8 +5217,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
-			(at 208.28 52.07 0)
+		(property "Datasheet" "~"
+			(at 217.17 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5392,8 +5226,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 208.28 52.07 0)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 217.17 54.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5402,12 +5236,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "a9ff92fd-f056-493c-9ea2-9f1e2f226dcd")
+			(uuid "1e39de8d-e3d0-4985-83e7-612cfc187737")
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "#PWR030")
+					(reference "#FLG02")
 					(unit 1)
 				)
 			)
@@ -5751,6 +5585,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 228.6 55.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a718ce6f-56cd-4e84-8e17-1dfb4212df2c")
+		(property "Reference" "TP10"
+			(at 231.14 51.3079 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 231.14 53.8479 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
+			(at 233.68 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 233.68 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 228.6 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "dbc632a3-2200-4848-93a4-1826244d87cc")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+					(reference "TP10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 53.34 39.37 0)
 		(unit 1)
@@ -5886,17 +5787,35 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+5V")
-		(at 207.01 40.64 0)
+		(lib_id "Device:D_Schottky")
+		(at 184.15 66.04 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "c542360b-5e19-488c-8f35-347b37b03cf4")
-		(property "Reference" "#PWR029"
-			(at 207.01 44.45 0)
+		(uuid "c127d71c-1722-47cf-9e7b-76b9b483ef10")
+		(property "Reference" "D5"
+			(at 186.69 64.4524 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "D_Schottky"
+			(at 186.69 66.9924 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SMA"
+			(at 184.15 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5904,16 +5823,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+5V"
-			(at 207.01 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 207.01 40.64 0)
+		(property "Datasheet" "~"
+			(at 184.15 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5921,8 +5832,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
-			(at 207.01 40.64 0)
+		(property "Description" "Schottky diode"
+			(at 184.15 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5930,22 +5841,16 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 207.01 40.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
+		(pin "2"
+			(uuid "a6e2e7b6-cc3f-4c09-80a4-7bbc40756cb1")
 		)
 		(pin "1"
-			(uuid "ae853f09-2171-47fd-8cbc-69bb3465173b")
+			(uuid "5cee06c1-b9bb-422b-bbd3-a91ed4936f78")
 		)
 		(instances
-			(project "PlantWateringDevice"
+			(project ""
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "#PWR029")
+					(reference "D5")
 					(unit 1)
 				)
 			)
@@ -6083,6 +5988,72 @@
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
 					(reference "J6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 222.25 71.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d344efd2-c2f8-4b3e-a14e-d72c9b16574f")
+		(property "Reference" "#PWR024"
+			(at 222.25 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 222.25 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 222.25 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 222.25 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 222.25 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2debb20f-c2e2-4f6a-8ef4-7f4ac05bb541")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -6368,17 +6339,35 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 132.08 68.58 0)
+		(lib_id "Device:C_Polarized")
+		(at 207.01 64.77 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "e8f57152-29df-4010-ac9c-24b0af3ed3a1")
-		(property "Reference" "#PWR011"
-			(at 132.08 74.93 0)
+		(uuid "e438e7b0-1bb0-4263-9d9d-88befd9aafb7")
+		(property "Reference" "C9"
+			(at 210.82 62.6109 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "220u"
+			(at 210.82 65.1509 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:CP_Elec_6.3x5.8"
+			(at 207.9752 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6386,16 +6375,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "GND"
-			(at 132.08 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 132.08 68.58 0)
+		(property "Datasheet" "~"
+			(at 207.01 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6403,17 +6384,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
-			(at 132.08 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 132.08 68.58 0)
+		(property "Description" "Polarized capacitor"
+			(at 207.01 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6422,12 +6394,81 @@
 			)
 		)
 		(pin "1"
-			(uuid "a51a7562-314b-4281-83dc-3274fdd3e068")
+			(uuid "126f0f5b-10e6-490e-a811-a649cc222db0")
+		)
+		(pin "2"
+			(uuid "b97915cc-ed86-48a1-b767-02b6136a89a7")
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "#PWR011")
+					(reference "C9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 152.4 71.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f6d11dec-b62c-4984-8ccf-406e8d1e0da4")
+		(property "Reference" "#PWR052"
+			(at 152.4 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 152.4 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 152.4 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 152.4 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 152.4 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5e9e743c-d908-429e-b317-430307494635")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+					(reference "#PWR052")
 					(unit 1)
 				)
 			)

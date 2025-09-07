@@ -90,48 +90,6 @@
 		)
 	)
 	(sheet
-		(at 168.275 98.425)
-		(size 12.7 3.81)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(fill
-			(color 0 0 0 0.0000)
-		)
-		(uuid "629e2f9e-20b0-49f8-94b7-bc96790705e4")
-		(property "Sheetname" "OutMUX"
-			(at 168.275 97.7134 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Sheetfile" "OutMUX.kicad_sch"
-			(at 168.275 102.8196 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63"
-					(page "7")
-				)
-			)
-		)
-	)
-	(sheet
 		(at 86.36 38.1)
 		(size 12.7 3.81)
 		(exclude_from_sim no)
@@ -216,7 +174,7 @@
 		)
 	)
 	(sheet
-		(at 130.175 94.615)
+		(at 99.06 133.35)
 		(size 12.7 3.81)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -230,9 +188,9 @@
 		(fill
 			(color 0 0 0 0.0000)
 		)
-		(uuid "b556fc9c-2b57-414f-b713-b004fb10476e")
-		(property "Sheetname" "InMUX"
-			(at 130.175 93.9034 0)
+		(uuid "d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e")
+		(property "Sheetname" "Display"
+			(at 99.06 132.6384 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -240,8 +198,8 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "InMUX.kicad_sch"
-			(at 130.175 99.0096 0)
+		(property "Sheetfile" "Display.kicad_sch"
+			(at 99.06 137.7446 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -252,7 +210,7 @@
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63"
-					(page "6")
+					(page "8")
 				)
 			)
 		)
