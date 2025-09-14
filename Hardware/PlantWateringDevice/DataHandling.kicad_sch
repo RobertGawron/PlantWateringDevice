@@ -2760,8 +2760,8 @@
 			)
 		)
 	)
-	(global_label "DISPLAY_DATA"
-		(shape output)
+	(global_label "DISPLAY_BARGRAPH"
+		(shape input)
 		(at 135.89 134.62 0)
 		(fields_autoplaced yes)
 		(effects
@@ -2770,9 +2770,9 @@
 			)
 			(justify left)
 		)
-		(uuid "89250f07-d322-411d-8866-0ade355532d0")
+		(uuid "8490fb33-dc71-4da1-8f54-4cc0b495a8cc")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 151.8172 134.62 0)
+			(at 157.2601 134.62 0)
 			(effects
 				(font
 					(size 1.27 1.27)

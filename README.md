@@ -25,6 +25,10 @@ Design tools: KiCad
 
 ## Mechanical
 
+In order to keep the pump, PCB, display, and potentiometer in one place, a simple 3D printed holder was made.
+
 [Mechanical specifications and assembly details.](./Mechanic/README.md)
 
-Design tools: FreeCad
+Design tools: OpenSCAD and FreeCad
+
+![Mechanical render](./Documentation/Pictures/render_14_09_2025.png)

@@ -8,9 +8,11 @@ This is a 3D model of a chassis designed to hold:
 
 # Tools
 
-The model was made in FreeCAD version 1.0.
+The model was made in OpenSCAD version 2021.01 and then exported to FreeCAD version 1.0.
 
-# Notes
+# Idea
+
+# Datasheets
 
 ## Pump dimensions
 
@@ -20,3 +22,10 @@ JSB1523008
 
 Datasheet:
 https://en.symtek.com.tw/wp-content/uploads/sites/2/2019/03/JSB1523008.pdf
+
+## Potentiometer
+
+Datasheet:
+
+
+https://www.tme.eu/Document/44aa78351c5c809af1765772b5b113b7/R16148-1A-1.pdf
