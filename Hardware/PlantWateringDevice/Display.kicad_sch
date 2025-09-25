@@ -2913,131 +2913,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "power:+3V3"
-			(power)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR"
-				(at 0 -3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "+3V3"
-				(at 0 3.556 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"+3V3\""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "+3V3_0_1"
-				(polyline
-					(pts
-						(xy -0.762 1.27) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "+3V3_1_1"
-				(pin power_in line
-					(at 0 0 90)
-					(length 0)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "power:GND"
 			(power)
 			(pin_numbers
@@ -3120,6 +2995,131 @@
 			(symbol "GND_1_1"
 				(pin power_in line
 					(at 0 0 270)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "power:VCC"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "VCC"
+				(at 0 3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"VCC\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "VCC_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "VCC_1_1"
+				(pin power_in line
+					(at 0 0 90)
 					(length 0)
 					(name "~"
 						(effects
@@ -4823,17 +4823,17 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
-		(at 39.37 146.05 0)
+		(lib_id "power:VCC")
+		(at 35.56 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "073d660b-7f4f-47ba-a3a8-2e60b5342d42")
-		(property "Reference" "#PWR051"
-			(at 39.37 149.86 0)
+		(uuid "04006b7e-7b20-49da-81f7-747663966710")
+		(property "Reference" "#PWR049"
+			(at 35.56 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4841,8 +4841,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+3V3"
-			(at 39.37 140.97 0)
+		(property "Value" "VCC"
+			(at 35.56 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4850,7 +4850,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 39.37 146.05 0)
+			(at 35.56 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4859,7 +4859,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 39.37 146.05 0)
+			(at 35.56 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4867,74 +4867,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 39.37 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "0ffa86dd-88db-4347-9fad-4abbee459fe7")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
-					(reference "#PWR051")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3V3")
-		(at 200.66 62.23 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "0aee7295-9930-4838-a092-40b80c8a8d07")
-		(property "Reference" "#PWR085"
-			(at 200.66 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 200.66 57.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 200.66 62.23 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 200.66 62.23 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 200.66 62.23 0)
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
+			(at 35.56 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4943,12 +4877,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "bd224aa8-2467-46c8-9b8a-f5d5443836f2")
+			(uuid "d7d47a2b-0070-45f5-a01c-bb5d41246cd4")
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
-					(reference "#PWR085")
+					(reference "#PWR049")
 					(unit 1)
 				)
 			)
@@ -5019,6 +4953,72 @@
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
 					(reference "C25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:VCC")
+		(at 109.22 69.85 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0e6fded2-f4d3-4267-bfef-27a0f9377126")
+		(property "Reference" "#PWR055"
+			(at 109.22 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VCC"
+			(at 109.22 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 109.22 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 109.22 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
+			(at 109.22 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b6fca866-a88d-45bf-971c-ba373cc3dea4")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
+					(reference "#PWR055")
 					(unit 1)
 				)
 			)
@@ -5647,72 +5647,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
-		(at 85.09 67.31 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "48819e8b-f024-4856-9b3c-332e6ca7e323")
-		(property "Reference" "#PWR086"
-			(at 85.09 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 85.09 62.23 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 85.09 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 85.09 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 85.09 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "bad23d08-e515-4469-bd16-0e6bd11a764c")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
-					(reference "#PWR086")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "4xxx:4017")
 		(at 222.25 86.36 0)
 		(unit 1)
@@ -5895,7 +5829,73 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
+		(lib_id "power:VCC")
+		(at 39.37 146.05 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4ef7752b-3e71-4130-becc-336caf89ec89")
+		(property "Reference" "#PWR040"
+			(at 39.37 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VCC"
+			(at 39.37 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 39.37 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 39.37 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
+			(at 39.37 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6c2b9aac-fc0a-4c3e-95c2-0ed9180d4fb5")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
+					(reference "#PWR040")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:VCC")
 		(at 125.73 58.42 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5903,8 +5903,8 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "538230a3-a17e-44bf-be48-c552d03eeb9a")
-		(property "Reference" "#PWR019"
+		(uuid "55b38bea-2238-489b-9a3b-512295e7b278")
+		(property "Reference" "#PWR054"
 			(at 125.73 62.23 0)
 			(effects
 				(font
@@ -5913,7 +5913,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+3V3"
+		(property "Value" "VCC"
 			(at 125.73 53.34 0)
 			(effects
 				(font
@@ -5939,7 +5939,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
 			(at 125.73 58.42 0)
 			(effects
 				(font
@@ -5949,12 +5949,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "96be79b3-10fa-40fb-b5c1-0e243e355443")
+			(uuid "2e2508af-a8ca-4698-bd74-fc0bf52e918e")
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
-					(reference "#PWR019")
+					(reference "#PWR054")
 					(unit 1)
 				)
 			)
@@ -6461,72 +6461,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
-		(at 63.5 68.58 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "862f1084-0330-42db-a7bb-9bb63a51421f")
-		(property "Reference" "#PWR021"
-			(at 63.5 72.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 63.5 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 63.5 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 63.5 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 63.5 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "6bcd641a-acfe-4b3b-b0c5-f11eb630b725")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
-					(reference "#PWR021")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
 		(at 63.5 73.66 0)
 		(mirror y)
@@ -6592,72 +6526,6 @@
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
 					(reference "R33")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3V3")
-		(at 109.22 69.85 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "87e5eb3b-dacf-4932-ac7b-22442211c425")
-		(property "Reference" "#PWR046"
-			(at 109.22 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 109.22 64.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 109.22 69.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 109.22 69.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 109.22 69.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "9e65e59d-2a4d-4134-a266-a2b79c82bc20")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
-					(reference "#PWR046")
 					(unit 1)
 				)
 			)
@@ -6866,6 +6734,72 @@
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
 					(reference "R31")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:VCC")
+		(at 85.09 67.31 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8f91a80a-7227-4b3d-8741-73cbd356b08d")
+		(property "Reference" "#PWR053"
+			(at 85.09 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VCC"
+			(at 85.09 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 85.09 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 85.09 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
+			(at 85.09 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c348c01f-bdf7-40bf-be12-bea5e2c358d9")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
+					(reference "#PWR053")
 					(unit 1)
 				)
 			)
@@ -7360,72 +7294,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
-		(at 130.81 149.86 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "abd61e11-7a82-45e4-b65c-0c484f8c0dad")
-		(property "Reference" "#PWR039"
-			(at 130.81 153.67 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 130.81 144.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 130.81 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 130.81 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 130.81 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "300dfdb1-ecf7-4d8d-866a-c00c3c0ceef0")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
-					(reference "#PWR039")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 208.28 87.63 0)
 		(unit 1)
@@ -7598,7 +7466,7 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
+		(lib_id "power:VCC")
 		(at 222.25 50.8 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -7606,8 +7474,8 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "b9e14ee3-671e-429d-85f3-dfe7a8d8cacf")
-		(property "Reference" "#PWR065"
+		(uuid "c7efa528-5004-4ac3-a290-cf86a8d4f19b")
+		(property "Reference" "#PWR03"
 			(at 222.25 54.61 0)
 			(effects
 				(font
@@ -7616,7 +7484,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+3V3"
+		(property "Value" "VCC"
 			(at 222.25 45.72 0)
 			(effects
 				(font
@@ -7642,7 +7510,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
 			(at 222.25 50.8 0)
 			(effects
 				(font
@@ -7652,78 +7520,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "8c0acdb4-87b5-4a7c-a126-c15bb5acc5d9")
+			(uuid "475f5345-7c81-4b4c-98a4-6ca0e2fc12ae")
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
-					(reference "#PWR065")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3V3")
-		(at 35.56 71.12 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "c336ce0d-6d0c-44b4-9eec-1addd276fba6")
-		(property "Reference" "#PWR014"
-			(at 35.56 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 35.56 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 35.56 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 35.56 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 35.56 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "d42b7ebb-7f2c-4d0b-ad61-ac2b671e9ddd")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
-					(reference "#PWR014")
+					(reference "#PWR03")
 					(unit 1)
 				)
 			)
@@ -7895,7 +7697,73 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+3V3")
+		(lib_id "power:VCC")
+		(at 200.66 62.23 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "db8ddcbf-d8c0-443d-ad8a-0c4c28387a00")
+		(property "Reference" "#PWR030"
+			(at 200.66 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VCC"
+			(at 200.66 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 200.66 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 200.66 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
+			(at 200.66 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b48a8ad9-73f3-46d9-9d27-aba866863edd")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
+					(reference "#PWR030")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:VCC")
 		(at 80.01 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -7903,8 +7771,8 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "e4f270bb-22b6-465a-ab63-6b58e2f4d890")
-		(property "Reference" "#PWR011"
+		(uuid "e848b52a-56cf-4340-bd83-ea280fc8dda0")
+		(property "Reference" "#PWR037"
 			(at 80.01 153.67 0)
 			(effects
 				(font
@@ -7913,7 +7781,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+3V3"
+		(property "Value" "VCC"
 			(at 80.01 144.78 0)
 			(effects
 				(font
@@ -7939,7 +7807,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
 			(at 80.01 149.86 0)
 			(effects
 				(font
@@ -7949,12 +7817,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "378af274-f1a4-4eb2-9628-2b3cb938bcea")
+			(uuid "8888c5d7-68b2-42e2-b8d8-5d2003071c5d")
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
-					(reference "#PWR011")
+					(reference "#PWR037")
 					(unit 1)
 				)
 			)
@@ -8030,6 +7898,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:VCC")
+		(at 130.81 149.86 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e9e0e13f-86ca-4867-909a-0778e47c269d")
+		(property "Reference" "#PWR031"
+			(at 130.81 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VCC"
+			(at 130.81 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 130.81 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 130.81 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
+			(at 130.81 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c64938ae-bd22-40f0-8da8-11e2387482ed")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
+					(reference "#PWR031")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 243.84 120.65 0)
 		(mirror x)
@@ -8094,6 +8028,72 @@
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
 					(reference "R47")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:VCC")
+		(at 63.5 68.58 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ef124283-9473-4cdb-a2b2-a24a20b05c12")
+		(property "Reference" "#PWR052"
+			(at 63.5 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VCC"
+			(at 63.5 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 63.5 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
+			(at 63.5 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8c30b845-bd83-468a-8ac0-8b2fb85d7797")
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e"
+					(reference "#PWR052")
 					(unit 1)
 				)
 			)
