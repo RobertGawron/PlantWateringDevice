@@ -282,7 +282,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.5mm_Pad"
+		(property "Footprint" "MountingHole:MountingHole_3mm_Pad"
 			(at 77.47 101.6 0)
 			(effects
 				(font
@@ -349,7 +349,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.5mm_Pad"
+		(property "Footprint" "MountingHole:MountingHole_3mm_Pad"
 			(at 102.87 102.87 0)
 			(effects
 				(font
@@ -548,7 +548,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.5mm_Pad"
+		(property "Footprint" "MountingHole:MountingHole_3mm_Pad"
 			(at 77.47 83.82 0)
 			(effects
 				(font
@@ -747,7 +747,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_3.5mm_Pad"
+		(property "Footprint" "MountingHole:MountingHole_3mm_Pad"
 			(at 102.87 83.82 0)
 			(effects
 				(font
