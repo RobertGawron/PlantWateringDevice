@@ -5467,7 +5467,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Button_Switch_SMD:SW_SPST_PTS645"
+		(property "Footprint" "Button_Switch_SMD:SW_SPST_PTS645Sx43SMTR92"
 			(at 30.48 77.47 0)
 			(effects
 				(font
@@ -5665,7 +5665,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4017"
+		(property "Value" "74HC4017D"
 			(at 224.3933 68.58 0)
 			(effects
 				(font

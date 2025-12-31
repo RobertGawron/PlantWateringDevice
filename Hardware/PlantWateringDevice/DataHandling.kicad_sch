@@ -842,7 +842,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "MCU_Microchip_PIC10:PIC10F200-IOT"
+		(symbol "MCU_Microchip_PIC10:PIC10F202-IOT"
 			(pin_names
 				(offset 1.016)
 			)
@@ -858,7 +858,7 @@
 					(justify left)
 				)
 			)
-			(property "Value" "PIC10F200-IOT"
+			(property "Value" "PIC10F202-IOT"
 				(at 1.27 11.43 0)
 				(effects
 					(font
@@ -887,7 +887,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "256W Flash, 16B SRAM, SOT-23-6"
+			(property "Description" "512W Flash, 24B SRAM, SOT-23-6"
 				(at 0 0 0)
 				(effects
 					(font
@@ -914,7 +914,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "PIC10F200-IOT_0_1"
+			(symbol "PIC10F202-IOT_0_1"
 				(rectangle
 					(start -10.16 10.16)
 					(end 10.16 -10.16)
@@ -927,7 +927,7 @@
 					)
 				)
 			)
-			(symbol "PIC10F200-IOT_1_1"
+			(symbol "PIC10F202-IOT_1_1"
 				(pin bidirectional line
 					(at -15.24 2.54 0)
 					(length 5.08)
@@ -3753,6 +3753,90 @@
 		)
 	)
 	(symbol
+		(lib_id "MCU_Microchip_PIC10:PIC10F202-IOT")
+		(at 153.67 83.82 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "86578d96-5106-44a2-bbe2-50a124827abe")
+		(property "Reference" "U4"
+			(at 155.8133 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "PIC10F202-IOT"
+			(at 155.8133 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 154.94 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://ww1.microchip.com/downloads/en/DeviceDoc/41239D.pdf"
+			(at 153.67 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "512W Flash, 24B SRAM, SOT-23-6"
+			(at 153.67 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "a19451c0-6db6-49b4-a48c-68eb1356165d")
+		)
+		(pin "5"
+			(uuid "4168b059-6161-4a51-bd48-305e8d721064")
+		)
+		(pin "3"
+			(uuid "9f049452-7f98-45f9-9aea-fc684ef794dc")
+		)
+		(pin "6"
+			(uuid "ffcff0f8-cff3-4526-a1b7-ad628fe42e80")
+		)
+		(pin "1"
+			(uuid "76b4fec7-6cbf-4d92-9e9b-65e2e6b4125b")
+		)
+		(pin "4"
+			(uuid "e5c845e6-bbde-412b-8980-0b4979c4ff5e")
+		)
+		(instances
+			(project ""
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/774c5e66-df25-4246-b332-f6d1db12f11e"
+					(reference "U4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:VCC")
 		(at 201.93 147.32 0)
 		(unit 1)
@@ -4204,7 +4288,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Button_Switch_SMD:SW_SPST_PTS645"
+		(property "Footprint" "Button_Switch_SMD:SW_SPST_PTS645Sx43SMTR92"
 			(at 81.28 152.4 0)
 			(effects
 				(font
@@ -4373,90 +4457,6 @@
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/774c5e66-df25-4246-b332-f6d1db12f11e"
 					(reference "#PWR041")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "MCU_Microchip_PIC10:PIC10F200-IOT")
-		(at 153.67 83.82 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "ec2497f1-c840-4abb-8d5c-05200e0d0470")
-		(property "Reference" "U3"
-			(at 155.8133 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "PIC10F200-IOT"
-			(at 155.8133 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
-			(at 154.94 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-					(italic yes)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "http://ww1.microchip.com/downloads/en/DeviceDoc/41239D.pdf"
-			(at 153.67 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "256W Flash, 16B SRAM, SOT-23-6"
-			(at 153.67 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "9a4af9fc-7f2e-4d3c-98f6-accf21d5a1c4")
-		)
-		(pin "2"
-			(uuid "c3b20e6f-ad87-4ed4-a632-eb588ff66c20")
-		)
-		(pin "6"
-			(uuid "f3a96f37-2c93-4bea-a96b-300886d2164b")
-		)
-		(pin "4"
-			(uuid "fdb90183-ce09-4cf7-82f7-d9c99d65899c")
-		)
-		(pin "5"
-			(uuid "379c29a3-b1b5-49d9-a634-ffecaf64ce5d")
-		)
-		(pin "3"
-			(uuid "b41963ca-2a34-4419-baeb-f9e555caf5da")
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/774c5e66-df25-4246-b332-f6d1db12f11e"
-					(reference "U3")
 					(unit 1)
 				)
 			)
