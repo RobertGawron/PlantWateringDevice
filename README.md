@@ -15,11 +15,14 @@ Features:
 
 ## Software
 
-The software will be written in assembler.
+The software is written in assembler using pic-as assembler dialect.
+
+[Software details.](./Software/PlantWateringDevice/README.md)
+
 
 ## Hardware
 
-[Hardware specifications and assembly details.](./Hardware/PlantWateringDevice/README.md)
+[Hardware details.](./Hardware/PlantWateringDevice/README.md)
 
 Design tools: KiCad
 
