@@ -11,18 +11,18 @@ Features:
 * Possibility to **change the quantity of water that is dispersed when the soil is detected as dry;** the level can be modified via a button and the current setting is shown on a 10-segment LED bargraph
 * Possibility to **select the moisture level when the soil is considered dry** and the watering should be started via a potentiometer
 
-![PCB render](./Documentation/Pictures/render_07_09_2025.png)
+![PCB render](./Documentation/Pictures/device_27_01_2026.png)
 
 ## Software
 
 The software is written in assembler using pic-as assembler dialect.
 
-[Software details.](./Software/PlantWateringDevice/README.md)
+[Software details.](./Software/README.md)
 
 
 ## Hardware
 
-[Hardware details.](./Hardware/PlantWateringDevice/README.md)
+[Hardware details.](./Hardware/README.md)
 
 Design tools: KiCad
 
