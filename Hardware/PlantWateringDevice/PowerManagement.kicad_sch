@@ -1596,6 +1596,18 @@
 		)
 		(uuid "8e6f1421-479d-4583-9166-8656f106ed53")
 	)
+	(text "CHANGE TRANSITOR TYPE AND COMPONENT PART\n"
+		(exclude_from_sim no)
+		(at 197.612 170.942 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+				(thickness 1.27)
+				(bold yes)
+			)
+		)
+		(uuid "a36a4134-759d-4379-809b-a1832b366b5b")
+	)
 	(text "Input Power Supply \nfor the Pump"
 		(exclude_from_sim no)
 		(at 76.454 139.446 0)

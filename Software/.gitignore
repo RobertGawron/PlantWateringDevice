@@ -1,0 +1,7 @@
+# Build output
+PlantWateringDevice.X/build/
+PlantWateringDevice.X/dist/
+
+# User-specific MPLAB X / NetBeans files
+PlantWateringDevice.X/nbproject/private/
+PlantWateringDevice.X/nbproject/Makefile-local-*.mk
