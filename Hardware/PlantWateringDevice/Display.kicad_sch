@@ -6617,7 +6617,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "220R"
+		(property "Value" "510R"
 			(at 128.27 93.9799 0)
 			(effects
 				(font
@@ -6680,21 +6680,21 @@
 		(fields_autoplaced yes)
 		(uuid "8d0f8719-0c4f-4481-9c0c-3e5ecd5deae2")
 		(property "Reference" "R31"
-			(at 128.27 62.2299 0)
+			(at 123.19 62.2299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
-		(property "Value" "220R"
-			(at 128.27 64.7699 0)
+		(property "Value" "510R"
+			(at 123.19 64.7699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
@@ -7982,7 +7982,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "220R"
+		(property "Value" "120R"
 			(at 246.38 121.9199 0)
 			(effects
 				(font

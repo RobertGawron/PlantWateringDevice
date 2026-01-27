@@ -1751,13 +1751,15 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.254)
+				(bold yes)
 			)
 		)
 		(uuid "14636fed-2a6d-415d-bc4d-9ce721fb2ed5")
 	)
-	(text "GP3 (Pin 6) - Input-only\nEither data from Humidity\nSensor or selection of\nwatering periodicity from\npush button"
+	(text "GP3 (Pin 6) - Input-only\n"
 		(exclude_from_sim no)
-		(at 166.116 55.118 0)
+		(at 160.528 66.294 0)
 		(effects
 			(font
 				(size 1.8034 1.8034)
@@ -1774,6 +1776,8 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.254)
+				(bold yes)
 			)
 		)
 		(uuid "5c4a1cde-200a-47e3-9b6f-02180483cead")
@@ -1784,9 +1788,23 @@
 		(effects
 			(font
 				(size 1.27 1.27)
+				(thickness 0.254)
+				(bold yes)
 			)
 		)
 		(uuid "aac1b892-6770-4b54-a95d-1ae7c2623c9a")
+	)
+	(text "CHANGE NAME ITS CONFUSING\n\nHUMIDITY_SENSOR_COMP\nHUMIDITY_SENSOR_OUT"
+		(exclude_from_sim no)
+		(at 235.712 114.808 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+				(thickness 1.27)
+				(bold yes)
+			)
+		)
+		(uuid "ff9899a0-47f4-465f-b552-110a12c5ff49")
 	)
 	(junction
 		(at 102.87 146.05)

@@ -856,6 +856,30 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "LED TO TP2 pzelaczniki foopriny"
+		(exclude_from_sim no)
+		(at 171.196 46.228 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+				(thickness 1.27)
+				(bold yes)
+			)
+		)
+		(uuid "221fe0b6-393d-48b9-ac15-098c96c1256e")
+	)
+	(text "POSITIVE FEEDBACK"
+		(exclude_from_sim no)
+		(at 153.416 132.842 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+				(thickness 1.27)
+				(bold yes)
+			)
+		)
+		(uuid "4ddffdb6-da79-4645-9d70-ce841c100354")
+	)
 	(text "Potentiometer is not mount on PCB"
 		(exclude_from_sim no)
 		(at 132.842 106.172 0)
