@@ -31,12 +31,12 @@ module whole_model_3d() {
     difference() {
         model_without_zipties_3d();
         
-        ziptie_extrude_height = mainboard_thickness + pump_thickness_z;
-        linear_extrude(height = ziptie_extrude_height) {
+       // ziptie_extrude_height = mainboard_thickness + pump_thickness_z;
+      /*  linear_extrude(height = ziptie_extrude_height) {
             translate([pump_x_offset, 0, 0]) {
                 zipties_2d();
             }
-        }
+        }*/
     }
 }
 
