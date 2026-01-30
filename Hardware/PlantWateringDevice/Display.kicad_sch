@@ -4602,7 +4602,7 @@
 		)
 		(uuid "fcf79e5c-b788-411b-9544-0905565abd15")
 	)
-	(global_label "DISPLAY_DATA"
+	(global_label "LCD_DATA"
 		(shape output)
 		(at 144.78 31.75 0)
 		(fields_autoplaced yes)
@@ -4614,7 +4614,7 @@
 		)
 		(uuid "1d772cc1-3b34-4f85-8df9-61a17730cf45")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 160.7072 31.75 0)
+			(at 156.7157 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4624,7 +4624,7 @@
 			)
 		)
 	)
-	(global_label "HUMIDITY_SENSOR_COMP"
+	(global_label "POTENTIOMETER_DATA"
 		(shape input)
 		(at 100.33 26.67 180)
 		(fields_autoplaced yes)
@@ -4636,7 +4636,7 @@
 		)
 		(uuid "28b3672a-580b-40a4-a141-ce72f79284fc")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 73.9405 26.67 0)
+			(at 77.0249 26.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4668,7 +4668,7 @@
 			)
 		)
 	)
-	(global_label "HUMIDITY_SENSOR_IN"
+	(global_label "HUMIDITY_SENSOR"
 		(shape input)
 		(at 100.33 36.83 180)
 		(fields_autoplaced yes)
@@ -4680,7 +4680,7 @@
 		)
 		(uuid "d773ec18-d16a-47a8-8971-3b695bd7e921")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 77.3271 36.83 0)
+			(at 80.23 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
