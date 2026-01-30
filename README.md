@@ -1,6 +1,6 @@
 # Plant Watering Device
 
-This is a device for watering indoor plants based on the 8-pin PIC10F200-IOT microcontroller.
+This is a device for watering indoor plants based on the 8-pin PIC10F202-IOT microcontroller.
 
 The goal is to try to make a project on this small MCU and learn how to deal with the limitations of such a small chip, as well as to learn the PIC MCU family ecosystem.
 
