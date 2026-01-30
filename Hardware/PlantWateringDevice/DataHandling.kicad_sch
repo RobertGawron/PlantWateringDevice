@@ -1757,6 +1757,18 @@
 		)
 		(uuid "14636fed-2a6d-415d-bc4d-9ce721fb2ed5")
 	)
+	(text "LESS SWITECHES"
+		(exclude_from_sim no)
+		(at 255.27 53.086 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+				(thickness 1.27)
+				(bold yes)
+			)
+		)
+		(uuid "4a777f4c-12ee-432a-9f29-c02bd1041d3d")
+	)
 	(text "GP3 (Pin 6) - Input-only\n"
 		(exclude_from_sim no)
 		(at 160.528 66.294 0)
@@ -1781,6 +1793,18 @@
 			)
 		)
 		(uuid "5c4a1cde-200a-47e3-9b6f-02180483cead")
+	)
+	(text "RST 4017 BUTTON AFTER PROGRAMMING"
+		(exclude_from_sim no)
+		(at 223.774 40.64 0)
+		(effects
+			(font
+				(size 5.08 5.08)
+				(thickness 1.27)
+				(bold yes)
+			)
+		)
+		(uuid "a498966b-b1de-4278-9416-c53e09d5f3ad")
 	)
 	(text "MCLR"
 		(exclude_from_sim no)

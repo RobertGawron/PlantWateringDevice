@@ -858,7 +858,7 @@
 	)
 	(text "LED TO TP2 pzelaczniki foopriny"
 		(exclude_from_sim no)
-		(at 171.196 46.228 0)
+		(at 201.676 20.32 0)
 		(effects
 			(font
 				(size 5.08 5.08)
@@ -2417,10 +2417,10 @@
 		(lib_id "Device:R")
 		(at 118.11 80.01 90)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "d7cc08ba-7ab8-4d6a-a355-6d11c486a649")
 		(property "Reference" "R3"
