@@ -856,33 +856,9 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "LED TO TP2 pzelaczniki foopriny"
-		(exclude_from_sim no)
-		(at 201.676 20.32 0)
-		(effects
-			(font
-				(size 5.08 5.08)
-				(thickness 1.27)
-				(bold yes)
-			)
-		)
-		(uuid "221fe0b6-393d-48b9-ac15-098c96c1256e")
-	)
-	(text "POSITIVE FEEDBACK"
-		(exclude_from_sim no)
-		(at 153.416 132.842 0)
-		(effects
-			(font
-				(size 5.08 5.08)
-				(thickness 1.27)
-				(bold yes)
-			)
-		)
-		(uuid "4ddffdb6-da79-4645-9d70-ce841c100354")
-	)
 	(text "Potentiometer is not mount on PCB"
 		(exclude_from_sim no)
-		(at 132.842 106.172 0)
+		(at 116.586 109.22 0)
 		(effects
 			(font
 				(size 1.778 1.778)
@@ -929,6 +905,12 @@
 		(uuid "5d6df652-f34e-4617-8c3a-111b76722ff4")
 	)
 	(junction
+		(at 134.62 67.31)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7098f3e6-47f8-40f5-828a-c8ae36391b4b")
+	)
+	(junction
 		(at 55.88 69.85)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -953,7 +935,7 @@
 		(uuid "c23f8ccc-5c4b-4dd2-9e87-3114c75c173e")
 	)
 	(junction
-		(at 138.43 67.31)
+		(at 146.05 67.31)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e7c97a34-198e-48c5-9f82-b202334ff937")
@@ -1000,16 +982,6 @@
 	)
 	(wire
 		(pts
-			(xy 127 67.31) (xy 138.43 67.31)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "15dd080a-9ad7-410c-ab2f-46f6a6d6e4f2")
-	)
-	(wire
-		(pts
 			(xy 97.79 73.66) (xy 97.79 78.74)
 		)
 		(stroke
@@ -1040,7 +1012,7 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 67.31) (xy 142.24 67.31)
+			(xy 146.05 67.31) (xy 149.86 67.31)
 		)
 		(stroke
 			(width 0)
@@ -1070,7 +1042,7 @@
 	)
 	(wire
 		(pts
-			(xy 127 63.5) (xy 127 67.31)
+			(xy 134.62 63.5) (xy 134.62 67.31)
 		)
 		(stroke
 			(width 0)
@@ -1080,7 +1052,7 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 66.04) (xy 138.43 67.31)
+			(xy 146.05 66.04) (xy 146.05 67.31)
 		)
 		(stroke
 			(width 0)
@@ -1097,6 +1069,16 @@
 			(type default)
 		)
 		(uuid "3dfc74cc-6699-4660-8b3c-bcb0bcd0af0c")
+	)
+	(wire
+		(pts
+			(xy 127 67.31) (xy 134.62 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4553f95a-a971-41ea-b478-1dba5b40549d")
 	)
 	(wire
 		(pts
@@ -1260,6 +1242,16 @@
 	)
 	(wire
 		(pts
+			(xy 134.62 67.31) (xy 146.05 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a9a67c38-c001-4536-b217-be7eba71b361")
+	)
+	(wire
+		(pts
 			(xy 106.68 99.06) (xy 109.22 99.06)
 		)
 		(stroke
@@ -1370,7 +1362,7 @@
 	)
 	(wire
 		(pts
-			(xy 127 53.34) (xy 127 55.88)
+			(xy 134.62 53.34) (xy 134.62 55.88)
 		)
 		(stroke
 			(width 0)
@@ -1388,7 +1380,7 @@
 		)
 		(uuid "f98d5d82-8239-4bf5-a9cd-0b885dbce06c")
 	)
-	(global_label "HUMIDITY_SENSOR_COMP"
+	(global_label "POTENTIOMETER_DATA"
 		(shape input)
 		(at 109.22 99.06 0)
 		(fields_autoplaced yes)
@@ -1400,7 +1392,7 @@
 		)
 		(uuid "077f3d21-fb3f-4542-859e-22295242658c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 135.6095 99.06 0)
+			(at 132.5251 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1410,9 +1402,9 @@
 			)
 		)
 	)
-	(global_label "HUMIDITY_SENSOR_OUT"
+	(global_label "HUMIDITY_COMPARATION"
 		(shape output)
-		(at 142.24 67.31 0)
+		(at 149.86 67.31 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1422,7 +1414,7 @@
 		)
 		(uuid "254232d2-2aeb-45b7-8fea-a2535d2df3e9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 166.9362 67.31 0)
+			(at 175.4635 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1432,7 +1424,7 @@
 			)
 		)
 	)
-	(global_label "POT_UP"
+	(global_label "POTENTIOMETER_VCC"
 		(shape input)
 		(at 109.22 96.52 0)
 		(fields_autoplaced yes)
@@ -1444,7 +1436,7 @@
 		)
 		(uuid "8f12da10-3a81-4776-8948-c60d90ce9826")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 119.3414 96.52 0)
+			(at 131.7389 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1454,7 +1446,7 @@
 			)
 		)
 	)
-	(global_label "POT_DOWN"
+	(global_label "POTENTIOMETER_VSS"
 		(shape input)
 		(at 109.22 101.6 0)
 		(fields_autoplaced yes)
@@ -1466,7 +1458,7 @@
 		)
 		(uuid "a661cf6a-089b-4498-9578-2f03682e0ffa")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 122.1233 101.6 0)
+			(at 131.6179 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1476,7 +1468,7 @@
 			)
 		)
 	)
-	(global_label "HUMIDITY_SENSOR_IN"
+	(global_label "HUMIDITY_SENSOR"
 		(shape input)
 		(at 45.72 69.85 180)
 		(fields_autoplaced yes)
@@ -1488,7 +1480,7 @@
 		)
 		(uuid "c45cf74c-573c-456b-ba26-f22bb9f35cc9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 22.7171 69.85 0)
+			(at 25.62 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1942,7 +1934,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 127 59.69 180)
+		(at 134.62 59.69 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1951,7 +1943,7 @@
 		(fields_autoplaced yes)
 		(uuid "7551cc19-7e0e-436c-8e69-7e644deba73f")
 		(property "Reference" "R4"
-			(at 129.54 58.4199 0)
+			(at 137.16 58.4199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1960,7 +1952,7 @@
 			)
 		)
 		(property "Value" "1k"
-			(at 129.54 60.9599 0)
+			(at 137.16 60.9599 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1969,7 +1961,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 128.778 59.69 90)
+			(at 136.398 59.69 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1978,7 +1970,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 127 59.69 0)
+			(at 134.62 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1987,7 +1979,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 127 59.69 0)
+			(at 134.62 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2483,7 +2475,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 138.43 66.04 0)
+		(at 146.05 66.04 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2492,7 +2484,7 @@
 		(fields_autoplaced yes)
 		(uuid "dec49ba8-aa0a-4aa5-8999-d42d171ea4ac")
 		(property "Reference" "TP2"
-			(at 138.43 57.15 0)
+			(at 146.05 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2500,7 +2492,7 @@
 			)
 		)
 		(property "Value" "TestPoint"
-			(at 138.43 59.69 0)
+			(at 146.05 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2508,7 +2500,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
-			(at 143.51 66.04 0)
+			(at 151.13 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2517,7 +2509,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 143.51 66.04 0)
+			(at 151.13 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2526,7 +2518,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 138.43 66.04 0)
+			(at 146.05 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2688,7 +2680,7 @@
 	)
 	(symbol
 		(lib_id "power:VCC")
-		(at 127 53.34 0)
+		(at 134.62 53.34 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2697,7 +2689,7 @@
 		(fields_autoplaced yes)
 		(uuid "e960252d-9bc1-4845-bac1-3bcc6cfcf7a2")
 		(property "Reference" "#PWR025"
-			(at 127 57.15 0)
+			(at 134.62 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2706,7 +2698,7 @@
 			)
 		)
 		(property "Value" "VCC"
-			(at 127 48.26 0)
+			(at 134.62 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2714,7 +2706,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 127 53.34 0)
+			(at 134.62 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2723,7 +2715,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 127 53.34 0)
+			(at 134.62 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2732,7 +2724,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VCC\""
-			(at 127 53.34 0)
+			(at 134.62 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)

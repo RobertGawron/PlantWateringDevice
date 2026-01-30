@@ -1757,18 +1757,6 @@
 		)
 		(uuid "14636fed-2a6d-415d-bc4d-9ce721fb2ed5")
 	)
-	(text "LESS SWITECHES"
-		(exclude_from_sim no)
-		(at 255.27 53.086 0)
-		(effects
-			(font
-				(size 5.08 5.08)
-				(thickness 1.27)
-				(bold yes)
-			)
-		)
-		(uuid "4a777f4c-12ee-432a-9f29-c02bd1041d3d")
-	)
 	(text "GP3 (Pin 6) - Input-only\n"
 		(exclude_from_sim no)
 		(at 160.528 66.294 0)
@@ -1794,18 +1782,6 @@
 		)
 		(uuid "5c4a1cde-200a-47e3-9b6f-02180483cead")
 	)
-	(text "RST 4017 BUTTON AFTER PROGRAMMING"
-		(exclude_from_sim no)
-		(at 223.774 40.64 0)
-		(effects
-			(font
-				(size 5.08 5.08)
-				(thickness 1.27)
-				(bold yes)
-			)
-		)
-		(uuid "a498966b-b1de-4278-9416-c53e09d5f3ad")
-	)
 	(text "MCLR"
 		(exclude_from_sim no)
 		(at 171.958 79.248 0)
@@ -1817,18 +1793,6 @@
 			)
 		)
 		(uuid "aac1b892-6770-4b54-a95d-1ae7c2623c9a")
-	)
-	(text "CHANGE NAME ITS CONFUSING\n\nHUMIDITY_SENSOR_COMP\nHUMIDITY_SENSOR_OUT"
-		(exclude_from_sim no)
-		(at 235.712 114.808 0)
-		(effects
-			(font
-				(size 5.08 5.08)
-				(thickness 1.27)
-				(bold yes)
-			)
-		)
-		(uuid "ff9899a0-47f4-465f-b552-110a12c5ff49")
 	)
 	(junction
 		(at 102.87 146.05)
@@ -2678,7 +2642,7 @@
 			)
 		)
 	)
-	(global_label "DISPLAY_DATA"
+	(global_label "LCD_DATA"
 		(shape output)
 		(at 214.63 137.16 180)
 		(fields_autoplaced yes)
@@ -2690,7 +2654,7 @@
 		)
 		(uuid "371f0598-2b9f-41c5-99ee-1cf31fa8cbcf")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 198.7028 137.16 0)
+			(at 202.6943 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2700,7 +2664,7 @@
 			)
 		)
 	)
-	(global_label "POT_DOWN"
+	(global_label "POTENTIOMETER_VSS"
 		(shape input)
 		(at 233.68 139.7 0)
 		(fields_autoplaced yes)
@@ -2712,7 +2676,7 @@
 		)
 		(uuid "39b13cce-cac3-47a5-916b-31d54dd5d816")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 246.5833 139.7 0)
+			(at 256.0779 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2744,7 +2708,7 @@
 			)
 		)
 	)
-	(global_label "POT_UP"
+	(global_label "POTENTIOMETER_VCC"
 		(shape input)
 		(at 233.68 134.62 0)
 		(fields_autoplaced yes)
@@ -2756,7 +2720,7 @@
 		)
 		(uuid "4b843b75-a013-4df7-9f10-85a6918c5fea")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 243.8014 134.62 0)
+			(at 256.1989 134.62 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2810,7 +2774,7 @@
 			)
 		)
 	)
-	(global_label "HUMIDITY_SENSOR_OUT"
+	(global_label "HUMIDITY_COMPARATION"
 		(shape input)
 		(at 134.62 134.62 0)
 		(fields_autoplaced yes)
@@ -2822,7 +2786,7 @@
 		)
 		(uuid "7ac25994-44d7-4ce0-901d-4e2dd7fc3642")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 159.3162 134.62 0)
+			(at 160.2235 134.62 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2854,7 +2818,7 @@
 			)
 		)
 	)
-	(global_label "HUMIDITY_SENSOR_IN"
+	(global_label "HUMIDITY_SENSOR"
 		(shape input)
 		(at 214.63 134.62 180)
 		(fields_autoplaced yes)
@@ -2866,7 +2830,7 @@
 		)
 		(uuid "8be1d250-0a92-436e-9ba9-f00656ec0da4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 191.6271 134.62 0)
+			(at 194.53 134.62 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2876,7 +2840,7 @@
 			)
 		)
 	)
-	(global_label "HUMIDITY_SENSOR_COMP"
+	(global_label "POTENTIOMETER_DATA"
 		(shape input)
 		(at 233.68 137.16 0)
 		(fields_autoplaced yes)
@@ -2888,7 +2852,7 @@
 		)
 		(uuid "b0ba0423-d521-47c6-a252-1c72232ec6b0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 260.0695 137.16 0)
+			(at 256.9851 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
