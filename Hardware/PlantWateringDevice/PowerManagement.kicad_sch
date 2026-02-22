@@ -3614,7 +3614,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "b6036a3b-2f0e-4713-98eb-58d0021aa6f1")
-		(property "Reference" "C14"
+		(property "Reference" "C14/25V"
 			(at 171.831 87.7316 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3678,7 +3678,7 @@
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "C14")
+					(reference "C14/25V")
 					(unit 1)
 				)
 			)
