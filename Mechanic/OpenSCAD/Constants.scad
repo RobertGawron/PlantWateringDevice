@@ -4,23 +4,18 @@ manufacturer_tolerance = 0.4; // Tolerance of 3D prints from printing factory
 
 // =============== PCB related dimensions ====================
 
-// 5cm square PCB
-pcb_size = 50;           
-
-// Useful for computation of offsets of holes and sockets that need
-// to be aligned with the PCB
-pcb_half_size = pcb_size / 2;  
+// top view
+pcb_size_x = 48;           
+pcb_size_y = 45;
 
 // Hole for mounting screws that hold PCB
-hole_diameter = 3.5;  
-
-// Cut-out for display module needs to be aligned with
-// potentiometer holder
-display_module_width = 10;   
+hole_diameter = 2.5;  
 
 // ===================== MainBoard =========================== 
-mainboard_thickness = 4;
+mainboard_z = 3;
 
 // ================== Pump Holder =============================
 // Pump holder constants used for holder and for holes for zipties
+// todo move it somewhere
+
 motor_w = 15.3 + 0.2 + manufacturer_tolerance;

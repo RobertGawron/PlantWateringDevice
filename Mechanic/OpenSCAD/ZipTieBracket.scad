@@ -5,7 +5,7 @@ ziptie_hole_height = 4;
 
 // Arbitrary values; ensure they are vertically aligned with pump holder
 // when the whole device is built
-ziptie_1_y = 10 - pcb_half_size;
+ziptie_1_y = 10 - pcb_size_x;
 ziptie_2_y = ziptie_1_y + 10;
 
 module ziptie() {
