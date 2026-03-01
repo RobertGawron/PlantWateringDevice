@@ -1,6 +1,5 @@
 #include "watering.h"
 
-
 /* ================================================================
  * GPIO LEVEL DEFINITIONS
  * ================================================================ */
@@ -12,12 +11,8 @@
  * PUMP
  * ================================================================ */
 
-
-
 /** Maximum selectable pump duration (in steps). */
 #define PUMP_DURATION_LEVEL_MAX (9U)
-
-
 
 #define PUMP_MOSFET_ON GPIO_LEVEL_HIGH
 #define PUMP_MOSFET_OFF GPIO_LEVEL_LOW
@@ -64,16 +59,11 @@
  * HARDWARE ABSTRACTION
  * ================================================================ */
 
-
-
 /* GPIO SIGNAL MAPPING */
 #define GPIO_DISPLAY_DATA_OUTPUT GPIObits.GP0
 #define GPIO_SOIL_SENSOR_INPUT GPIObits.GP1
 #define GPIO_PUMP_MOSFET_OUTPUT GPIObits.GP2
 #define GPIO_USER_BUTTON_INPUT GPIObits.GP3
-
-
-
 
 /* ================================================================
  * ASSERTS
@@ -101,7 +91,6 @@ _Static_assert(
     (TIME_MILLISECONDS_PER_SECOND % TIME_BASE_TICK_MS) == 0U,
     "TIME_BASE_TICK_MS must divide evenly into one second.");
 
-
 /**
  * @note The 'Initialize data' option remains enabled.
  * Manual initialization at startup would produce similar code size
@@ -111,8 +100,8 @@ PlantWateringData data =
     {
         .pump =
             {
-                .duration_level = PUMP_DURATION_LEVEL_MIN,
-                .remaining_level = 0U,
+                .configured_duration_level = PUMP_DURATION_LEVEL_MIN,
+                .remaining_cycle_levels = 0U,
                 .level_remaining_seconds = PUMP_STEP_DURATION_SECONDS},
 
         .time =
@@ -124,8 +113,6 @@ PlantWateringData data =
         .button_was_pressed = false,
         .send_pulse_to_display = false,
         .sending_pulse_to_display = false};
-
-
 
 void initialize(void)
 {
@@ -164,15 +151,15 @@ void initialize(void)
 
 void handle_pump(void)
 {
-    if (data.pump.remaining_level > 0U)
+    if (data.pump.remaining_cycle_levels > 0U)
     {
         PUMP_MOSFET_SET(PUMP_MOSFET_ON);
 
         if (--data.pump.level_remaining_seconds == 0U)
         {
-            data.pump.remaining_level--;
+            data.pump.remaining_cycle_levels--;
 
-            if (data.pump.remaining_level > 0U)
+            if (data.pump.remaining_cycle_levels > 0U)
             {
                 data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
             }
@@ -208,7 +195,7 @@ void handle_sensor_check(void)
     if (SOIL_IS_DRY(GPIO_SOIL_SENSOR_INPUT))
     {
         /* Pump will be activated during the next handle_pump() call. */
-        data.pump.remaining_level = data.pump.duration_level;
+        data.pump.remaining_cycle_levels = data.pump.configured_duration_level;
         data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
     }
 }
@@ -223,8 +210,7 @@ void handle_display(void)
 
         DISPLAY_SIGNAL_SET(DISPLAY_SIGNAL_HIGH);
     }
-
-    if (data.sending_pulse_to_display == true)
+    else if (data.sending_pulse_to_display == true)
     {
         data.sending_pulse_to_display = false;
 
@@ -236,20 +222,20 @@ void update_pump_duration(void)
 {
     /* Update only when the pump is not running to avoid ambiguity
        between the previous and newly selected duration. */
-    if (data.pump.remaining_level == 0U)
+    if (data.pump.remaining_cycle_levels == 0U)
     {
         /* Trigger a display pulse to reflect the new level. */
         data.send_pulse_to_display = true;
         data.sending_pulse_to_display = false;
 
-        data.pump.duration_level++;
+        data.pump.configured_duration_level++;
 
         /* Explicit comparison is used instead of a modulo operation.
            The target device has no native modulo support, and the compiler
            would generate significantly more code for modulo handling. */
-        if (data.pump.duration_level > PUMP_DURATION_LEVEL_MAX)
+        if (data.pump.configured_duration_level > PUMP_DURATION_LEVEL_MAX)
         {
-            data.pump.duration_level = PUMP_DURATION_LEVEL_MIN;
+            data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
         }
     }
 }

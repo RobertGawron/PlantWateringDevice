@@ -32,7 +32,7 @@ jobs:
             bash -c "
               cd /workspace/Software &&
               meson setup build -Db_coverage=true --wipe &&
-              meson test -C build &&
+              meson test -C build -v &&
               gcovr -r . \
                 --exclude 'external/.*' \
                 --exclude 'tests/.*' \

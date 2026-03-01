@@ -78,11 +78,11 @@
 
 typedef struct
 {
-    /** Configured pump duration level (1 to PUMP_DURATION_LEVEL_MAX). */
-    uint8_t duration_level;
+    /** User-configured pump duration level (1 to PUMP_DURATION_LEVEL_MAX). */
+    uint8_t configured_duration_level;
 
-    /** Remaining duration levels in current watering cycle. */
-    uint8_t remaining_level;
+    /** Remaining duration levels to execute in the active watering cycle. */
+    uint8_t remaining_cycle_levels;
 
     /** Seconds remaining in current duration level. */
     uint8_t level_remaining_seconds;

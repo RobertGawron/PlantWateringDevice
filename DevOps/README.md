@@ -37,7 +37,7 @@ Note: This step only needs to be done once (unless the build directory is remove
 Compile and run the tests:
 
 ```bash
-meson test -C build
+meson test -C build -v
 ```
 
 Generating Code Coverage (Optional)
