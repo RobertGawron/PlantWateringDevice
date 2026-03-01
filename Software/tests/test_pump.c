@@ -1,24 +1,35 @@
 #include "unity.h"
+#include "xc.h"
+#include "watering.h"
 
-/* Required by Unity */
-void setUp(void) {}
+extern void handle_pump(void);
+extern PlantWateringData data;
+
+void setUp(void)
+{
+    GPIObits.GP2 = 0;
+}
+
 void tearDown(void) {}
 
-/* Dummy function under test */
-int add(int a, int b)
+void test_pump_turns_off_when_no_remaining_level(void)
 {
-    return a + b;
+    data.pump.remaining_level = 0;
+    data.pump.level_remaining_seconds = 5;
+
+    handle_pump();
+
+    TEST_ASSERT_EQUAL(0, GPIObits.GP2);
 }
 
-/* Test cases */
-void test_add_positive_numbers(void)
+void test_pump_turns_on_when_active(void)
 {
-    TEST_ASSERT_EQUAL_INT(5, add(2, 3));
-}
+    data.pump.remaining_level = 2;
+    data.pump.level_remaining_seconds = 5;
 
-void test_add_negative_numbers(void)
-{
-    TEST_ASSERT_EQUAL_INT(-5, add(-2, -3));
+    handle_pump();
+
+    TEST_ASSERT_EQUAL(1, GPIObits.GP2);
 }
 
 /* Unity test runner */
@@ -26,8 +37,8 @@ int main(void)
 {
     UNITY_BEGIN();
 
-    RUN_TEST(test_add_positive_numbers);
-    RUN_TEST(test_add_negative_numbers);
+    RUN_TEST(test_pump_turns_off_when_no_remaining_level);
+    RUN_TEST(test_pump_turns_on_when_active);
 
     return UNITY_END();
 }
