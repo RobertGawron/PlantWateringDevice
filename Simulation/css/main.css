@@ -1,0 +1,587 @@
+/* main.css - Base styles, layout, controls, log panel */
+
+/* ============================================================
+   COLOR PALETTE
+   ============================================================ */
+:root {
+    /* Primary brand colors */
+    --plant-green: #2ecc71;
+    --plant-green-dark: #27ae60;
+    --plant-green-darker: #1e8449;
+    
+    /* Semantic colors */
+    --color-success: #2ecc71;
+    --color-warning: #f39c12;
+    --color-error: #e74c3c;
+    --color-info: #3498db;
+    --color-running: #e67e22;
+    --color-running-dark: #d35400;
+    
+    /* Backgrounds */
+    --bg-primary: #f0f2f5;
+    --bg-panel: #ffffff;
+    --bg-white: #ffffff;
+    --bg-muted: #f4f6f8;
+    
+    /* Borders */
+    --border-color: #d1d5da;
+    --border-color-dark: #c1c5ca;
+    
+    /* Text */
+    --text-primary: #2a3937;
+    --text-secondary: #4a5568;
+    --text-muted: #5a6772;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.12);
+    
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.2s ease;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+                 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    padding: 12px;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   LAYOUT SECTIONS
+   ============================================================ */
+.top-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.right-column {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.bottom-section {
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   CONTROLS AND DISPLAY ROW
+   ============================================================ */
+.controls-display-row {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.controls-display-row .controls-panel {
+    flex: 1;
+    min-width: 0;
+}
+
+.controls-display-row .display-panel {
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   PANELS
+   ============================================================ */
+.panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 14px;
+    box-shadow: var(--shadow-sm);
+}
+
+.panel h2 {
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--plant-green);
+    padding-bottom: 8px;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   TITLE PANEL
+   ============================================================ */
+.title-panel {
+    flex-shrink: 0;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, var(--bg-panel) 0%, var(--bg-muted) 100%);
+}
+
+.title-panel h1 {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ============================================================
+   PANEL TYPES
+   ============================================================ */
+.controls-panel {
+    flex-shrink: 0;
+}
+
+.display-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.log-panel {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================================
+   BUTTONS - BASE STYLES
+   ============================================================ */
+button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--plant-green);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-family: inherit;
+    white-space: nowrap;
+    user-select: none;
+}
+
+button:hover {
+    background: var(--plant-green-dark);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.3);
+}
+
+button:focus:not(:focus-visible) {
+    box-shadow: none;
+}
+
+button:focus-visible {
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.3);
+}
+
+/* ============================================================
+   CONTROLS
+   ============================================================ */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+/* ============================================================
+   SLIDER
+   ============================================================ */
+.slider-control {
+    margin: 10px 0;
+    padding: 10px 12px;
+    background: var(--bg-muted);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.slider-control label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 12px;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: var(--border-color);
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--plant-green);
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-fast);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--plant-green);
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+}
+
+input[type="range"]:focus {
+    outline: none;
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.3);
+}
+
+.speed-display {
+    text-align: right;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 6px;
+}
+
+.speed-display span {
+    font-weight: 700;
+    color: var(--plant-green-dark);
+}
+
+/* ============================================================
+   STATUS GRID
+   ============================================================ */
+.status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.status-item {
+    background: var(--bg-muted);
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.status-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--plant-green-dark);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   LOG PANEL
+   ============================================================ */
+.log-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    background: var(--bg-muted);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.log-filters label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-weight: 500;
+    white-space: nowrap;
+    transition: color var(--transition-fast);
+}
+
+.log-filters label:hover {
+    color: var(--plant-green-dark);
+}
+
+.log-filters input[type="checkbox"] {
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+    accent-color: var(--plant-green);
+}
+
+.log-filters button {
+    margin-left: auto;
+    padding: 5px 12px;
+    font-size: 11px;
+    background: var(--plant-green);
+}
+
+.log-filters button:hover {
+    background: var(--plant-green-dark);
+}
+
+.log {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 12px;
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 
+                 'Courier New', monospace;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: var(--text-primary);
+}
+
+.log-entry {
+    margin: 1px 0;
+    padding: 3px 6px;
+    border-radius: 3px;
+    line-height: 1.4;
+    border-left: 3px solid transparent;
+}
+
+.log-entry.debug-low {
+    color: #4a5568;
+    background: #f6f8fa;
+    border-left-color: #959da5;
+}
+
+.log-entry.debug-high {
+    color: #1a56db;
+    background: #eff6ff;
+    border-left-color: #3b82f6;
+}
+
+.log-entry.info {
+    color: #166534;
+    background: #f0fdf4;
+    border-left-color: var(--plant-green);
+}
+
+.log-entry.warning {
+    color: #92400e;
+    background: #fffbeb;
+    border-left-color: var(--color-warning);
+}
+
+.log-entry.error {
+    color: #991b1b;
+    background: #fef2f2;
+    border-left-color: var(--color-error);
+    font-weight: 600;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+.log::-webkit-scrollbar {
+    width: 6px;
+}
+
+.log::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 3px;
+}
+
+.log::-webkit-scrollbar-thumb {
+    background: var(--border-color-dark);
+    border-radius: 3px;
+}
+
+.log::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ============================================================
+   SIMULATION CONTROL BUTTONS
+   ============================================================ */
+.simulation-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.simulation-controls button {
+    flex: 1;
+    min-width: 90px;
+}
+
+#btnStartStop {
+    background: var(--plant-green);
+    min-width: 80px;
+}
+
+#btnStartStop.running {
+    background: var(--color-running);
+}
+
+#btnStartStop.running:hover {
+    background: var(--color-running-dark);
+}
+
+#btnStartStop.running:focus-visible {
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.3);
+}
+
+.simulation-controls button:disabled {
+    background: var(--border-color);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.simulation-controls button:disabled:hover {
+    background: var(--border-color);
+    transform: none;
+    box-shadow: none;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1200px) {
+    html, body {
+        overflow: auto;
+    }
+    
+    body {
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .top-section {
+        grid-template-columns: 1fr;
+        flex: none;
+    }
+    
+    .controls-display-row {
+        flex-direction: column;
+    }
+    
+    .log-panel {
+        min-height: 200px;
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .title-panel h1 {
+        font-size: 15px;
+    }
+
+    .status-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    .controls button {
+        width: 100%;
+    }
+    
+    .log-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .log-filters button {
+        margin-left: 0;
+        margin-top: 8px;
+    }
+}
+
+/* ============================================================
+   UTILITY
+   ============================================================ */
+.hidden {
+    display: none !important;
+}

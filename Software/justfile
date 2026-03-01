@@ -1,0 +1,7 @@
+ut:
+    meson setup build -Db_coverage=true --wipe
+    meson test -C build -v
+    gcovr -r . \
+    --exclude 'external/.*' \
+    --exclude 'tests/.*' \
+    --html --html-details -o coverage.html
