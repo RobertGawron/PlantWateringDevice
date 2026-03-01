@@ -12,48 +12,42 @@ Unit tests are executed inside Docker to ensure isolation from the host environm
 
 From the project root directory, build the Docker image:
 
-
+```bash
 docker-compose build
+```
+
 Launch the Docker container:
 
-Bash
-
+```bash
 docker-compose run --rm plant-watering-dev
+```
+
 You will be automatically logged into the container shell.
 
-Running Unit Tests
+# Running Unit Tests
+
 Once inside the Docker container, configure the project:
 
-Bash
+```bash
+cd /workspace/Software && meson setup build -Db_coverage=true --wipe
+```
 
-cd /workspace/Software
-meson setup build
 Note: This step only needs to be done once (unless the build directory is removed).
 
-Compile the tests:
+Compile and run the tests:
 
-Bash
-
-meson compile -C build
-Run the tests:
-
-Bash
-
+```bash
 meson test -C build
+```
+
 Generating Code Coverage (Optional)
-Enable coverage when configuring the build:
 
-Bash
-
-meson setup build -Db_coverage=true --wipe
-meson test -C build
-Generate the HTML coverage report:
-
-Bash
-
+```bash
 gcovr -r . \
   --exclude 'external/.*' \
   --exclude 'tests/.*' \
   --html --html-details \
   -o coverage.html
+```
+
 Open coverage.html in a browser to view the report.
