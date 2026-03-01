@@ -1,5 +1,7 @@
 # Plant Watering Device
 
+[![Unit Tests](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/unit-tests.yml)
+
 This is a device for watering indoor plants based on the 8-pin PIC10F202-IOT microcontroller.
 
 The goal is to try to make a project on this small MCU and learn how to deal with the limitations of such a small chip, as well as to learn the PIC MCU family ecosystem.
