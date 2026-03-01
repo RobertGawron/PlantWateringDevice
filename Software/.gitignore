@@ -1,6 +1,7 @@
 # Build output
 build/
 dist/
+coverage.*
 
 # User-specific MPLAB X / NetBeans files
 nbproject/private/
