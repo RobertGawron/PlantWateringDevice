@@ -6,6 +6,7 @@ project(
 )
 
 unity_inc = include_directories('external/unity/src')
+stub_inc  = include_directories('tests/stubs')
 
 test_exe = executable(
   'unit_tests',
@@ -13,7 +14,7 @@ test_exe = executable(
     'external/unity/src/unity.c',
     'tests/test_pump.c',
   ],
-  include_directories : unity_inc,
+  include_directories : unity_inc, stub_inc
 )
 
 test('pump_tests', test_exe)
