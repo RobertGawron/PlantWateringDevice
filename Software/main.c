@@ -74,7 +74,7 @@
  *       that is not necessary. A 20 ms interval is acceptable for both
  *       button processing and driving the CD4026.
  */
-void main(void)
+int main(void)
 {
     initialize();
 

@@ -9,5 +9,7 @@ services:
       # Mount the current directory to /workspace with read/write access
       - ./:/workspace
     working_dir: /workspace
+    ports:
+      - "8000:8000"  # Add this line
     stdin_open: true
     tty: true

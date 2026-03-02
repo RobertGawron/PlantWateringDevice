@@ -23,6 +23,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     clang-format \
     tree \
     vim \
+    cmake \
+    wget \
     && rm -rf /var/lib/apt/lists/*
 
 # ------------------------------------------------------------
@@ -33,5 +35,20 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir coverxygen
+
+# ------------------------------------------------------------
+# Emscripten SDK
+# ------------------------------------------------------------
+RUN git clone https://github.com/emscripten-core/emsdk.git /opt/emsdk && \
+    cd /opt/emsdk && \
+    ./emsdk install latest && \
+    ./emsdk activate latest
+
+# Set up Emscripten environment permanently
+ENV EMSDK=/opt/emsdk
+ENV PATH="/opt/emsdk:/opt/emsdk/upstream/emscripten:${PATH}"
+
+# Source emsdk_env.sh for every bash session
+RUN echo 'source /opt/emsdk/emsdk_env.sh > /dev/null 2>&1' >> /root/.bashrc
 
 CMD ["bash"]

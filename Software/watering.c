@@ -202,7 +202,6 @@ void handle_sensor_check(void)
 
 void handle_display(void)
 {
-
     if (data.send_pulse_to_display == true)
     {
         data.send_pulse_to_display = false;

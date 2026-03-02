@@ -19,7 +19,7 @@ docker-compose build
 Launch the Docker container:
 
 ```bash
-docker-compose run --rm plant-watering-dev
+docker-compose run --service-ports plant-watering-dev
 ```
 
 You will be automatically logged into the container shell.
@@ -51,3 +51,25 @@ gcovr -r . \
 ```
 
 Open coverage.html in a browser to view the report.
+
+
+
+
+# Delete the old build directory
+rm -rf /workspace/Software/buildwasm
+
+# Reconfigure with cross-file
+cd /workspace/Software
+meson setup buildwasm --cross-file emscripten.ini
+
+# Now compile
+meson compile -C buildwasm
+
+# Check if files were created
+ls -lh buildwasm/plant-watering.*
+
+cd buildwasm
+python3 -m http.server 8000
+
+
+http://localhost:8000/plant-watering.html
