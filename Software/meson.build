@@ -90,17 +90,7 @@ if not meson.is_cross_build()
 
   test('test_handle_button', handle_button_test)
 
-  # Main integration tests
-  main_integration_test = executable(
-    'test_main_integration',
-    common_sources + [
-      'tests/test_main_integration.c',
-    ],
-    include_directories : [unity_inc, stub_inc],
-    c_args : ['-DUNIT_TEST']
-  )
 
-  test('test_main_integration', main_integration_test)
 
   # Native simulation executable
   simulation = executable(

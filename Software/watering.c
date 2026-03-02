@@ -1,11 +1,9 @@
 #include "watering.h"
 
-/* ================================================================
- * GPIO LEVEL DEFINITIONS
- * ================================================================ */
+#include "hal.h"
+#include "gpio_mapping.h"
 
-#define GPIO_LEVEL_LOW (0U)
-#define GPIO_LEVEL_HIGH (1U)
+#include <stdbool.h>
 
 /* ================================================================
  * PUMP
@@ -14,56 +12,11 @@
 /** Maximum selectable pump duration (in steps). */
 #define PUMP_DURATION_LEVEL_MAX (9U)
 
-#define PUMP_MOSFET_ON GPIO_LEVEL_HIGH
-#define PUMP_MOSFET_OFF GPIO_LEVEL_LOW
-
-#define PUMP_MOSFET_SET(STATE) (GPIO_PUMP_MOSFET_OUTPUT = (STATE))
-
 #define PUMP_MAX_RUNTIME_SECONDS \
     (PUMP_DURATION_LEVEL_MAX * PUMP_STEP_DURATION_SECONDS)
 
-/* ================================================================
- * SOIL SENSOR
- * ================================================================ */
-
-#define SOIL_SENSOR_DRY GPIO_LEVEL_HIGH
-
-#define SOIL_IS_DRY(SOIL_SENSOR) \
-    ((SOIL_SENSOR) == SOIL_SENSOR_DRY)
-
 #define SOIL_CHECK_INTERVAL_SECONDS \
     (TIME_SECONDS_PER_MINUTE * TIME_MINUTES_PER_HOUR)
-
-/* ================================================================
- * DISPLAY
- * ================================================================ */
-
-#define DISPLAY_SIGNAL_HIGH GPIO_LEVEL_HIGH
-#define DISPLAY_SIGNAL_LOW GPIO_LEVEL_LOW
-
-#define DISPLAY_SIGNAL_SET(state) \
-    (GPIO_DISPLAY_DATA_OUTPUT = (state))
-
-/* ================================================================
- * BUTTON
- * ================================================================ */
-
-/* The button is connected to GND with a pull-up resistor to VCC;
-   therefore, pressing the button signals a LOW state. */
-#define BUTTON_ACTIVE_LEVEL GPIO_LEVEL_LOW
-
-#define BUTTON_IS_ACTIVE(PIN_VALUE) \
-    ((PIN_VALUE) == BUTTON_ACTIVE_LEVEL)
-
-/* ================================================================
- * HARDWARE ABSTRACTION
- * ================================================================ */
-
-/* GPIO SIGNAL MAPPING */
-#define GPIO_DISPLAY_DATA_OUTPUT GPIObits.GP0
-#define GPIO_SOIL_SENSOR_INPUT GPIObits.GP1
-#define GPIO_PUMP_MOSFET_OUTPUT GPIObits.GP2
-#define GPIO_USER_BUTTON_INPUT GPIObits.GP3
 
 /* ================================================================
  * ASSERTS
@@ -145,15 +98,15 @@ void initialize(void)
     data.send_pulse_to_display = true;
 
     /* Defensive programming, should be not needed but be sure. */
-    PUMP_MOSFET_SET(PUMP_MOSFET_OFF);
-    DISPLAY_SIGNAL_SET(DISPLAY_SIGNAL_LOW);
+    GPIO_SET(GPIO_PUMP_MOSFET_OUTPUT, GPIO_LEVEL_LOW);
+    GPIO_SET(GPIO_DISPLAY_DATA_OUTPUT, GPIO_LEVEL_LOW);
 }
 
 void handle_pump(void)
 {
     if (data.pump.remaining_cycle_levels > 0U)
     {
-        PUMP_MOSFET_SET(PUMP_MOSFET_ON);
+        GPIO_SET(GPIO_PUMP_MOSFET_OUTPUT, GPIO_LEVEL_HIGH);
 
         if (--data.pump.level_remaining_seconds == 0U)
         {
@@ -167,14 +120,16 @@ void handle_pump(void)
     }
     else
     {
-        PUMP_MOSFET_SET(PUMP_MOSFET_OFF);
+        GPIO_SET(GPIO_PUMP_MOSFET_OUTPUT, GPIO_LEVEL_LOW);
     }
 }
 
+/* The button is connected to GND with a pull-up resistor to VCC;
+   therefore, pressing the button signals a LOW state. */
 void handle_button(void)
 {
     /* Button is currently pressed (active LOW). */
-    if (BUTTON_IS_ACTIVE(GPIO_USER_BUTTON_INPUT))
+    if (GPIO_GET(GPIO_USER_BUTTON_INPUT) == false)
     {
         data.button_was_pressed = true;
         return;
@@ -192,7 +147,7 @@ void handle_button(void)
 
 void handle_sensor_check(void)
 {
-    if (SOIL_IS_DRY(GPIO_SOIL_SENSOR_INPUT))
+    if (GPIO_GET(GPIO_SOIL_SENSOR_INPUT))
     {
         /* Pump will be activated during the next handle_pump() call. */
         data.pump.remaining_cycle_levels = data.pump.configured_duration_level;
@@ -207,13 +162,13 @@ void handle_display(void)
         data.send_pulse_to_display = false;
         data.sending_pulse_to_display = true;
 
-        DISPLAY_SIGNAL_SET(DISPLAY_SIGNAL_HIGH);
+        GPIO_SET(GPIO_DISPLAY_DATA_OUTPUT, GPIO_LEVEL_HIGH);
     }
     else if (data.sending_pulse_to_display == true)
     {
         data.sending_pulse_to_display = false;
 
-        DISPLAY_SIGNAL_SET(DISPLAY_SIGNAL_LOW);
+        GPIO_SET(GPIO_DISPLAY_DATA_OUTPUT, GPIO_LEVEL_LOW);
     }
 }
 

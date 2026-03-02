@@ -1,7 +1,6 @@
 #ifndef WATERING_H
 #define WATERING_H
 
-#include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -66,15 +65,7 @@
 #define SOIL_CHECK_STARTUP_SECONDS_INIT \
     (TIME_SECONDS_PER_MINUTE - SOIL_CHECK_STARTUP_DELAY_SECONDS)
 
-/* ================================================================
- * HARDWARE ABSTRACTION
- * ================================================================ */
 
-/**
- * Hardware delay abstraction.
- * On target, maps to __delay_ms().
- */
-#define HW_DELAY_MS(DURATION_MS) __delay_ms(DURATION_MS)
 
 typedef struct
 {

@@ -1,0 +1,12 @@
+#ifndef GPIO_MAPPING
+#define GPIO_MAPPING
+
+#include "hal.h"
+
+/* GPIO SIGNAL MAPPING */
+#define GPIO_DISPLAY_DATA_OUTPUT GPIObits.GP0
+#define GPIO_SOIL_SENSOR_INPUT GPIObits.GP1
+#define GPIO_PUMP_MOSFET_OUTPUT GPIObits.GP2
+#define GPIO_USER_BUTTON_INPUT GPIObits.GP3
+
+#endif

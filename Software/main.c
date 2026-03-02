@@ -58,11 +58,9 @@
  * CLOCK CONFIGURATION
  * ================================================================ */
 
-#define MCU_CLOCK_FREQUENCY_HZ (4000000UL)
-/* Oscillator frequency (required by __delay_ms) */
-#define _XTAL_FREQ MCU_CLOCK_FREQUENCY_HZ
+#include "hal.h"
+#include "gpio_mapping.h"
 
-#include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
 
