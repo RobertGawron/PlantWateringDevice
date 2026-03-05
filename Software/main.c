@@ -61,10 +61,11 @@
 #include "hal.h"
 #include "gpio_mapping.h"
 
+#include "logger.h"
+#include "watering.h"
+
 #include <stdint.h>
 #include <stdbool.h>
-
-#include "watering.h"
 
 /**
  * @note Button and display handling depend directly on the 20 ms tick period.
@@ -74,6 +75,8 @@
  */
 int main(void)
 {
+    logInfo("PlantWatering firmware starting");
+
     initialize();
 
     while (true)
@@ -92,11 +95,13 @@ int main(void)
             if (++data.time.seconds >= TIME_SECONDS_PER_MINUTE)
             {
                 data.time.seconds = 0;
+                logDebugLow("Minute elapsed: %02d", data.time.minutes + 1);
 
                 /* 1 minute elapsed */
                 if (++data.time.minutes >= TIME_MINUTES_PER_HOUR)
                 {
                     data.time.minutes = 0;
+                    logInfo("Hour elapsed - checking soil");
 
                     /* 1 hour elapsed */
                     handle_sensor_check();

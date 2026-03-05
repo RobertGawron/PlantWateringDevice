@@ -7,6 +7,8 @@
       <itemPath>watering.h</itemPath>
       <itemPath>hal.h</itemPath>
       <itemPath>gpio_mapping.h</itemPath>
+      <itemPath>logger.h</itemPath>
+      <itemPath>hal.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

@@ -2,7 +2,7 @@
 
 #include "hal.h"
 #include "gpio_mapping.h"
-
+#include "logger.h"
 #include <stdbool.h>
 
 /* ================================================================
@@ -107,14 +107,21 @@ void handle_pump(void)
     if (data.pump.remaining_cycle_levels > 0U)
     {
         GPIO_SET(GPIO_PUMP_MOSFET_OUTPUT, GPIO_LEVEL_HIGH);
-
+        
         if (--data.pump.level_remaining_seconds == 0U)
         {
             data.pump.remaining_cycle_levels--;
-
+            
+            logDebugHigh("Pump level complete (%d remaining)", 
+                         data.pump.remaining_cycle_levels);
+            
             if (data.pump.remaining_cycle_levels > 0U)
             {
                 data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+            }
+            else
+            {
+                logInfo("Watering cycle complete");
             }
         }
     }
@@ -134,13 +141,14 @@ void handle_button(void)
         data.button_was_pressed = true;
         return;
     }
-
+    
     /* Button released: detect press-release cycle. */
     if (data.button_was_pressed)
     {
+        logDebugLow("Button released");
         update_pump_duration();
     }
-
+    
     /* Clear stored state for next detection cycle. */
     data.button_was_pressed = false;
 }
@@ -149,9 +157,17 @@ void handle_sensor_check(void)
 {
     if (GPIO_GET(GPIO_SOIL_SENSOR_INPUT))
     {
+        logWarning("Soil dry - starting watering (level %d, %ds)", 
+                   data.pump.configured_duration_level,
+                   data.pump.configured_duration_level * PUMP_STEP_DURATION_SECONDS);
+        
         /* Pump will be activated during the next handle_pump() call. */
         data.pump.remaining_cycle_levels = data.pump.configured_duration_level;
         data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    }
+    else
+    {
+        logDebugHigh("Soil check OK - moisture sufficient");
     }
 }
 
@@ -161,13 +177,11 @@ void handle_display(void)
     {
         data.send_pulse_to_display = false;
         data.sending_pulse_to_display = true;
-
         GPIO_SET(GPIO_DISPLAY_DATA_OUTPUT, GPIO_LEVEL_HIGH);
     }
     else if (data.sending_pulse_to_display == true)
     {
         data.sending_pulse_to_display = false;
-
         GPIO_SET(GPIO_DISPLAY_DATA_OUTPUT, GPIO_LEVEL_LOW);
     }
 }
@@ -181,9 +195,9 @@ void update_pump_duration(void)
         /* Trigger a display pulse to reflect the new level. */
         data.send_pulse_to_display = true;
         data.sending_pulse_to_display = false;
-
+        
         data.pump.configured_duration_level++;
-
+        
         /* Explicit comparison is used instead of a modulo operation.
            The target device has no native modulo support, and the compiler
            would generate significantly more code for modulo handling. */
@@ -191,5 +205,9 @@ void update_pump_duration(void)
         {
             data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
         }
+        
+        logInfo("Duration set to level %d (%ds)", 
+                data.pump.configured_duration_level,
+                data.pump.configured_duration_level * PUMP_STEP_DURATION_SECONDS);
     }
 }

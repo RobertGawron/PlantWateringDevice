@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="plant-watering.css">
+    <title>PIC10F202 Plant Watering Simulator</title>
+</head>
+<body>
+    <div class="container">
+        <h1>🌱 PIC10F202 Plant Watering Simulator</h1>
+
+        <div class="main-grid">
+            <!-- Hardware Display Panel -->
+  <div class="panel">
+    <h2>Hardware Display</h2>
+    <div class="display-container">
+        <div class="display">
+            <div class="seven-segment" id="sevenSegment">1</div>
+            <div class="display-label">Duration Level (1-9)</div>
+        </div>
+        
+        <div class="indicators-vertical">
+            <div class="indicator">
+                <div class="led off" id="pumpLed"></div>
+                <span>Pump Status</span>
+            </div>
+            
+            <div class="indicator">
+                <div class="led off" id="soilLed"></div>
+                <span>Soil Moisture (Dry)</span>
+            </div>
+            
+            <div class="indicator">
+                <div class="led off" id="displayLed"></div>
+                <span>Display Clock</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- Controls Panel -->
+            <div class="panel">
+                <h2>Controls</h2>
+
+                <div class="controls">
+                    <button id="btnPress" onmousedown="buttonDown()" onmouseup="buttonUp()" ontouchstart="buttonDown()" ontouchend="buttonUp()">
+                        Press Button
+                    </button>
+                    <button onclick="toggleSoil()">Toggle Soil (Wet/Dry)</button>
+                </div>
+
+                <div class="slider-control">
+                    <label>Simulation Speed:</label>
+                    <input type="range" id="speedSlider" min="1" max="1000" value="1" step="1">
+                    <div class="speed-display">
+                        <span id="speedDisplay">1x</span> (Real-time: 20ms per tick)
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button onclick="singleStep()">Single Step</button>
+                    <button onclick="runMinute()">Run 1 Minute</button>
+                    <button onclick="runHour()">Run 1 Hour</button>
+                </div>
+
+                <div class="status-grid">
+                    <div class="status-item">
+                        <div class="status-label">Ticks Executed</div>
+                        <div class="status-value" id="tickCount">0</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Runtime</div>
+                        <div class="status-value" id="runtime">0s</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+     
+
+        <!-- Logic Analyzer Graph -->
+        <div class="panel graph-panel">
+            <h2>Signal Analyzer</h2>
+            
+            <div class="graph-container">
+                <div class="graph-controls">
+                    <label>Time Window:</label>
+                    <select id="graphTimeWindow">
+                        <option value="30">30 seconds</option>
+                        <option value="60" selected>1 minute</option>
+                        <option value="300">5 minutes</option>
+                        <option value="600">10 minutes</option>
+                    </select>
+                    
+                    <button onclick="clearGraph()">Clear Graph</button>
+                </div>
+                
+                <div class="graph-canvas-wrapper">
+                    <canvas id="logicAnalyzer"></canvas>
+                </div>
+                
+                <div class="graph-legend">
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-color" style="background: #e74c3c;"></div>
+                        <span>Pump Status</span>
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-color" style="background: #2ecc71;"></div>
+                        <span>Soil Moisture (Dry)</span>
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-color" style="background: #f39c12;"></div>
+                        <span>Display Clock</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+
+        <!-- Log Panel -->
+        <div class="panel">
+            <h2>System Log</h2>
+            <div class="log-filters">
+                <label>
+                    <input type="checkbox" id="filterDebugLow" checked>
+                    Debug Low
+                </label>
+                <label>
+                    <input type="checkbox" id="filterDebugHigh" checked>
+                    Debug High
+                </label>
+                <label>
+                    <input type="checkbox" id="filterInfo" checked>
+                    Info
+                </label>
+                <label>
+                    <input type="checkbox" id="filterWarning" checked>
+                    Warning
+                </label>
+                <label>
+                    <input type="checkbox" id="filterError" checked>
+                    Error
+                </label>
+                <button onclick="clearLog()" style="margin-left: auto; padding: 5px 15px; font-size: 12px;">
+                    Clear Log
+                </button>
+            </div>
+            <div class="log" id="log"></div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
+            <p>Firmware compiled with Emscripten | Running PIC10F202 code in browser</p>
+            <p>Press and hold button to increment duration level | Soil sensor simulates dry conditions</p>
+        </div>
+    </div>
+
+    <script>
+        let Module;
+        let isRunning = false;
+        let intervalId = null;
+        let tickCount = 0;
+        let currentDisplayValue = 1;
+        let lastPumpState = 0;
+        let lastDisplayState = 0;
+        let soilDry = false;
+
+        // Load the WASM module
+       async function loadModule() {
+    addLog('Loading WebAssembly module...', 'info');
+    
+    Module = await createPlantWateringModule();
+    
+    addLog('Module loaded successfully', 'info');
+    addLog('Starting firmware...', 'info');
+
+    // Start main() in background thread
+    setTimeout(() => {
+        Module._main(); // ADD THIS - starts the infinite loop
+    }, 100);
+
+    // Start the tick generator
+    setTimeout(() => {
+        startSimulation();
+    }, 200);
+}
+
+        function startSimulation() {
+            addLog('Simulation started', 'info');
+            isRunning = true;
+
+            // Start real-time simulation (20ms ticks)
+            updateSpeed();
+        }
+
+        function updateSpeed() {
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+
+            const speed = parseInt(document.getElementById('speedSlider').value);
+            const interval = 20 / speed; // Base 20ms divided by speed multiplier
+
+            document.getElementById('speedDisplay').textContent = `${speed}x`;
+
+            if (isRunning) {
+                intervalId = setInterval(tick, interval);
+            }
+        }
+
+        /*
+        function tick() {
+            if (!Module) return;
+
+            // Advance one tick
+            //Module._advanceTick();
+            tickCount++;
+
+            // Update UI
+            updateDisplay();
+            updateStatus();
+        }*/
+
+        let wakeUpFunction = null;
+
+// Modified tick function
+function tick() {
+    if (!Module) return;
+
+    Module._advanceTick();
+
+    tickCount++;
+    updateDisplay();
+    updateStatus();
+}
+
+        function singleStep() {
+            tick();
+            addLog(`Single step executed (tick ${tickCount})`, 'debug-high');
+        }
+
+        function runMinute() {
+            addLog('Fast-forwarding 1 minute (3000 ticks)...', 'warning');
+            for (let i = 0; i < 3000; i++) {
+                tick();
+            }
+            addLog('1 minute completed', 'info');
+        }
+
+        function runHour() {
+            addLog('Fast-forwarding 1 hour (180000 ticks)...', 'warning');
+            for (let i = 0; i < 180000; i++) {
+                tick();
+            }
+            addLog('1 hour completed', 'info');
+        }
+
+
+
+
+        // GPIO state storage
+const gpioState = {
+    0: 0, // GP0 - Display
+    1: 0, // GP1 - Soil sensor
+    2: 0, // GP2 - Pump
+    3: 1  // GP3 - Button (default HIGH with pull-up)
+};
+
+// Function called from C code to get GPIO state
+function getGPIOState(pin) {
+    return gpioState[pin] || 0;
+}
+
+// Function called from C code to set GPIO state
+function setGPIOState(pin, state) {
+    gpioState[pin] = state;
+    
+    // Trigger UI updates based on pin changes
+    updateDisplayFromGPIO();
+}
+
+// Update UI elements when GPIO changes
+function updateDisplayFromGPIO() {
+    // Update pump LED
+    const pumpLed = document.getElementById('pumpLed');
+    if (pumpLed) {
+        pumpLed.className = gpioState[2] ? 'led red-on' : 'led off';
+    }
+    
+    // Update soil LED
+    const soilLed = document.getElementById('soilLed');
+    if (soilLed) {
+        soilLed.className = gpioState[1] ? 'led blue-on' : 'led off';
+    }
+    
+    // Update display LED
+    const displayLed = document.getElementById('displayLed');
+    if (displayLed) {
+        displayLed.className = gpioState[0] ? 'led yellow-on' : 'led off';
+    }
+    
+    /*
+    // Update seven-segment on display clock rising edge
+    static let lastDisplayState = 0;
+    if (gpioState[0] && !lastDisplayState) {
+        let currentValue = parseInt(document.getElementById('sevenSegment').textContent);
+        currentValue = (currentValue % 9) + 1;
+        document.getElementById('sevenSegment').textContent = currentValue;
+    }*/
+    lastDisplayState = gpioState[0];
+}
+
+// Update button functions to use GPIO state
+function buttonDown() {
+    gpioState[3] = 0; // Active LOW
+    addLog('Button pressed', 'debug-low');
+}
+
+function buttonUp() {
+    gpioState[3] = 1; // Released HIGH
+    addLog('Button released', 'debug-low');
+}
+
+function toggleSoil() {
+    soilDry = !soilDry;
+    gpioState[1] = soilDry ? 1 : 0;
+    addLog(`Soil sensor: ${soilDry ? 'DRY' : 'WET'}`, 'info');
+    updateDisplayFromGPIO();
+}
+
+
+        function updateDisplay() {
+             updateDisplayFromGPIO();
+
+         /*   if (!Module) return;
+
+            // Update pump LED
+            const pumpState = Module._getPumpState();
+            const pumpLed = document.getElementById('pumpLed');
+            if (pumpState !== lastPumpState) {
+                pumpLed.className = pumpState ? 'led red-on' : 'led off';
+                lastPumpState = pumpState;
+            }
+
+            // Update display LED (clock signal)
+            const displayState = Module._getDisplayState();
+            const displayLed = document.getElementById('displayLed');
+            if (displayState !== lastDisplayState) {
+                displayLed.className = displayState ? 'led yellow-on' : 'led off';
+                
+                // On rising edge, increment display
+                if (displayState && !lastDisplayState) {
+                    currentDisplayValue = (currentDisplayValue % 9) + 1;
+                    document.getElementById('sevenSegment').textContent = currentDisplayValue;
+                }
+                lastDisplayState = displayState;
+            }
+
+            // Update soil LED
+            const soilState = Module._getSoilState();
+            const soilLed = document.getElementById('soilLed');
+            soilLed.className = soilState ? 'led blue-on' : 'led off';
+            */
+        }
+
+        function updateStatus() {
+            /*document.getElementById('tickCount').textContent = tickCount.toLocaleString();
+            
+            const seconds = Math.floor(tickCount * 0.02);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            
+            let runtime = '';
+            if (hours > 0) {
+                runtime = `${hours}h ${minutes % 60}m`;
+            } else if (minutes > 0) {
+                runtime = `${minutes}m ${seconds % 60}s`;
+            } else {
+                runtime = `${seconds}s`;
+            }
+            
+            document.getElementById('runtime').textContent = runtime;
+            */
+        }
+
+        function addLog(message, type = 'info') {
+            // Check if this log level is filtered
+            const typeNormalized = type.replace('-', '');
+            const filterId = `filter${typeNormalized.charAt(0).toUpperCase() + typeNormalized.slice(1)}`;
+            const filterCheckbox = document.getElementById(filterId);
+            
+            if (filterCheckbox && !filterCheckbox.checked) {
+                return; // Skip this log entry
+            }
+            
+            const log = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            entry.textContent = `[${timestamp}] ${message}`;
+            
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+
+            // Keep only last 200 entries
+            while (log.children.length > 200) {
+                log.removeChild(log.firstChild);
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+            addLog('Log cleared', 'info');
+        }
+
+        // Speed slider event
+        document.getElementById('speedSlider').addEventListener('input', updateSpeed);
+
+        // Load module on page load
+        window.addEventListener('load', loadModule);
+    </script>
+
+    <!-- WASM module will be loaded here -->
+    <script src="plant-watering.js"></script>
+</body>
+</html>

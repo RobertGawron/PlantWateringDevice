@@ -17,7 +17,7 @@ common_sources = [
 # ================================================================
 # UNIT TESTS (only for native builds, not WASM)
 # ================================================================
-if not meson.is_cross_build()
+
   # Pump tests
   pump_test = executable(
     'test_pump',
@@ -92,70 +92,3 @@ if not meson.is_cross_build()
 
 
 
-  # Native simulation executable
-  simulation = executable(
-    'simulation',
-    [
-      'main.c',
-      'watering.c',
-      'tests/stubs/xc.c',
-    ],
-    include_directories : [stub_inc],
-    c_args : ['-DSIMULATION']
-  )
-endif
-
-# ================================================================
-# WEBASSEMBLY BUILD (cross-compile with Emscripten)
-# ================================================================
-# To build:
-#   meson setup buildwasm --cross-file emscripten.ini
-#   meson compile -C buildwasm
-#
-# To run:
-#   cd buildwasm
-#   python3 -m http.server 8000
-#   # Open http://localhost:8000/plant-watering.html
-
-if meson.is_cross_build()
-
-  wasm_compile_args = [
-    '-DEMSCRIPTEN',
-    '-pthread',
-    '-sUSE_PTHREADS=1'
-  ]
-
-  wasm_link_args = [
-    '-pthread',
-    '-sWASM=1',
-    '-sASYNCIFY=1',
-    '-sUSE_PTHREADS=1',
-    '-sPROXY_TO_PTHREAD=1',
-    '-sPTHREAD_POOL_SIZE=1',
-    '-sEXPORTED_FUNCTIONS=["_main","_advance_tick","_button_press","_button_release","_set_soil_moisture","_get_pump_state","_get_display_state","_get_button_state","_get_soil_state"]',
-    '-sEXPORTED_RUNTIME_METHODS=["ccall","cwrap"]',
-    '-sMODULARIZE=1',
-    '-sEXPORT_NAME=createPlantWateringModule',
-    '-sALLOW_MEMORY_GROWTH=1',
-    '-sINITIAL_MEMORY=16MB',
-    '-sTOTAL_STACK=1MB',
-  ]
-
-  wasm_simulator = executable(
-    'plant-watering',
-    [
-      'main.c',
-      'watering.c',
-      'simulation/xc.c',
-    ],
-    include_directories : [stub_inc],
-    c_args : wasm_compile_args,
-    link_args : wasm_link_args,
-  )
-
-  configure_file(
-    input : 'plant-watering.html',
-    output : 'plant-watering.html',
-    copy : true
-  )
-endif
