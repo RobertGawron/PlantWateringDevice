@@ -82,7 +82,7 @@ int main(void)
     while (true)
     {
         HW_DELAY_MS(TIME_BASE_TICK_MS);
-
+        logInfo("PlantWatering firmware starting");
         handle_button();
         handle_display();
 

@@ -6,7 +6,6 @@ project(
 )
 
 # Include directories
-stub_inc = include_directories('Stubs')
 software_inc = include_directories('../Software')
 
 # WebAssembly build
@@ -32,10 +31,9 @@ wasm_simulator = executable(
     '../Software/main.c',
     '../Software/hal.c',
     '../Software/watering.c',
-  #  'Stubs/xc.c',
   ],
-  include_directories : [stub_inc, software_inc],
-  c_args : ['-DEMSCRIPTEN'],
+  include_directories : [software_inc],
+  c_args : ['-DEMSCRIPTEN', '-DTARGET_HOST'],
   link_args : wasm_link_args,
 )
 

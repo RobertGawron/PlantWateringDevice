@@ -9,6 +9,7 @@ ls -lh buildwasm/plant-watering.*
 
 cd buildwasm
 
+#use mrun to send the files to the browser, it has bellow headers to allow the browser to load the files correctly
 #Cross-Origin-Opener-Policy: same-origin
 #Cross-Origin-Embedder-Policy: require-corp
 
