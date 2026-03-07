@@ -24,22 +24,28 @@ export function setGPIOState(pin, pinState) {
  * Update UI elements when GPIO changes
  */
 export function updateDisplayFromGPIO() {
-    // Update pump LED
+    // Update pump LED (GP2)
     const pumpLed = document.getElementById('pumpLed');
     if (pumpLed) {
         pumpLed.className = gpioState[2] ? 'led red-on' : 'led off';
     }
     
-    // Update soil LED
+    // Update soil LED (GP1)
     const soilLed = document.getElementById('soilLed');
     if (soilLed) {
         soilLed.className = gpioState[1] ? 'led blue-on' : 'led off';
     }
     
-    // Update display LED
+    // Update display LED (GP0)
     const displayLed = document.getElementById('displayLed');
     if (displayLed) {
         displayLed.className = gpioState[0] ? 'led yellow-on' : 'led off';
+    }
+    
+    // Update button LED (GP3 - active LOW, so pressed = 0)
+    const buttonLed = document.getElementById('buttonLed');
+    if (buttonLed) {
+        buttonLed.className = (gpioState[3] === 0) ? 'led purple-on' : 'led off';
     }
     
     state.lastDisplayState = gpioState[0];
@@ -49,7 +55,8 @@ export function updateDisplayFromGPIO() {
  * Handle button press (active LOW)
  */
 export function buttonDown() {
-    gpioState[3] = 0;
+    gpioState[3] = 0; // Active LOW when pressed
+    updateButtonLed(true);
     addLog('Button pressed', 'debug-low');
 }
 
@@ -57,8 +64,20 @@ export function buttonDown() {
  * Handle button release (HIGH with pull-up)
  */
 export function buttonUp() {
-    gpioState[3] = 1;
+    gpioState[3] = 1; // HIGH when released
+    updateButtonLed(false);
     addLog('Button released', 'debug-low');
+}
+
+/**
+ * Update button LED state directly
+ * @param {boolean} pressed - Whether button is pressed
+ */
+function updateButtonLed(pressed) {
+    const buttonLed = document.getElementById('buttonLed');
+    if (buttonLed) {
+        buttonLed.className = pressed ? 'led purple-on' : 'led off';
+    }
 }
 
 /**
