@@ -33,7 +33,7 @@
                                 onmouseup="buttonUp()" 
                                 ontouchstart="buttonDown()" 
                                 ontouchend="buttonUp()">
-                            Press Button
+                            Press Hardware Button
                         </button>
                         <button onclick="toggleSoil()">Toggle Soil (Wet/Dry)</button>
                     </div>
@@ -163,10 +163,42 @@
         </div>
     </div>
 
-    <!-- WASM module loader -->
-    <script src="plant-watering.js"></script>
-    
-    <!-- Main application -->
-    <script type="module" src="app.js"></script>
+<!-- Define getGPIOState BEFORE WASM loads 
+<script>
+    // This MUST be global and present BEFORE plant-watering.js is parsed
+    const gpioCallbacks = {
+        set: null,
+        get: null
+    };
+
+    // These are the exact names your EM_JS code looks for
+    window.getGPIOState = function(pin) {
+        if (gpioCallbacks.get) return gpioCallbacks.get(pin);
+        return (pin === 3) ? 1 : 0;  // default: button pressed
+    };
+
+    window.setGPIOState = function(pin, state) {
+        if (gpioCallbacks.set) {
+            gpioCallbacks.set(pin, state);
+        }
+        console.log('[JS] setGPIOState(' + pin + ', ' + state + ')');
+    };
+
+    // This will be called by app.js once it's ready
+    window.registerGpioImplementation = function(setFn, getFn) {
+        gpioCallbacks.set = setFn;
+        gpioCallbacks.get = getFn;
+        console.log('[APP] Real GPIO implementation registered');
+    };
+</script>
+-->
+<!-- Load the WASM module -->
+
+<script type="module" src="app.js"></script>
+
+<script src="plant-watering.js"></script>
+
+<!-- Your app loads last and takes over -->
+
 </body>
 </html>

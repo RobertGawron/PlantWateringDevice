@@ -19,12 +19,17 @@ wasm_link_args = [
   '-s', 'PROXY_TO_PTHREAD=1',
   '-s', 'PTHREAD_POOL_SIZE=1',
   '-s', 'EXPORTED_FUNCTIONS=["_main","_advanceTick"]',
-  '-s', 'EXPORTED_RUNTIME_METHODS=["ccall","cwrap"]',
+  '-s', 'EXPORTED_RUNTIME_METHODS=["ccall","cwrap","addFunction"]',
+  '-s', 'STRICT_JS=0',
   '-s', 'MODULARIZE=1',
   '-s', 'EXPORT_NAME=createPlantWateringModule',
   '-s', 'ALLOW_MEMORY_GROWTH=1',
   '-s', 'INITIAL_MEMORY=16MB',
   '-s', 'TOTAL_STACK=1MB',
+
+
+  '-sRESERVED_FUNCTION_POINTERS=10',
+
 ]
 
 executable(

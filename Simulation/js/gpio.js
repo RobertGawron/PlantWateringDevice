@@ -1,33 +1,30 @@
 import { state, gpioState } from './state.js';
 import { addLog } from './logging.js';
 
-// Debug flag - set to false to reduce console spam
-const GPIO_DEBUG = false;
-
 /**
  * Get GPIO pin state (called from C code via EM_JS)
  */
 export function getGPIOState(pin) {
-    const value = gpioState[pin] || 0;
+    const value = gpioState[pin];
+   
+    // Debug: log every read
+    console.log(`[JS] getGPIOState(${pin}) = ${value}, gpioState =`, JSON.stringify(gpioState));
     
-    if (GPIO_DEBUG) {
-        console.log(`[GPIO] GET pin=${pin} -> ${value}`);
+    // Return 0 or 1, never undefined
+    if (value === undefined) {
+        console.error(`[JS] ERROR: gpioState[${pin}] is undefined!`);
+        return 0;
     }
-    
-    return value;
+   
+    return value != 0;
 }
 
 /**
  * Set GPIO pin state (called from C code via EM_JS)
  */
 export function setGPIOState(pin, pinState) {
-    const oldState = gpioState[pin];
+    console.log(`[JS] setGPIOState(${pin}, ${pinState})`);
     gpioState[pin] = pinState;
-    
-    if (GPIO_DEBUG && oldState !== pinState) {
-        console.log(`[GPIO] SET pin=${pin}: ${oldState} -> ${pinState}`);
-    }
-    
     updateDisplayFromGPIO();
 }
 
@@ -66,8 +63,9 @@ export function updateDisplayFromGPIO() {
  * Handle button press (active LOW)
  */
 export function buttonDown() {
+    console.log('[JS] buttonDown() called');
     gpioState[3] = 0;
-    updateButtonLed(true);
+    updateDisplayFromGPIO();
     addLog('Button pressed', 'debug-low');
 }
 
@@ -75,19 +73,10 @@ export function buttonDown() {
  * Handle button release (HIGH with pull-up)
  */
 export function buttonUp() {
+    console.log('[JS] buttonUp() called');
     gpioState[3] = 1;
-    updateButtonLed(false);
+    updateDisplayFromGPIO();
     addLog('Button released', 'debug-low');
-}
-
-/**
- * Update button LED state directly
- */
-function updateButtonLed(pressed) {
-    const buttonLed = document.getElementById('buttonLed');
-    if (buttonLed) {
-        buttonLed.className = pressed ? 'led purple-on' : 'led off';
-    }
 }
 
 /**
@@ -96,7 +85,7 @@ function updateButtonLed(pressed) {
 export function toggleSoil() {
     state.soilDry = !state.soilDry;
     gpioState[1] = state.soilDry ? 1 : 0;
-    console.log(`[GPIO] Soil toggled - GP1 = ${gpioState[1]} (${state.soilDry ? 'DRY' : 'WET'})`);
+    console.log(`[JS] toggleSoil() - gpioState[1] = ${gpioState[1]}`);
     addLog(`Soil sensor: ${state.soilDry ? 'DRY' : 'WET'}`, 'info');
     updateDisplayFromGPIO();
 }
@@ -105,6 +94,7 @@ export function toggleSoil() {
  * Debug: get current GPIO state
  */
 export function debugGPIOState() {
-    console.log('[GPIO] Current state:', JSON.stringify(gpioState));
+    console.log('[JS] gpioState:', JSON.stringify(gpioState));
+    console.log('[JS] state.soilDry:', state.soilDry);
     return gpioState;
 }

@@ -8,17 +8,20 @@ import { initGraph, clearGraph } from './graph.js';
  * Expose all functions to global scope
  */
 function exposeGlobalFunctions() {
-    // Logging
-    window.addLog = addLog;
-    window.clearLog = clearLog;
+    // Share gpioState with the early stub
+    window._gpioState = gpioState;
     
-    // GPIO (for WASM)
-    window.getGPIOState = getGPIOState;
-    window.setGPIOState = setGPIOState;
+    // Replace Module functions with the real implementations
+   if (typeof Module !== 'undefined') {
+        Module.getGPIOState = getGPIOState;
+        Module.setGPIOState = setGPIOState;
+        console.log('[APP] Module GPIO functions updated with real implementations');
+    }
     
-    // Debug
-    window.debugGPIO = debugGPIOState;
-    window.gpioState = gpioState;
+    // Also attach to global/window for other code
+    globalThis.getGPIOState = getGPIOState;
+    globalThis.setGPIOState = setGPIOState;
+    
     
     // Controls
     window.buttonDown = buttonDown;
@@ -43,30 +46,36 @@ function exposeGlobalFunctions() {
  * Load the WebAssembly module
  */
 async function loadModule() {
-    addLog('Loading WebAssembly module...', 'info');
+  /*  addLog('Loading WebAssembly module...', 'info');
+        console.log('[DEBUG] Before create - Module.setGPIOState:', typeof Module.setGPIOState);
     
-    try {
-        if (typeof createPlantWateringModule !== 'function') {
-            throw new Error('createPlantWateringModule not found');
-        }
+    state.Module = await createPlantWateringModule(window.Module);
+    
+    console.log('[DEBUG] After create - state.Module.setGPIOState:', typeof state.Module.setGPIOState);
+    console.log('[DEBUG] After create - window.Module.setGPIOState:', typeof window.Module.setGPIOState);
+    console.log('[DEBUG] Are they same object?', state.Module === window.Module);
+    *///try {
+        state.Module = await createPlantWateringModule(window.Module);
         
-        state.Module = await createPlantWateringModule();
+        // RE-ATTACH functions to the new Module object
+        state.Module.getGPIOState = getGPIOState;
+        state.Module.setGPIOState = setGPIOState;
+        
+        // Update global reference
+        window.Module = state.Module;
+        
+        console.log('[APP] Functions re-attached after module creation');
         
         addLog('Module loaded successfully', 'info');
-        addLog('Firmware ready - click Start to begin simulation', 'info');
-
-        // Start main() in background
-        setTimeout(() => {
+        
+        // Now start main - functions are definitely attached
+        //setTimeout(() => {
             state.Module._main();
-        }, 100);
-        
-        // NOTE: Simulation is NOT started automatically
-        // User must click "Start" button
-        
+        //}, 100);
+        /*
     } catch (error) {
         addLog(`Failed to load module: ${error.message}`, 'error');
-        console.error('[APP] Module load error:', error);
-    }
+    }*/
 }
 
 /**

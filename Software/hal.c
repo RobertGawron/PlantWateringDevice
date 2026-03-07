@@ -31,29 +31,6 @@ volatile GPIObits_t GPIObits;
 volatile bool tickGate = false;
 
 /* ================================================================
- * JavaScript Interop (Emscripten)
- * ================================================================ */
-
-/*
- * JavaScript code inside this .c file cannot be formatted automatically.
- * The '===' operator is not valid C syntax and would break formatting.
- */
-/* clang-format off */
-EM_JS(bool, jsGetGpio, (int pin), {
-    if (typeof getGPIOState === 'function') {
-        return getGPIOState(pin) !== 0;
-    }
-    return false;
-});
-
-EM_JS(void, jsSetGpio, (int pin, int state), {
-    if (typeof setGPIOState === 'function') {
-        setGPIOState(pin, state);
-    }
-});
-/* clang-format on */
-
-/* ================================================================
  * Time Control Synchronization
  * ================================================================ */
 
@@ -89,17 +66,35 @@ void advanceTick(void)
  * GPIO Abstraction
  * ================================================================ */
 
+/* clang-format off */
 void GPIO_SET(uint8_t GPIO_PIN, uint8_t STATE)
 {
-    // logDebugLow("GPIO_SET: pin=%d, state=%d", GPIO_PIN, STATE);
-    jsSetGpio(GPIO_PIN, STATE);
+    MAIN_THREAD_EM_ASM({
+        if (typeof window.setGPIOState === 'function') {
+            window.setGPIOState($0, $1);
+        }
+        else
+        {
+            logDebugLow("jsSetGpio: no function");
+        }
+    }, GPIO_PIN, STATE);
 }
 
 bool GPIO_GET(uint8_t GPIO_PIN)
 {
-    bool state = jsGetGpio(GPIO_PIN);
-    logDebugLow("GPIO_GET: pin=%d, state=%d", GPIO_PIN, state);
-    return state;
+    bool result = MAIN_THREAD_EM_ASM_INT({
+        if (typeof window.getGPIOState === 'function') {
+            return window.getGPIOState($0);
+        }
+        else
+        {
+            logDebugLow("jsGetGpio: no function");
+            return 0;
+        }
+    }, GPIO_PIN);
+
+    return result;   
 }
 
+/* clang-format on */
 #endif
