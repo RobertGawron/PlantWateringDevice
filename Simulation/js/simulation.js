@@ -57,7 +57,19 @@ export function tick() {
     // Add data to graph (every 50 ticks to reduce load)
     if (state.tickCount % 50 === 0) {
         const timestamp = state.tickCount * 0.02; // Convert to seconds
-        addGraphData(gpioState[2], gpioState[1], gpioState[0], timestamp);
+        
+        // Pass all GPIO states to graph
+        // GP3 = Button (normally HIGH, LOW when pressed)
+        // GP2 = Pump (HIGH when on)
+        // GP1 = Soil (HIGH when dry)
+        // GP0 = Display clock
+        addGraphData(
+            gpioState[3],  // Button state
+            gpioState[2],  // Pump state
+            gpioState[1],  // Soil state
+            gpioState[0],  // Display state
+            timestamp
+        );
     }
 }
 

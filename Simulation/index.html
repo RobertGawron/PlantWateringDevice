@@ -3,17 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="plant-watering.css">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="display.css">
+    <link rel="stylesheet" href="graph.css">
+    
     <title>PIC10F202 Plant Watering Simulator</title>
 </head>
 <body>
-    <div class="container">
-        <h1>🌱 PIC10F202 Plant Watering Simulator</h1>
-
-        <!-- Top Section: Controls/Display + Log -->
-        <div class="top-section">
-            <!-- Left Column: Controls + Display -->
-            <div class="left-column">
+    <!-- Top Section -->
+    <div class="top-section">
+        <!-- Left Column: Title + Controls/Display side by side -->
+        <div class="left-column">
+            <!-- Title Panel -->
+            <div class="panel title-panel">
+                <h1>🌱 PIC10F202 Plant Watering Simulator</h1>
+            </div>
+            
+            <!-- Controls and Display Row -->
+            <div class="controls-display-row">
                 <!-- Controls Panel -->
                 <div class="panel controls-panel">
                     <h2>Controls</h2>
@@ -90,73 +99,73 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Right Column: Log Panel -->
-            <div class="right-column">
-                <div class="panel log-panel">
-                    <h2>System Log</h2>
-                    <div class="log-filters">
-                        <label><input type="checkbox" id="filterDebugLow" checked> Debug Low</label>
-                        <label><input type="checkbox" id="filterDebugHigh" checked> Debug High</label>
-                        <label><input type="checkbox" id="filterInfo" checked> Info</label>
-                        <label><input type="checkbox" id="filterWarning" checked> Warning</label>
-                        <label><input type="checkbox" id="filterError" checked> Error</label>
-                        <button onclick="clearLog()">Clear</button>
-                    </div>
-                    <div class="log" id="log"></div>
-                </div>
-            </div>
         </div>
 
-        <!-- Bottom Section: Graph (Always at bottom, never pushed down) -->
-        <div class="bottom-section">
-            <div class="panel graph-panel">
-                <h2>Signal Analyzer</h2>
+        <!-- Right Column: Log Panel -->
+        <div class="right-column">
+            <div class="panel log-panel">
+                <h2>System Log</h2>
+                <div class="log-filters">
+                    <label><input type="checkbox" id="filterDebugLow" checked> Debug Low</label>
+                    <label><input type="checkbox" id="filterDebugHigh" checked> Debug High</label>
+                    <label><input type="checkbox" id="filterInfo" checked> Info</label>
+                    <label><input type="checkbox" id="filterWarning" checked> Warning</label>
+                    <label><input type="checkbox" id="filterError" checked> Error</label>
+                    <button onclick="clearLog()">Clear</button>
+                </div>
+                <div class="log" id="log"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Section: Graph -->
+    <div class="bottom-section">
+        <div class="panel graph-panel">
+            <h2>Signal Analyzer</h2>
+            
+            <div class="graph-container">
+                <div class="graph-controls">
+                    <label>Time Window:</label>
+                    <select id="graphTimeWindow">
+                        <option value="30">30 seconds</option>
+                        <option value="60" selected>1 minute</option>
+                        <option value="300">5 minutes</option>
+                        <option value="600">10 minutes</option>
+                    </select>
+                    
+                    <button onclick="clearGraph()">Clear Graph</button>
+                </div>
                 
-                <div class="graph-container">
-                    <div class="graph-controls">
-                        <label>Time Window:</label>
-                        <select id="graphTimeWindow">
-                            <option value="30">30 seconds</option>
-                            <option value="60" selected>1 minute</option>
-                            <option value="300">5 minutes</option>
-                            <option value="600">10 minutes</option>
-                        </select>
-                        
-                        <button onclick="clearGraph()">Clear Graph</button>
+                <div class="graph-canvas-wrapper">
+                    <canvas id="logicAnalyzer"></canvas>
+                </div>
+                
+                <div class="graph-legend">
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-color" style="background: rgba(155, 89, 182, 0.7);"></div>
+                        <span>Button State (HIGH=idle, LOW=pressed)</span>
                     </div>
-                    
-                    <div class="graph-canvas-wrapper">
-                        <canvas id="logicAnalyzer"></canvas>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-color" style="background: rgba(231, 76, 60, 0.7);"></div>
+                        <span>Pump State (HIGH=on, LOW=off)</span>
                     </div>
-                    
-                    <div class="graph-legend">
-                        <div class="graph-legend-item">
-                            <div class="graph-legend-color" style="background: #9b59b6;"></div>
-                            <span>Button Press</span>
-                        </div>
-                        <div class="graph-legend-item">
-                            <div class="graph-legend-color" style="background: #e74c3c;"></div>
-                            <span>Pump Status</span>
-                        </div>
-                        <div class="graph-legend-item">
-                            <div class="graph-legend-color" style="background: #3498db;"></div>
-                            <span>Soil Moisture (Dry)</span>
-                        </div>
-                        <div class="graph-legend-item">
-                            <div class="graph-legend-color" style="background: #f39c12;"></div>
-                            <span>Display Clock</span>
-                        </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-color" style="background: rgba(52, 152, 219, 0.7);"></div>
+                        <span>Soil Sensor State (HIGH=dry, LOW=wet)</span>
+                    </div>
+                    <div class="graph-legend-item">
+                        <div class="graph-legend-color" style="background: rgba(243, 156, 18, 0.7);"></div>
+                        <span>Display Clock State</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- WASM module loader (must load before app.js) -->
+    <!-- WASM module loader -->
     <script src="plant-watering.js"></script>
     
-    <!-- Main application (ES6 modules) -->
+    <!-- Main application -->
     <script type="module" src="app.js"></script>
 </body>
 </html>

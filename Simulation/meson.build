@@ -41,7 +41,10 @@ executable(
 
 # Copy simple files
 fs.copyfile('index.html')
-fs.copyfile('plant-watering.css')
+
+fs.copyfile('css/main.css')
+fs.copyfile('css/display.css')
+fs.copyfile('css/graph.css')
 
 # Copy JavaScript files, brutforce for now since Meson doesn't have a way to copy an entire directory
 fs.copyfile('js/app.js')
