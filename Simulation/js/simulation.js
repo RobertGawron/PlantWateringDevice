@@ -1,6 +1,6 @@
 import { state, gpioState } from './state.js';
 import { addLog } from './logging.js';
-import { updateDisplay, updateStatus } from './ui.js';
+import {  updateStatus } from './ui.js';
 import { addGraphDataFromGPIO } from './graph.js';
 
 /**
@@ -79,7 +79,6 @@ export function tick() {
     state.Module._advanceTick();
     state.tickCount++;
 
-    updateDisplay();
     updateStatus();
 
     // Update graph every tick
@@ -119,7 +118,6 @@ export function runMinute() {
         addGraphDataFromGPIO({ ...gpioState }, timestamp);
     }
 
-    updateDisplay();
     updateStatus();
     addLog('1 minute completed', 'info');
 }
@@ -146,7 +144,6 @@ export function runHour() {
         }
     }
 
-    updateDisplay();
     updateStatus();
     addLog('1 hour completed', 'info');
 }

@@ -16,13 +16,6 @@ export function updateSevenSegment() {
 
 
 /**
- * Update all display elements
- */
-export function updateDisplay() {
-    //updateDisplayFromGPIO();
-}
-
-/**
  * Update status counters and runtime display
  */
 export function updateStatus() {
