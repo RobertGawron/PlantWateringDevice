@@ -1,0 +1,374 @@
+/* graph.css - Signal analyzer / Logic analyzer graph */
+
+/* ============================================================
+   GRAPH PANEL
+   ============================================================ */
+.graph-panel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.graph-container {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================================
+   GRAPH CONTROLS
+   ============================================================ */
+.graph-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 6px 8px;
+    background: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.graph-controls-left,
+.graph-controls-center,
+.graph-controls-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.graph-controls label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.graph-controls select {
+    padding: 4px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-white);
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.graph-controls select:focus {
+    outline: none;
+    border-color: var(--plant-green);
+}
+
+/* Navigation buttons */
+.graph-controls-center button {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    color: var(--text-primary);
+}
+
+.graph-controls-center button:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.graph-controls-center button:active {
+    background: #dee2e6;
+}
+
+/* Auto-scroll checkbox */
+.auto-scroll-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    user-select: none;
+    margin-left: 8px;
+    padding-left: 8px;
+    border-left: 1px solid var(--border-color);
+}
+
+.auto-scroll-label input[type="checkbox"] {
+    accent-color: var(--plant-green);
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Scroll position display */
+.scroll-position {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    color: var(--text-primary);
+    background: #fff;
+    padding: 4px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+/* Clear button */
+.graph-controls-right button {
+    padding: 4px 10px;
+    font-size: 10px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.graph-controls-right button:hover {
+    background: #fee;
+    border-color: #e74c3c;
+    color: #c0392b;
+    color: var(--text-primary);
+}
+
+/* ============================================================
+   GRAPH STACK (multiple signals)
+   ============================================================ */
+.graph-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fafafa;
+}
+
+/* ============================================================
+   INDIVIDUAL SIGNAL PANEL
+   ============================================================ */
+.graph-signal {
+    display: flex;
+    position: relative;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    min-height: 50px;
+}
+
+.graph-signal:last-child {
+    border-bottom: none;
+}
+
+/* Signal label on the left */
+.graph-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: #666;
+    background: #f5f5f5;
+    border-right: 1px solid var(--border-color);
+    z-index: 2;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Signal-specific label colors */
+.graph-signal:nth-child(1) .graph-label {
+    color: rgb(155, 89, 182);
+    background: rgba(155, 89, 182, 0.08);
+}
+
+.graph-signal:nth-child(2) .graph-label {
+    color: rgb(231, 76, 60);
+    background: rgba(231, 76, 60, 0.08);
+}
+
+.graph-signal:nth-child(3) .graph-label {
+    color: rgb(52, 152, 219);
+    background: rgba(52, 152, 219, 0.08);
+}
+
+.graph-signal:nth-child(4) .graph-label {
+    color: rgb(243, 156, 18);
+    background: rgba(243, 156, 18, 0.08);
+}
+
+/* ============================================================
+   CANVAS AREA
+   ============================================================ */
+.graph-signal canvas {
+    position: absolute;
+    left: 55px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: calc(100% - 55px);
+    height: 50px;
+    background: #fff;
+    cursor: grab;
+}
+
+.graph-signal canvas:active {
+    cursor: grabbing;
+}
+
+/* ============================================================
+   TIME AXIS
+   ============================================================ */
+.graph-time-axis {
+    height: 22px;
+    margin-left: 55px;
+    background: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+}
+
+.graph-time-axis canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+    .graph-controls {
+        padding: 6px;
+    }
+
+    .graph-controls-center {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .auto-scroll-label {
+        border-left: none;
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .scroll-position {
+        font-size: 9px;
+    }
+}
+
+@media (max-width: 768px) {
+    .graph-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+
+    .graph-controls-left,
+    .graph-controls-center,
+    .graph-controls-right {
+        justify-content: center;
+    }
+
+    .graph-controls-center {
+        order: 0;
+        margin-top: 0;
+        padding-top: 0;
+        border-top: none;
+    }
+
+    .graph-signal canvas {
+        height: 45px;
+    }
+
+    .graph-label {
+        width: 45px;
+        font-size: 9px;
+    }
+
+    .graph-signal canvas {
+        left: 45px;
+        width: calc(100% - 45px);
+    }
+
+    .graph-time-axis {
+        margin-left: 45px;
+    }
+}
+
+@media (max-width: 480px) {
+    .graph-signal canvas {
+        height: 40px;
+    }
+
+    .graph-label {
+        width: 38px;
+        font-size: 8px;
+    }
+
+    .graph-signal canvas {
+        left: 38px;
+        width: calc(100% - 38px);
+    }
+
+    .graph-time-axis {
+        margin-left: 38px;
+        height: 20px;
+    }
+
+    .graph-controls-center button {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+
+    .scroll-position {
+        display: none;
+    }
+}
+
+/* ============================================================
+   HOVER EFFECTS & INTERACTIONS
+   ============================================================ */
+.graph-signal:hover .graph-label {
+    filter: brightness(0.95);
+}
+
+.graph-signal canvas:hover {
+    background: #fafcff;
+}
+
+/* Highlight effect when scrolling is active (not auto-scroll) */
+.graph-stack.manual-scroll .graph-signal canvas {
+    box-shadow: inset 0 0 0 1px rgba(52, 152, 219, 0.3);
+}
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+@media print {
+    .graph-controls-center {
+        display: none;
+    }
+
+    .graph-signal canvas {
+        cursor: default;
+    }
+}
