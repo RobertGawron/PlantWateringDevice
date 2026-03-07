@@ -1,6 +1,6 @@
 import { state, gpioState } from './state.js';
 import { addLog, clearLog } from './logging.js';
-import { buttonDown, buttonUp, toggleSoil, getGPIOState, setGPIOState, debugGPIOState } from './gpio.js';
+import { buttonDown, buttonUp, toggleSoil, getGPIOState, setGPIOState } from './gpio.js';
 import { startSimulation, stopSimulation, toggleSimulation, updateSpeed, singleStep, runMinute, runHour } from './simulation.js';
 import { initGraph, clearGraph } from './graph.js';
 
@@ -39,6 +39,9 @@ function exposeGlobalFunctions() {
     // Graph
     window.clearGraph = clearGraph;
     
+    // Logging
+    window.clearLog = clearLog;
+
     console.log('[APP] Global functions exposed');
 }
 
@@ -46,36 +49,20 @@ function exposeGlobalFunctions() {
  * Load the WebAssembly module
  */
 async function loadModule() {
-  /*  addLog('Loading WebAssembly module...', 'info');
-        console.log('[DEBUG] Before create - Module.setGPIOState:', typeof Module.setGPIOState);
-    
     state.Module = await createPlantWateringModule(window.Module);
     
-    console.log('[DEBUG] After create - state.Module.setGPIOState:', typeof state.Module.setGPIOState);
-    console.log('[DEBUG] After create - window.Module.setGPIOState:', typeof window.Module.setGPIOState);
-    console.log('[DEBUG] Are they same object?', state.Module === window.Module);
-    *///try {
-        state.Module = await createPlantWateringModule(window.Module);
-        
-        // RE-ATTACH functions to the new Module object
-        state.Module.getGPIOState = getGPIOState;
-        state.Module.setGPIOState = setGPIOState;
-        
-        // Update global reference
-        window.Module = state.Module;
-        
-        console.log('[APP] Functions re-attached after module creation');
-        
-        addLog('Module loaded successfully', 'info');
-        
-        // Now start main - functions are definitely attached
-        //setTimeout(() => {
-            state.Module._main();
-        //}, 100);
-        /*
-    } catch (error) {
-        addLog(`Failed to load module: ${error.message}`, 'error');
-    }*/
+    // Attach functions to the new Module object
+    state.Module.getGPIOState = getGPIOState;
+    state.Module.setGPIOState = setGPIOState;
+    
+    // Update global reference
+    window.Module = state.Module;
+    
+    console.log('[APP] Functions re-attached after module creation');
+    
+    addLog('Module loaded successfully', 'info');
+    
+    state.Module._main();
 }
 
 /**

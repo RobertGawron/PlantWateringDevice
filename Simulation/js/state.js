@@ -5,8 +5,6 @@ export const state = {
     intervalId: null,
     tickCount: 0,
     currentDisplayValue: 1,
-    lastPumpState: 0,
-    lastDisplayState: 0,
     soilDry: false
 };
 
