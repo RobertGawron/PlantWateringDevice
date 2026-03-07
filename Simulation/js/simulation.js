@@ -1,7 +1,7 @@
 import { state, gpioState } from './state.js';
 import { addLog } from './logging.js';
 import { updateDisplay, updateStatus } from './ui.js';
-import { addGraphData } from './graph.js';
+import { addGraphDataFromGPIO } from './graph.js';
 
 /**
  * Start the simulation loop
@@ -55,21 +55,14 @@ export function tick() {
     updateStatus();
     
     // Add data to graph (every 50 ticks to reduce load)
+    // GPIO mapping:
+    // GP0 = Display clock (output)
+    // GP1 = Soil sensor (input)
+    // GP2 = Pump MOSFET (output)
+    // GP3 = Button (input)
     if (state.tickCount % 50 === 0) {
         const timestamp = state.tickCount * 0.02; // Convert to seconds
-        
-        // Pass all GPIO states to graph
-        // GP3 = Button (normally HIGH, LOW when pressed)
-        // GP2 = Pump (HIGH when on)
-        // GP1 = Soil (HIGH when dry)
-        // GP0 = Display clock
-        addGraphData(
-            gpioState[3],  // Button state
-            gpioState[2],  // Pump state
-            gpioState[1],  // Soil state
-            gpioState[0],  // Display state
-            timestamp
-        );
+        addGraphDataFromGPIO(gpioState, timestamp);
     }
 }
 

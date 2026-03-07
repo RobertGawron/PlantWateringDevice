@@ -13,6 +13,8 @@
 
 #else
 
+#include "logger.h"
+
 #include <stdbool.h>
 #include <emscripten/emscripten.h>
 
@@ -89,6 +91,7 @@ void advanceTick(void)
 
 void GPIO_SET(uint8_t GPIO_PIN, uint8_t STATE)
 {
+    logDebugLow("GPIO_SET: pin=%d, state=%d", GPIO_PIN, STATE);
     jsSetGpio(GPIO_PIN, STATE);
 }
 

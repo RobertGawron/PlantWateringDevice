@@ -59,9 +59,9 @@
  * ================================================================ */
 
 #include "hal.h"
+#include "logger.h"
 #include "gpio_mapping.h"
 
-#include "logger.h"
 #include "watering.h"
 
 #include <stdint.h>
@@ -82,7 +82,7 @@ int main(void)
     while (true)
     {
         HW_DELAY_MS(TIME_BASE_TICK_MS);
-        logInfo("PlantWatering firmware starting");
+        // logInfo("PlantWatering firmware starting");
         handle_button();
         handle_display();
 

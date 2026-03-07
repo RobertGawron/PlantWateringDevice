@@ -1,11 +1,19 @@
 // js/graph.js - Logic analyzer graph
 
+// GPIO Pin mapping (matches gpio_mapping.h)
+const GPIO_PINS = {
+    DISPLAY: 0,    // GP0 - Display clock
+    SOIL: 1,       // GP1 - Soil sensor
+    PUMP: 2,       // GP2 - Pump MOSFET
+    BUTTON: 3      // GP3 - User button
+};
+
 // Signal colors (semi-transparent for overlap visibility)
 const SIGNAL_COLORS = {
-    button: 'rgba(155, 89, 182, 0.7)',   // Purple
-    pump: 'rgba(231, 76, 60, 0.7)',      // Red
-    soil: 'rgba(52, 152, 219, 0.7)',     // Blue
-    display: 'rgba(243, 156, 18, 0.7)'   // Orange/Yellow
+    button: 'rgba(155, 89, 182, 0.5)',   // Purple
+    pump: 'rgba(231, 76, 60, 0.5)',      // Red
+    soil: 'rgba(52, 152, 219, 0.5)',     // Blue
+    display: 'rgba(243, 156, 18, 0.5)'   // Orange/Yellow
 };
 
 // Solid colors for lines
@@ -20,7 +28,7 @@ const SIGNAL_COLORS_SOLID = {
 const GRAPH_CONFIG = {
     backgroundColor: '#f5f5f5',
     gridColor: 'rgba(0, 0, 0, 0.08)',
-    lineWidth: 1.5,         // Thinner lines
+    lineWidth: 1,           // Thinner lines
     signalPadding: 4
 };
 
@@ -63,7 +71,31 @@ function resizeGraph() {
 }
 
 /**
- * Add data point to graph
+ * Add data point to graph from GPIO state object
+ * @param {Object} gpioState - GPIO state object with pin states
+ * @param {number} timestamp - Time in seconds
+ */
+export function addGraphDataFromGPIO(gpioState, timestamp) {
+    // Map GPIO pins to signals
+    // GP0 = Display, GP1 = Soil, GP2 = Pump, GP3 = Button
+    graphData.display.push({ time: timestamp, value: gpioState[GPIO_PINS.DISPLAY] });
+    graphData.soil.push({ time: timestamp, value: gpioState[GPIO_PINS.SOIL] });
+    graphData.pump.push({ time: timestamp, value: gpioState[GPIO_PINS.PUMP] });
+    graphData.button.push({ time: timestamp, value: gpioState[GPIO_PINS.BUTTON] });
+    
+    // Trim old data
+    trimGraphData(timestamp);
+    
+    drawGraph();
+}
+
+/**
+ * Add data point to graph (legacy method for compatibility)
+ * @param {number} button - Button state (GP3)
+ * @param {number} pump - Pump state (GP2)
+ * @param {number} soil - Soil state (GP1)
+ * @param {number} display - Display state (GP0)
+ * @param {number} timestamp - Time in seconds
  */
 export function addGraphData(button, pump, soil, display, timestamp) {
     graphData.button.push({ time: timestamp, value: button });
@@ -71,6 +103,14 @@ export function addGraphData(button, pump, soil, display, timestamp) {
     graphData.soil.push({ time: timestamp, value: soil });
     graphData.display.push({ time: timestamp, value: display });
     
+    trimGraphData(timestamp);
+    drawGraph();
+}
+
+/**
+ * Trim old data outside the time window
+ */
+function trimGraphData(timestamp) {
     const timeWindow = parseInt(document.getElementById('graphTimeWindow')?.value || 60);
     const cutoffTime = timestamp - timeWindow;
     
@@ -78,8 +118,6 @@ export function addGraphData(button, pump, soil, display, timestamp) {
     graphData.pump = graphData.pump.filter(d => d.time >= cutoffTime);
     graphData.soil = graphData.soil.filter(d => d.time >= cutoffTime);
     graphData.display = graphData.display.filter(d => d.time >= cutoffTime);
-    
-    drawGraph();
 }
 
 /**
@@ -103,7 +141,7 @@ function drawGraph() {
     const totalPadding = GRAPH_CONFIG.signalPadding * (numSignals + 1);
     const laneHeight = (height - totalPadding) / numSignals;
     
-    // Draw each signal
+    // Draw each signal (order matches legend: Button, Pump, Soil, Display)
     const signals = [
         { data: graphData.button, color: SIGNAL_COLORS.button, solidColor: SIGNAL_COLORS_SOLID.button },
         { data: graphData.pump, color: SIGNAL_COLORS.pump, solidColor: SIGNAL_COLORS_SOLID.pump },
@@ -239,4 +277,11 @@ export function clearGraph() {
  */
 export function getGraphData() {
     return graphData;
+}
+
+/**
+ * Get GPIO pin mapping (for reference)
+ */
+export function getGPIOPins() {
+    return GPIO_PINS;
 }
