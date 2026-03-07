@@ -78,7 +78,8 @@ emrun --no_browser --port 8000 .
 
 
 
-http://localhost:8000/plant-watering.html
+http://localhost:8000/
+
 
 
 
@@ -86,3 +87,6 @@ cd /workspace/Simulation
 meson setup build --cross-file emscripten.ini
 meson compile -C build
 cd build && python3 -m http.server 8000
+
+
+just was

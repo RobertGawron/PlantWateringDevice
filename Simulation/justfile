@@ -1,0 +1,4 @@
+wasm:
+    meson setup buildwasm --cross-file emscripten.ini --wipe
+    meson compile -C buildwasm
+    cd buildwasm && emrun --no_browser --port 8000 .

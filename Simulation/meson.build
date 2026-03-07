@@ -5,6 +5,8 @@ project(
   default_options : ['buildtype=debug']
 )
 
+fs = import('fs')
+
 # Include directories
 software_inc = include_directories('../Software')
 
@@ -25,27 +27,28 @@ wasm_link_args = [
   '-s', 'TOTAL_STACK=1MB',
 ]
 
-wasm_simulator = executable(
+executable(
   'plant-watering',
   [
     '../Software/main.c',
     '../Software/hal.c',
     '../Software/watering.c',
   ],
-  include_directories : [software_inc],
+  include_directories : software_inc,
   c_args : ['-DEMSCRIPTEN', '-DTARGET_HOST'],
   link_args : wasm_link_args,
 )
 
-configure_file(
-  input : 'plant-watering.css',
-  output : 'plant-watering.css',
-  copy : true
-)
+# Copy simple files
+fs.copyfile('index.html')
+fs.copyfile('plant-watering.css')
 
-# Copy HTML file to build directory
-configure_file(
-  input : 'index.html',
-  output : 'index.html',
-  copy : true
-)
+# Copy JavaScript files, brutforce for now since Meson doesn't have a way to copy an entire directory
+fs.copyfile('js/app.js')
+fs.copyfile('js/gpio.js')
+fs.copyfile('js/graph.js')
+fs.copyfile('js/logging.js')
+fs.copyfile('js/simulation.js')
+fs.copyfile('js/state.js')
+fs.copyfile('js/ui.js')
+fs.copyfile('js/wasm-loader.js')

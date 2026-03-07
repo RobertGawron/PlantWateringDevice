@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     vim \
     cmake \
     wget \
+    just \
     && rm -rf /var/lib/apt/lists/*
 
 # ------------------------------------------------------------
