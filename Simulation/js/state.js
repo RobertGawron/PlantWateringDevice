@@ -4,7 +4,7 @@ export const state = {
     isRunning: false,
     intervalId: null,
     tickCount: 0,
-    currentDisplayValue: 1,
+    currentDisplayValue: 0,
     soilDry: false
 };
 

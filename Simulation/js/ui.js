@@ -1,11 +1,25 @@
 import { state } from './state.js';
-import { updateDisplayFromGPIO } from './gpio.js';
+
+/**
+ * Update the seven-segment display
+ */
+
+export function updateSevenSegment() {
+    // Wrap value to 0-9 range
+    state.currentDisplayValue = state.currentDisplayValue % 10;
+    
+    const sevenSegment = document.getElementById('sevenSegment');
+    if (sevenSegment) {
+        sevenSegment.textContent = state.currentDisplayValue;
+    }
+}
+
 
 /**
  * Update all display elements
  */
 export function updateDisplay() {
-    updateDisplayFromGPIO();
+    //updateDisplayFromGPIO();
 }
 
 /**

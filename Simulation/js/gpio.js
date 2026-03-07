@@ -1,5 +1,6 @@
 import { state, gpioState } from './state.js';
 import { addLog } from './logging.js';
+import { updateSevenSegment } from './ui.js';
 
 /**
  * Get GPIO pin state (called from C code via EM_JS)
@@ -20,16 +21,14 @@ export function getGPIOState(pin) {
  * Set GPIO pin state (called from C code via EM_JS)
  */
 export function setGPIOState(pin, pinState) {
+    const previousState = gpioState[pin];
     gpioState[pin] = pinState;
-    // No need to update display LEDs anymore
-}
 
-/**
- * Update UI elements when GPIO changes (kept for future use if needed)
- */
-export function updateDisplayFromGPIO() {
-    // All LED indicators removed
-    // This function is kept in case you want to add other UI updates later
+    // Detect rising edge on GP0 (Display clock)
+    if (pin === 0 && previousState === 0 && pinState === 1) {
+        state.currentDisplayValue++;
+        updateSevenSegment();
+    }
 }
 
 /**
