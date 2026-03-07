@@ -188,7 +188,7 @@ function drawGrid(width, height) {
 }
 
 /**
- * Draw a single signal trace
+ * Draw a single signal trace (LINE ONLY - no fill)
  */
 function drawSignal(data, fillColor, strokeColor, yOffset, laneHeight, width) {
     if (data.length === 0) return;
@@ -197,49 +197,18 @@ function drawSignal(data, fillColor, strokeColor, yOffset, laneHeight, width) {
     const latestTime = data[data.length - 1]?.time || 0;
     const startTime = latestTime - timeWindow;
     
-    // Calculate Y positions for HIGH and LOW
     const padding = 6;
     const highY = yOffset + padding;
     const lowY = yOffset + laneHeight - padding;
     
-    // Draw filled area under signal
-    graphCtx.fillStyle = fillColor;
-    graphCtx.beginPath();
-    
-    let firstPoint = true;
-    let lastX = 0;
-    let lastY = lowY;
-    
-    data.forEach((point) => {
-        const x = ((point.time - startTime) / timeWindow) * width;
-        const y = point.value ? highY : lowY;
-        
-        if (firstPoint) {
-            graphCtx.moveTo(x, lowY);
-            graphCtx.lineTo(x, y);
-            firstPoint = false;
-        } else {
-            graphCtx.lineTo(x, lastY);
-            graphCtx.lineTo(x, y);
-        }
-        
-        lastX = x;
-        lastY = y;
-    });
-    
-    // Complete the fill area
-    graphCtx.lineTo(lastX, lowY);
-    graphCtx.closePath();
-    graphCtx.fill();
-    
-    // Draw signal line on top
+    // Draw signal line only
     graphCtx.strokeStyle = strokeColor;
     graphCtx.lineWidth = GRAPH_CONFIG.lineWidth;
     graphCtx.lineCap = 'square';
     graphCtx.beginPath();
     
-    firstPoint = true;
-    lastY = lowY;
+    let firstPoint = true;
+    let lastY = lowY;
     
     data.forEach((point) => {
         const x = ((point.time - startTime) / timeWindow) * width;
@@ -249,6 +218,7 @@ function drawSignal(data, fillColor, strokeColor, yOffset, laneHeight, width) {
             graphCtx.moveTo(x, y);
             firstPoint = false;
         } else {
+            // Step function - horizontal then vertical
             graphCtx.lineTo(x, lastY);
             graphCtx.lineTo(x, y);
         }

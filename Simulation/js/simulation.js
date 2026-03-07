@@ -1,14 +1,17 @@
 import { state, gpioState } from './state.js';
 import { addLog } from './logging.js';
 import { updateDisplay, updateStatus } from './ui.js';
-import { addGraphDataFromGPIO } from './graph.js';
+import { addGraphData } from './graph.js';
 
 /**
  * Start the simulation loop
  */
 export function startSimulation() {
+    if (state.isRunning) return;
+    
     addLog('Simulation started', 'info');
     state.isRunning = true;
+    updateStartStopButton();
     updateSpeed();
 }
 
@@ -16,12 +19,37 @@ export function startSimulation() {
  * Stop the simulation loop
  */
 export function stopSimulation() {
+    if (!state.isRunning) return;
+    
     state.isRunning = false;
     if (state.intervalId) {
         clearInterval(state.intervalId);
         state.intervalId = null;
     }
+    updateStartStopButton();
     addLog('Simulation stopped', 'info');
+}
+
+/**
+ * Toggle simulation start/stop
+ */
+export function toggleSimulation() {
+    if (state.isRunning) {
+        stopSimulation();
+    } else {
+        startSimulation();
+    }
+}
+
+/**
+ * Update the Start/Stop button text
+ */
+function updateStartStopButton() {
+    const btn = document.getElementById('btnStartStop');
+    if (btn) {
+        btn.textContent = state.isRunning ? 'Stop' : 'Start';
+        btn.classList.toggle('running', state.isRunning);
+    }
 }
 
 /**
@@ -33,7 +61,7 @@ export function updateSpeed() {
     }
 
     const speed = parseInt(document.getElementById('speedSlider').value);
-    const interval = 20 / speed; // Base 20ms divided by speed multiplier
+    const interval = 20 / speed;
 
     document.getElementById('speedDisplay').textContent = `${speed}x`;
 
@@ -54,22 +82,26 @@ export function tick() {
     updateDisplay();
     updateStatus();
     
-    // Add data to graph (every 50 ticks to reduce load)
-    // GPIO mapping:
-    // GP0 = Display clock (output)
-    // GP1 = Soil sensor (input)
-    // GP2 = Pump MOSFET (output)
-    // GP3 = Button (input)
-    if (state.tickCount % 50 === 0) {
-        const timestamp = state.tickCount * 0.02; // Convert to seconds
-        addGraphDataFromGPIO(gpioState, timestamp);
-    }
+    // Update graph every tick
+    const timestamp = state.tickCount * 0.02;
+    addGraphData(
+        gpioState[3] || 0,
+        gpioState[2] || 0,
+        gpioState[1] || 0,
+        gpioState[0] || 0,
+        timestamp
+    );
 }
 
 /**
- * Execute a single step
+ * Execute a single step (works even when simulation is stopped)
  */
 export function singleStep() {
+    if (!state.Module) {
+        addLog('Module not loaded', 'error');
+        return;
+    }
+    
     tick();
     addLog(`Single step executed (tick ${state.tickCount})`, 'debug-high');
 }
@@ -78,10 +110,29 @@ export function singleStep() {
  * Fast-forward 1 minute (3000 ticks)
  */
 export function runMinute() {
-    addLog('Fast-forwarding 1 minute (3000 ticks)...', 'warning');
-    for (let i = 0; i < 3000; i++) {
-        tick();
+    if (!state.Module) {
+        addLog('Module not loaded', 'error');
+        return;
     }
+    
+    addLog('Running 1 minute (3000 ticks)...', 'warning');
+    
+    for (let i = 0; i < 3000; i++) {
+        state.Module._advanceTick();
+        state.tickCount++;
+        
+        const timestamp = state.tickCount * 0.02;
+        addGraphData(
+            gpioState[3] || 0,
+            gpioState[2] || 0,
+            gpioState[1] || 0,
+            gpioState[0] || 0,
+            timestamp
+        );
+    }
+    
+    updateDisplay();
+    updateStatus();
     addLog('1 minute completed', 'info');
 }
 
@@ -89,9 +140,31 @@ export function runMinute() {
  * Fast-forward 1 hour (180000 ticks)
  */
 export function runHour() {
-    addLog('Fast-forwarding 1 hour (180000 ticks)...', 'warning');
-    for (let i = 0; i < 180000; i++) {
-        tick();
+    if (!state.Module) {
+        addLog('Module not loaded', 'error');
+        return;
     }
+    
+    addLog('Running 1 hour (180000 ticks)...', 'warning');
+    
+    for (let i = 0; i < 180000; i++) {
+        state.Module._advanceTick();
+        state.tickCount++;
+        
+        // Update graph every 100 ticks during fast-forward
+        if (i % 100 === 0) {
+            const timestamp = state.tickCount * 0.02;
+            addGraphData(
+                gpioState[3] || 0,
+                gpioState[2] || 0,
+                gpioState[1] || 0,
+                gpioState[0] || 0,
+                timestamp
+            );
+        }
+    }
+    
+    updateDisplay();
+    updateStatus();
     addLog('1 hour completed', 'info');
 }

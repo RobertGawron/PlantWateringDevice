@@ -39,11 +39,11 @@ volatile bool tickGate = false;
  * The '===' operator is not valid C syntax and would break formatting.
  */
 /* clang-format off */
-EM_JS(int, jsGetGpio, (int pin), {
+EM_JS(bool, jsGetGpio, (int pin), {
     if (typeof getGPIOState === 'function') {
-        return getGPIOState(pin);
+        return getGPIOState(pin) !== 0;
     }
-    return 0;
+    return false;
 });
 
 EM_JS(void, jsSetGpio, (int pin, int state), {
@@ -91,13 +91,15 @@ void advanceTick(void)
 
 void GPIO_SET(uint8_t GPIO_PIN, uint8_t STATE)
 {
-    logDebugLow("GPIO_SET: pin=%d, state=%d", GPIO_PIN, STATE);
+    // logDebugLow("GPIO_SET: pin=%d, state=%d", GPIO_PIN, STATE);
     jsSetGpio(GPIO_PIN, STATE);
 }
 
 bool GPIO_GET(uint8_t GPIO_PIN)
 {
-    return (bool)jsGetGpio(GPIO_PIN);
+    bool state = jsGetGpio(GPIO_PIN);
+    logDebugLow("GPIO_GET: pin=%d, state=%d", GPIO_PIN, state);
+    return state;
 }
 
 #endif
