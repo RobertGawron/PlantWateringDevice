@@ -65,8 +65,6 @@
 #define SOIL_CHECK_STARTUP_SECONDS_INIT \
     (TIME_SECONDS_PER_MINUTE - SOIL_CHECK_STARTUP_DELAY_SECONDS)
 
-
-
 typedef struct
 {
     /** User-configured pump duration level (1 to PUMP_DURATION_LEVEL_MAX). */
@@ -113,6 +111,7 @@ typedef struct
     bool button_was_pressed : 1;
     bool send_pulse_to_display : 1;
     bool sending_pulse_to_display : 1;
+    bool display_overflow_pulse : 1;
 
 } PlantWateringData;
 

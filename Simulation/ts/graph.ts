@@ -101,6 +101,11 @@ let isDragging = false;
 let dragStartX = 0;
 let dragStartOffset = 0;
 
+// Add to state section
+let zoomLevel = 1.0;
+const MIN_ZOOM = 0.1;   // 10% (zoom out - see 10x more time)
+const MAX_ZOOM = 100;   // 100x (zoom in - see 100x less time)
+
 // ------------------------------------------------------------
 // Initialization
 // ------------------------------------------------------------
@@ -118,8 +123,8 @@ export function initGraph(): void {
                 contexts[sig] = ctx;
             }
 
-            // Mouse events for scrolling
-            canvas.addEventListener('wheel', handleScroll, { passive: false });
+            // Replace the wheel handler
+            canvas.addEventListener('wheel', (e) => handleZoom(e, canvas), { passive: false });
             canvas.addEventListener('mousedown', handleDragStart);
             canvas.addEventListener('mousemove', handleDragMove);
             canvas.addEventListener('mouseup', handleDragEnd);
@@ -309,11 +314,18 @@ function clampScrollOffset(): void {
 }
 
 /**
- * Get current time window from dropdown
+ * Get current time window (including custom values)
  */
 function getTimeWindow(): number {
-    const element = document.getElementById('graphTimeWindow') as HTMLSelectElement | null;
-    return parseFloat(element?.value || '60');
+    const dropdown = document.getElementById('graphTimeWindow') as HTMLSelectElement;
+    if (!dropdown) return 60;
+
+    if (dropdown.value === 'custom') {
+        const customValue = dropdown.selectedOptions[0]?.dataset.customValue;
+        return customValue ? parseFloat(customValue) : 60;
+    }
+
+    return parseFloat(dropdown.value || '60');
 }
 
 // ------------------------------------------------------------
@@ -654,6 +666,128 @@ export function clearGraph(): void {
     drawGraph();
 }
 
+
+
+
+/**
+ * Zoom in/out while keeping cursor position fixed
+ */
+function handleZoom(event: WheelEvent, canvas: HTMLCanvasElement): void {
+    event.preventDefault();
+
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseXRatio = mouseX / canvas.width;
+
+    const timeWindow = getTimeWindow();
+    const { startTime, endTime } = getVisibleRange();
+    
+    // Calculate time position under mouse
+    const mouseTime = startTime + (endTime - startTime) * mouseXRatio;
+
+    // Zoom factor
+    const zoomFactor = event.deltaY < 0 ? 1.1 : 0.9;
+    const newTimeWindow = Math.max(0.1, Math.min(3600, timeWindow * zoomFactor));
+
+    // Keep mouse position fixed
+    const newStartTime = mouseTime - (mouseTime - startTime) * (newTimeWindow / timeWindow);
+    
+    autoScroll = false;
+    updateAutoScrollCheckbox();
+
+    // Update scroll offset to reflect new view
+    scrollOffset = Math.max(0, maxTime - newStartTime - newTimeWindow);
+    
+    // Update time window dropdown to "Custom" or closest match
+    setTimeWindow(newTimeWindow);
+    
+    drawGraph();
+}
+
+/**
+ * Set time window (updates dropdown if exact match exists)
+ */
+function setTimeWindow(seconds: number): void {
+    const dropdown = document.getElementById('graphTimeWindow') as HTMLSelectElement;
+    if (!dropdown) return;
+
+    // Check if we have an exact match
+    const exactMatch = Array.from(dropdown.options).find(
+        opt => Math.abs(parseFloat(opt.value) - seconds) < 0.01
+    );
+
+    if (exactMatch) {
+        dropdown.value = exactMatch.value;
+    } else {
+        // Add custom option if not exists
+        let customOption = Array.from(dropdown.options).find(opt => opt.value === 'custom');
+        if (!customOption) {
+            customOption = document.createElement('option');
+            customOption.value = 'custom';
+            dropdown.appendChild(customOption);
+        }
+        customOption.text = `Custom (${formatTime(seconds)})`;
+        customOption.dataset.customValue = seconds.toString();
+        dropdown.value = 'custom';
+    }
+}
+
+
+
+/**
+ * Fit all data to screen
+ */
+export function fitToScreen(): void {
+    if (maxTime === 0) {
+        addLog('No data to fit', 'warning');
+        return;
+    }
+
+    // Set time window to show all data with 5% padding
+    const paddedTime = maxTime * 1.05;
+    setTimeWindow(paddedTime);
+    
+    // Reset to show from start
+    autoScroll = false;
+    scrollOffset = 0;
+    updateAutoScrollCheckbox();
+    
+    drawGraph();
+    addLog(`Fitted ${formatTime(maxTime)} to screen`, 'debug-high');
+}
+
+/**
+ * Zoom in by 2x
+ */
+export function zoomIn(): void {
+    const currentWindow = getTimeWindow();
+    const newWindow = Math.max(0.1, currentWindow / 2);
+    setTimeWindow(newWindow);
+    
+    autoScroll = false;
+    updateAutoScrollCheckbox();
+    clampScrollOffset();
+    drawGraph();
+}
+
+/**
+ * Zoom out by 2x
+ */
+export function zoomOut(): void {
+    const currentWindow = getTimeWindow();
+    const newWindow = Math.min(7200, currentWindow * 2);
+    setTimeWindow(newWindow);
+    
+    autoScroll = false;
+    updateAutoScrollCheckbox();
+    clampScrollOffset();
+    drawGraph();
+}
+
+// In initGraph():
+document.getElementById('btnFitToScreen')?.addEventListener('click', fitToScreen);
+document.getElementById('btnZoomIn')?.addEventListener('click', zoomIn);
+document.getElementById('btnZoomOut')?.addEventListener('click', zoomOut);
 // ------------------------------------------------------------
 // Exports
 // ------------------------------------------------------------

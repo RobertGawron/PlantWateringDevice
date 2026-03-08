@@ -11,7 +11,7 @@ import {
     runMinute,
     runHour
 } from './simulation';
-import { initGraph, clearGraph } from './graph';
+import { initGraph, clearGraph, addGraphDataFromGPIO } from './graph';
 
 // ------------------------------------------------------------
 // Type Definitions
@@ -20,18 +20,12 @@ import { initGraph, clearGraph } from './graph';
 /**
  * Emscripten WASM Module interface.
  * 
- * Defines the functions exported from C code compiled with Emscripten,
- * plus the GPIO functions we inject from JavaScript.
+ * Defines the functions exported from C code compiled with Emscripten.
+ * GPIO functions are called via window object (EM_JS), not module.
  */
 export interface EmscriptenModule {
     /** Initialize the firmware */
     _main: () => void;
-    /** Advance simulation by one tick (20ms) */
-    _advanceTick: () => void;
-    /** Get GPIO pin state - injected from JS for C code access */
-    getGPIOState: (pin: number) => GPIOPinLevel;
-    /** Set GPIO pin state - injected from JS for C code access */
-    setGPIOState: (pin: number, pinState: number) => void;
 }
 
 /**
@@ -41,12 +35,12 @@ export interface EmscriptenModule {
  */
 declare global {
     interface Window {
-        // GPIO state shared with Emscripten early stub
+        // GPIO state shared with Emscripten
         _gpioState: typeof gpioState;
 
         // Emscripten module
         Module: Partial<EmscriptenModule>;
-        createPlantWateringModule: (config: Partial<EmscriptenModule>) => Promise<EmscriptenModule>;
+        createPlantWateringModule: (config?: Partial<EmscriptenModule>) => Promise<EmscriptenModule>;
 
         // GPIO functions (called from C via EM_JS)
         getGPIOState: typeof getGPIOState;
@@ -83,21 +77,15 @@ declare global {
  * 2. Emscripten EM_JS calls to getGPIOState/setGPIOState
  * 
  * Must be called before WASM module loads to ensure the GPIO
- * stub functions are available for C code initialization.
+ * functions are available for C code.
  */
 function exposeGlobalFunctions(): void {
-    // GPIO state for Emscripten early stub access
+    // GPIO state for debugging
     window._gpioState = gpioState;
 
-    // GPIO functions for C code interop
+    // GPIO functions - called by EM_JS from C code
     window.getGPIOState = getGPIOState;
     window.setGPIOState = setGPIOState;
-
-    // Update existing Module stub if present
-    if (window.Module) {
-        window.Module.getGPIOState = getGPIOState;
-        window.Module.setGPIOState = setGPIOState;
-    }
 
     // UI control functions
     window.buttonDown = buttonDown;
@@ -121,16 +109,6 @@ function exposeGlobalFunctions(): void {
 // Module Loading
 // ------------------------------------------------------------
 
-/**
- * Load and initialize the WebAssembly module.
- * 
- * This function:
- * 1. Calls the Emscripten-generated factory function
- * 2. Attaches GPIO functions for C code access
- * 3. Calls _main() to initialize the firmware
- * 
- * @throws Error if createPlantWateringModule is not available
- */
 async function loadModule(): Promise<void> {
     if (typeof window.createPlantWateringModule !== 'function') {
         const error = new Error(
@@ -142,20 +120,25 @@ async function loadModule(): Promise<void> {
     }
 
     try {
-        const module = await window.createPlantWateringModule(window.Module);
 
-        // Attach GPIO functions to module for C code access
-        module.getGPIOState = getGPIOState;
-        module.setGPIOState = setGPIOState;
+        const module = await window.createPlantWateringModule();
 
-        // Store references
         state.Module = module;
         window.Module = module;
 
         addLog('Module loaded successfully', 'info');
+    console.log('[DEBUG] Before first _main(), gpioState:', { ...gpioState });
 
-        // Initialize the firmware
+        // Run initialization tick (tick 0)
         module._main();
+            console.log('[DEBUG] After first _main(), gpioState:', { ...gpioState });
+    console.log('[DEBUG] Display pin (0):', gpioState[0]);
+        // Record state at tick 0 (t=0)
+        // After first _main(): display is HIGH from initial pulse
+        addGraphDataFromGPIO({ ...gpioState }, 0);
+        state.tickCount = 1;
+
+        addLog('Module loaded successfully', 'info');
 
     } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
@@ -170,9 +153,6 @@ async function loadModule(): Promise<void> {
 
 /**
  * Set up DOM event listeners that cannot be defined inline in HTML.
- * 
- * Note: Most UI interactions use inline handlers in HTML for simplicity.
- * This function handles events that require JavaScript-only binding.
  */
 function setupEventListeners(): void {
     const speedSlider = document.getElementById('speedSlider');
@@ -192,7 +172,7 @@ function setupEventListeners(): void {
  * 1. Expose globals - must happen before WASM loads
  * 2. Initialize graph - prepares canvas elements
  * 3. Setup event listeners - binds DOM events
- * 4. Load WASM module - initializes firmware (async)
+ * 4. Load WASM module - starts firmware (async)
  */
 async function init(): Promise<void> {
     console.log('[APP] Initializing Plant Watering Simulator');

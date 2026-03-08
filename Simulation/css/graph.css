@@ -21,6 +21,9 @@
 /* ============================================================
    GRAPH CONTROLS
    ============================================================ */
+/* ============================================================
+   GRAPH CONTROLS
+   ============================================================ */
 .graph-controls {
     display: flex;
     gap: 10px;
@@ -28,7 +31,7 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: 8px 10px;
+    padding: 5px 10px;
     background: var(--bg-muted);
     border: 1px solid var(--border-color);
     border-radius: 6px;
@@ -39,7 +42,7 @@
 .graph-controls-right {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .graph-controls label {
@@ -49,7 +52,7 @@
 }
 
 .graph-controls select {
-    padding: 6px 10px;
+    padding: 5px 8px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     background: var(--bg-white);
@@ -70,10 +73,10 @@
     box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.15);
 }
 
-/* Navigation buttons */
+/* Navigation buttons (center) */
 .graph-controls-center button {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     padding: 0;
     font-size: 12px;
     display: flex;
@@ -106,14 +109,14 @@
 .auto-scroll-label {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
     font-size: 11px;
     font-weight: 500;
     color: var(--text-secondary);
     cursor: pointer;
     user-select: none;
-    margin-left: 10px;
-    padding-left: 10px;
+    margin-left: 8px;
+    padding-left: 8px;
     border-left: 1px solid var(--border-color);
 }
 
@@ -125,36 +128,59 @@
     height: 14px;
 }
 
-/* Scroll position display - darker text */
+/* Scroll position display */
 .scroll-position {
     font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
     font-size: 10px;
     color: #1a1f24;
     font-weight: 600;
     background: var(--bg-white);
-    padding: 5px 10px;
+    padding: 4px 8px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
 }
 
-/* Clear button - consistent green */
-.graph-controls-right button#btnClearGraph {
-    padding: 6px 12px;
+/* Right side buttons (zoom, fit, clear) - all same style */
+.graph-controls-right button {
+    padding: 5px 10px;
     font-size: 11px;
-    background: var(--plant-green);
-    border: none;
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
-    color: #fff;
+    color: var(--text-primary);
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
+.graph-controls-right button:hover {
+    background: var(--plant-green);
+    border-color: var(--plant-green);
+    color: #fff;
+}
+
+.graph-controls-right button:active {
+    transform: scale(0.95);
+}
+
+.graph-controls-right button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+}
+
+/* Zoom buttons - slightly narrower */
+.graph-controls-right button#btnZoomIn,
+.graph-controls-right button#btnZoomOut {
+    padding: 5px 8px;
+    min-width: 28px;
+}
+
+/* Clear button - subtle red tint on hover for destructive action */
 .graph-controls-right button#btnClearGraph:hover {
-    background: var(--plant-green-dark);
-    box-shadow: var(--shadow-sm);
+    background: #e74c3c;
+    border-color: #e74c3c;
 }
 
 /* ============================================================
@@ -260,101 +286,167 @@
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width: 900px) {
-    .graph-controls {
-        padding: 8px;
-    }
-
-    .graph-controls-center {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-        margin-top: 8px;
-        padding-top: 8px;
-        border-top: 1px solid var(--border-color);
-    }
-
-    .auto-scroll-label {
-        border-left: none;
-        margin-left: 0;
-        padding-left: 0;
-    }
-
-    .scroll-position {
-        font-size: 9px;
-    }
+/* ============================================================
+   GRAPH CONTROLS
+   ============================================================ */
+.graph-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 5px 10px;
+    background: var(--bg-muted);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
 }
 
-@media (max-width: 768px) {
-    .graph-controls {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-    }
-
-    .graph-controls-left,
-    .graph-controls-center,
-    .graph-controls-right {
-        justify-content: center;
-    }
-
-    .graph-controls-center {
-        order: 0;
-        margin-top: 0;
-        padding-top: 0;
-        border-top: none;
-    }
-
-    .graph-signal canvas {
-        height: 45px;
-    }
-
-    .graph-label {
-        width: 50px;
-        font-size: 9px;
-    }
-
-    .graph-signal canvas {
-        left: 50px;
-        width: calc(100% - 50px);
-    }
-
-    .graph-time-axis {
-        margin-left: 50px;
-    }
+.graph-controls-left,
+.graph-controls-center,
+.graph-controls-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-@media (max-width: 480px) {
-    .graph-signal canvas {
-        height: 40px;
-    }
-
-    .graph-label {
-        width: 42px;
-        font-size: 8px;
-    }
-
-    .graph-signal canvas {
-        left: 42px;
-        width: calc(100% - 42px);
-    }
-
-    .graph-time-axis {
-        margin-left: 42px;
-        height: 20px;
-    }
-
-    .graph-controls-center button {
-        width: 26px;
-        height: 26px;
-        font-size: 10px;
-    }
-
-    .scroll-position {
-        display: none;
-    }
+.graph-controls label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
+.graph-controls select {
+    padding: 5px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-white);
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast);
+}
+
+.graph-controls select:hover {
+    border-color: var(--border-color-dark);
+}
+
+.graph-controls select:focus {
+    outline: none;
+    border-color: var(--plant-green);
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.15);
+}
+
+/* Navigation buttons (center) */
+.graph-controls-center button {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--text-secondary);
+}
+
+.graph-controls-center button:hover {
+    background: var(--plant-green);
+    border-color: var(--plant-green);
+    color: #fff;
+}
+
+.graph-controls-center button:active {
+    transform: scale(0.95);
+}
+
+.graph-controls-center button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+}
+
+/* Auto-scroll checkbox */
+.auto-scroll-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    user-select: none;
+    margin-left: 8px;
+    padding-left: 8px;
+    border-left: 1px solid var(--border-color);
+}
+
+.auto-scroll-label input[type="checkbox"] {
+    accent-color: var(--plant-green);
+    cursor: pointer;
+    margin: 0;
+    width: 14px;
+    height: 14px;
+}
+
+/* Scroll position display */
+.scroll-position {
+    font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+    font-size: 10px;
+    color: #1a1f24;
+    font-weight: 600;
+    background: var(--bg-white);
+    padding: 4px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Right side buttons (zoom, fit, clear) - all same style */
+.graph-controls-right button {
+    padding: 5px 10px;
+    font-size: 11px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.graph-controls-right button:hover {
+    background: var(--plant-green);
+    border-color: var(--plant-green);
+    color: #fff;
+}
+
+.graph-controls-right button:active {
+    transform: scale(0.95);
+}
+
+.graph-controls-right button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+}
+
+/* Zoom buttons - slightly narrower */
+.graph-controls-right button#btnZoomIn,
+.graph-controls-right button#btnZoomOut {
+    padding: 5px 8px;
+    min-width: 28px;
+}
+
+/* Clear button - subtle red tint on hover for destructive action */
+.graph-controls-right button#btnClearGraph:hover {
+    background: #e74c3c;
+    border-color: #e74c3c;
+}
 /* ============================================================
    HOVER & INTERACTIONS
    ============================================================ */

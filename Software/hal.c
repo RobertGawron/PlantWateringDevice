@@ -23,78 +23,45 @@ volatile uint8_t OPTION;
 volatile uint8_t TRISGPIO;
 volatile GPIObits_t GPIObits;
 
-/**
- * @brief Tick synchronization flag.
- *
- * Used to simulate blocking delay behavior.
- */
-volatile bool tickGate = false;
-
 /* ================================================================
  * Time Control Synchronization
  * ================================================================ */
 
-/**
- * @brief Blocking delay abstraction for WebAssembly simulation.
- *
- * Blocks until advanceTick() sets tickGate to true.
- */
+/* Empty - timing controlled by JavaScript calling _main() repeatedly */
 void HW_DELAY_MS(uint8_t DURATION_MS)
 {
-    (void)DURATION_MS; /* Unused in simulation */
-
-    tickGate = false;
-
-    while (!tickGate)
-    {
-        emscripten_sleep(1); /* Yield to browser event loop */
-    }
-}
-
-/**
- * @brief Advance one simulated tick.
- *
- * Exposed to JavaScript.
- */
-EMSCRIPTEN_KEEPALIVE
-void advanceTick(void)
-{
-    tickGate = true;
+    (void)DURATION_MS;
 }
 
 /* ================================================================
- * GPIO Abstraction
+ * GPIO Abstraction (using EM_JS - synchronous, no threads needed)
  * ================================================================ */
-
 /* clang-format off */
+EM_JS(void, jsSetGPIOState, (int pin, int state), {
+    if (typeof window.setGPIOState === 'function') {
+        window.setGPIOState(pin, state);
+    } else {
+        console.warn('[HAL] setGPIOState not available');
+    }
+});
+
+EM_JS(int, jsGetGPIOState, (int pin), {
+    if (typeof window.getGPIOState === 'function') {
+        return window.getGPIOState(pin);
+    } else {
+        console.warn('[HAL] getGPIOState not available');
+        return 0;
+    }
+});
+
 void GPIO_SET(uint8_t GPIO_PIN, uint8_t STATE)
 {
-    MAIN_THREAD_EM_ASM({
-        if (typeof window.setGPIOState === 'function') {
-            window.setGPIOState($0, $1);
-        }
-        else
-        {
-            logDebugLow("jsSetGpio: no function");
-        }
-    }, GPIO_PIN, STATE);
+    jsSetGPIOState(GPIO_PIN, STATE);
 }
 
 bool GPIO_GET(uint8_t GPIO_PIN)
 {
-    bool result = MAIN_THREAD_EM_ASM_INT({
-        if (typeof window.getGPIOState === 'function') {
-            return window.getGPIOState($0);
-        }
-        else
-        {
-            logDebugLow("jsGetGpio: no function");
-            return 0;
-        }
-    }, GPIO_PIN);
-
-    return result;   
+    return jsGetGPIOState(GPIO_PIN) != 0;
 }
-
 /* clang-format on */
 #endif

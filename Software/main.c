@@ -77,9 +77,24 @@ int main(void)
 {
     logInfo("PlantWatering firmware starting");
 
-    initialize();
+#ifdef TARGET_HOST
 
+    static bool isInitialized = false;
+
+    if (!isInitialized)
+    {
+#endif
+        initialize();
+
+#ifdef TARGET_HOST
+
+        isInitialized = true;
+    }
+#endif
+
+#ifndef TARGET_HOST
     while (true)
+#endif
     {
         HW_DELAY_MS(TIME_BASE_TICK_MS);
         // logInfo("PlantWatering firmware starting");
