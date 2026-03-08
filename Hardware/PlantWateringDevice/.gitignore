@@ -1,0 +1,20 @@
+.history
+*.lck
+*.kicad_prl
+*backups
+fp-info-cache
+
+
+# Netlist / autorouter / BOM / exported files
+*.net
+*.dsn
+*.ses
+*.xml
+*.csv
+
+# Other auto-generated/artifacts
+*.log
+*.raw
+*.cmp
+
+

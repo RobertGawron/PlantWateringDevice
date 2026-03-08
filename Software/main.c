@@ -1,0 +1,115 @@
+/**
+ * @file main.c
+ * @brief Plant watering controller with user-adjustable pump duration.
+ *
+ * @processor PIC10F202
+ * @toolchain PIC-AS (MPLAB X / VS Code)
+ *
+ * @section hardware_config Hardware Configuration
+ *
+ * - GP0 (pin 1): Output - Duration feedback pulse
+ *   Connected to the CD4026 clock input of a single-digit seven-segment display.
+ *
+ * - GP1 (pin 3): Input - Soil moisture sensor
+ *   HIGH = soil is dry (watering required)
+ *   LOW  = soil is wet (no action)
+ *
+ * - GP2 (pin 4): Output - Pump MOSFT control
+ *   HIGH = pump running
+ *   LOW  = pump stopped
+ *
+ * - GP3 (pin 2): Input - User pushbutton (active LOW, external pull-up required)
+ *   Controls pump duration setting.
+ *
+ * @section functional_description Functional Description
+ *
+ * - Soil sensor is checked every hour; if dry, pump runs for the selected duration.
+ * - Button press advances selected pump duration setting (1-9 levels, wrapping).
+ * - The current level is visible on the seven-segment display.
+ * - Each level represents 5 seconds of pump runtime (5-45 seconds total).
+ * - When watering is required, GP0 outputs a pulse equal to the selected
+ *   duration level.
+ *
+ * @section architectural_constraints Architectural Constraints
+ *
+ * - Hardware call stack: 2 levels (no overflow detection).
+ * - Compiled stack: DISABLED to conserve code space.
+ * - Assembly output MUST be inspected after each build to verify that
+ *   no unintended CALL instructions are generated.
+ * - Button debouncing is done on hardware side.
+ * - User is not pressing the button at startup.
+ * - Pump runtime is shorter than the soil-check interval; therefore,
+ *   the pump cannot be activated while already running.
+ * - After reprogramming, a device reset is required to synchronize
+ *   the display state with the internal duration level.
+ * - After power-up, the first soil moisture check is delayed by 10 seconds
+ *   to allow system stabilization.
+ *
+ * @section timing_assumptions Timing Assumptions
+ *
+ * - Internal oscillator: nominal 4 MHz (uncalibrated internal RC oscillator).
+ * - Instruction cycle: 1 us (Fosc/4).
+ * - Base tick period: 20 ms (50 ticks = 1 second).
+ * - Timing accuracy depends on internal oscillator tolerance as specified
+ *   in the device datasheet (temperature and voltage dependent).
+ */
+
+/* ================================================================
+ * CLOCK CONFIGURATION
+ * ================================================================ */
+
+#include "hal.h"
+#include "logger.h"
+#include "gpio_mapping.h"
+
+#include "watering.h"
+
+#include <stdint.h>
+#include <stdbool.h>
+
+/**
+ * @note Button and display handling depend directly on the 20 ms tick period.
+ *       This could be decoupled, but doing so would require additional code
+ *       that is not necessary. A 20 ms interval is acceptable for both
+ *       button processing and driving the CD4026.
+ */
+int main(void)
+{
+    logInfo("PlantWatering firmware starting");
+
+    initialize();
+
+    while (true)
+    {
+        HW_DELAY_MS(TIME_BASE_TICK_MS);
+        // logInfo("PlantWatering firmware starting");
+        handle_button();
+        handle_display();
+
+        /* 20 ms base tick accumulation */
+        if (++data.time.tick >= TIME_TICKS_PER_SECOND)
+        {
+            data.time.tick = 0;
+
+            /* 1 second elapsed */
+            if (++data.time.seconds >= TIME_SECONDS_PER_MINUTE)
+            {
+                data.time.seconds = 0;
+                logDebugLow("Minute elapsed: %02d", data.time.minutes + 1);
+
+                /* 1 minute elapsed */
+                if (++data.time.minutes >= TIME_MINUTES_PER_HOUR)
+                {
+                    data.time.minutes = 0;
+                    logInfo("Hour elapsed - checking soil");
+
+                    /* 1 hour elapsed */
+                    handle_sensor_check();
+                }
+            }
+
+            /* Call once per second */
+            handle_pump();
+        }
+    }
+}

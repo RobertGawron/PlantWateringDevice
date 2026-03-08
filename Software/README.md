@@ -31,4 +31,4 @@
 
 # Tests
 
-There is a small set of manual integration tests, [more details here](./PlantWateringDevice.X/tests/README.md).
+There is a small set of manual integration tests, [more details here](../DevOps/README.md).
