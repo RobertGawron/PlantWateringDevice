@@ -1,28 +1,96 @@
-const SIGNALS = ['button', 'pump', 'soil', 'display'];
-const CANVAS_IDS = {
+import { gpioState, GPIOPin, type GPIOPinLevel } from './state';
+
+// ------------------------------------------------------------
+// Type Definitions
+// ------------------------------------------------------------
+
+/**
+ * Signal names for the graph
+ */
+type SignalName = 'button' | 'pump' | 'soil' | 'display';
+
+/**
+ * Data point for a signal
+ */
+interface DataPoint {
+    time: number;
+    value: GPIOPinLevel;
+}
+
+/**
+ * Graph data storage
+ */
+type GraphDataMap = {
+    [key in SignalName]: DataPoint[];
+};
+
+/**
+ * Canvas mapping by signal name
+ */
+type CanvasMap = {
+    [key in SignalName]?: HTMLCanvasElement;
+};
+
+/**
+ * Rendering context mapping by signal name
+ */
+type ContextMap = {
+    [key in SignalName]?: CanvasRenderingContext2D;
+};
+
+/**
+ * GPIO state snapshot for graph data
+ */
+interface GPIOStateSnapshot {
+    [GPIOPin.DISPLAY]: GPIOPinLevel;
+    [GPIOPin.SOIL_SENSOR]: GPIOPinLevel;
+    [GPIOPin.PUMP]: GPIOPinLevel;
+    [GPIOPin.BUTTON]: GPIOPinLevel;
+}
+
+/**
+ * Visible time range
+ */
+interface VisibleRange {
+    startTime: number;
+    endTime: number;
+    timeWindow: number;
+}
+
+// ------------------------------------------------------------
+// Constants
+// ------------------------------------------------------------
+
+const SIGNALS: readonly SignalName[] = ['button', 'pump', 'soil', 'display'] as const;
+
+const CANVAS_IDS: Readonly<Record<SignalName, string>> = {
     button: 'buttonGraph',
     pump: 'pumpGraph',
     soil: 'soilGraph',
     display: 'clockGraph'
-};
+} as const;
 
-let canvases = {};
-let contexts = {};
-let timeAxisCanvas = null;
-let timeAxisCtx = null;
-
-let graphData = {
-    button: [],
-    pump: [],
-    soil: [],
-    display: []
-};
-
-const COLORS_SOLID = {
+const COLORS_SOLID: Readonly<Record<SignalName, string>> = {
     button: 'rgb(155, 89, 182)',
     pump: 'rgb(231, 76, 60)',
     soil: 'rgb(52, 152, 219)',
     display: 'rgb(243, 156, 18)'
+} as const;
+
+// ------------------------------------------------------------
+// State
+// ------------------------------------------------------------
+
+let canvases: CanvasMap = {};
+let contexts: ContextMap = {};
+let timeAxisCanvas: HTMLCanvasElement | null = null;
+let timeAxisCtx: CanvasRenderingContext2D | null = null;
+
+let graphData: GraphDataMap = {
+    button: [],
+    pump: [],
+    soil: [],
+    display: []
 };
 
 // Scroll state
@@ -33,13 +101,22 @@ let isDragging = false;
 let dragStartX = 0;
 let dragStartOffset = 0;
 
-// Initialize graph
-export function initGraph() {
-    SIGNALS.forEach(sig => {
-        const canvas = document.getElementById(CANVAS_IDS[sig]);
+// ------------------------------------------------------------
+// Initialization
+// ------------------------------------------------------------
+
+/**
+ * Initialize graph canvases and event listeners
+ */
+export function initGraph(): void {
+    SIGNALS.forEach((sig) => {
+        const canvas = document.getElementById(CANVAS_IDS[sig]) as HTMLCanvasElement | null;
         if (canvas) {
             canvases[sig] = canvas;
-            contexts[sig] = canvas.getContext('2d');
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+                contexts[sig] = ctx;
+            }
 
             // Mouse events for scrolling
             canvas.addEventListener('wheel', handleScroll, { passive: false });
@@ -51,7 +128,7 @@ export function initGraph() {
     });
 
     // Time axis canvas
-    timeAxisCanvas = document.getElementById('timeAxisCanvas');
+    timeAxisCanvas = document.getElementById('timeAxisCanvas') as HTMLCanvasElement | null;
     if (timeAxisCanvas) {
         timeAxisCtx = timeAxisCanvas.getContext('2d');
     }
@@ -63,8 +140,10 @@ export function initGraph() {
     document.getElementById('btnScrollEnd')?.addEventListener('click', scrollToEnd);
     document.getElementById('btnClearGraph')?.addEventListener('click', clearGraph);
 
-    document.getElementById('chkAutoScroll')?.addEventListener('change', (e) => {
-        autoScroll = e.target.checked;
+    const autoScrollCheckbox = document.getElementById('chkAutoScroll') as HTMLInputElement | null;
+    autoScrollCheckbox?.addEventListener('change', (e: Event) => {
+        const target = e.target as HTMLInputElement;
+        autoScroll = target.checked;
         if (autoScroll) {
             scrollOffset = 0;
             drawGraph();
@@ -84,8 +163,14 @@ export function initGraph() {
     resizeGraph();
 }
 
-// Handle mouse wheel scrolling
-function handleScroll(event) {
+// ------------------------------------------------------------
+// Scroll Handling
+// ------------------------------------------------------------
+
+/**
+ * Handle mouse wheel scrolling
+ */
+function handleScroll(event: WheelEvent): void {
     event.preventDefault();
 
     const timeWindow = getTimeWindow();
@@ -98,18 +183,23 @@ function handleScroll(event) {
     }
 }
 
-// Drag to scroll
-function handleDragStart(event) {
+/**
+ * Handle drag start for scroll
+ */
+function handleDragStart(event: MouseEvent): void {
     isDragging = true;
     dragStartX = event.clientX;
     dragStartOffset = scrollOffset;
-    event.target.style.cursor = 'grabbing';
+    (event.target as HTMLElement).style.cursor = 'grabbing';
 }
 
-function handleDragMove(event) {
+/**
+ * Handle drag move for scroll
+ */
+function handleDragMove(event: MouseEvent): void {
     if (!isDragging) return;
 
-    const canvas = event.target;
+    const canvas = event.target as HTMLCanvasElement;
     const dx = event.clientX - dragStartX;
     const timeWindow = getTimeWindow();
     const pixelsPerSecond = canvas.width / timeWindow;
@@ -123,16 +213,24 @@ function handleDragMove(event) {
     drawGraph();
 }
 
-function handleDragEnd(event) {
+/**
+ * Handle drag end
+ */
+function handleDragEnd(event: MouseEvent): void {
     if (isDragging) {
         isDragging = false;
-        event.target.style.cursor = 'grab';
+        (event.target as HTMLElement).style.cursor = 'grab';
     }
 }
 
-// Handle keyboard navigation
-function handleKeyboard(event) {
-    if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'SELECT') return;
+/**
+ * Handle keyboard navigation
+ */
+function handleKeyboard(event: KeyboardEvent): void {
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') {
+        return;
+    }
 
     const timeWindow = getTimeWindow();
 
@@ -156,8 +254,10 @@ function handleKeyboard(event) {
     }
 }
 
-// Scroll by amount (positive = back in time)
-function scrollBy(amount) {
+/**
+ * Scroll by amount (positive = back in time)
+ */
+export function scrollBy(amount: number): void {
     autoScroll = false;
     updateAutoScrollCheckbox();
 
@@ -166,7 +266,10 @@ function scrollBy(amount) {
     drawGraph();
 }
 
-function scrollToStart() {
+/**
+ * Scroll to the start of data
+ */
+export function scrollToStart(): void {
     autoScroll = false;
     updateAutoScrollCheckbox();
 
@@ -175,7 +278,10 @@ function scrollToStart() {
     drawGraph();
 }
 
-function scrollToEnd() {
+/**
+ * Scroll to the end (latest data)
+ */
+export function scrollToEnd(): void {
     autoScroll = true;
     updateAutoScrollCheckbox();
 
@@ -183,23 +289,41 @@ function scrollToEnd() {
     drawGraph();
 }
 
-function updateAutoScrollCheckbox() {
-    const checkbox = document.getElementById('chkAutoScroll');
-    if (checkbox) checkbox.checked = autoScroll;
+/**
+ * Update the auto-scroll checkbox state
+ */
+function updateAutoScrollCheckbox(): void {
+    const checkbox = document.getElementById('chkAutoScroll') as HTMLInputElement | null;
+    if (checkbox) {
+        checkbox.checked = autoScroll;
+    }
 }
 
-function clampScrollOffset() {
+/**
+ * Clamp scroll offset to valid range
+ */
+function clampScrollOffset(): void {
     const timeWindow = getTimeWindow();
     const maxOffset = Math.max(0, maxTime - timeWindow);
     scrollOffset = Math.max(0, Math.min(scrollOffset, maxOffset));
 }
 
-function getTimeWindow() {
-    return parseFloat(document.getElementById('graphTimeWindow')?.value || 60);
+/**
+ * Get current time window from dropdown
+ */
+function getTimeWindow(): number {
+    const element = document.getElementById('graphTimeWindow') as HTMLSelectElement | null;
+    return parseFloat(element?.value || '60');
 }
 
-// Format time display
-function formatTime(seconds) {
+// ------------------------------------------------------------
+// Time Formatting
+// ------------------------------------------------------------
+
+/**
+ * Format seconds into human-readable time string
+ */
+function formatTime(seconds: number): string {
     if (seconds >= 3600) {
         const h = Math.floor(seconds / 3600);
         const m = Math.floor((seconds % 3600) / 60);
@@ -213,7 +337,10 @@ function formatTime(seconds) {
     return `${seconds.toFixed(2)}s`;
 }
 
-function updateScrollPositionDisplay(startTime, endTime) {
+/**
+ * Update the scroll position display
+ */
+function updateScrollPositionDisplay(startTime: number, endTime: number): void {
     const display = document.getElementById('scrollPosition');
     if (display) {
         if (maxTime === 0) {
@@ -224,9 +351,15 @@ function updateScrollPositionDisplay(startTime, endTime) {
     }
 }
 
-// Resize canvases
-function resizeGraph() {
-    SIGNALS.forEach(sig => {
+// ------------------------------------------------------------
+// Canvas Management
+// ------------------------------------------------------------
+
+/**
+ * Resize all canvases to match their container
+ */
+function resizeGraph(): void {
+    SIGNALS.forEach((sig) => {
         const canvas = canvases[sig];
         if (!canvas) return;
 
@@ -244,12 +377,18 @@ function resizeGraph() {
     drawGraph();
 }
 
-// Add data from GPIO
-export function addGraphDataFromGPIO(gpioState, timestamp) {
-    graphData.display.push({ time: timestamp, value: gpioState[0] });
-    graphData.soil.push({ time: timestamp, value: gpioState[1] });
-    graphData.pump.push({ time: timestamp, value: gpioState[2] });
-    graphData.button.push({ time: timestamp, value: gpioState[3] });
+// ------------------------------------------------------------
+// Data Management
+// ------------------------------------------------------------
+
+/**
+ * Add graph data from GPIO state snapshot
+ */
+export function addGraphDataFromGPIO(gpioSnapshot: GPIOStateSnapshot, timestamp: number): void {
+    graphData.display.push({ time: timestamp, value: gpioSnapshot[GPIOPin.DISPLAY] });
+    graphData.soil.push({ time: timestamp, value: gpioSnapshot[GPIOPin.SOIL_SENSOR] });
+    graphData.pump.push({ time: timestamp, value: gpioSnapshot[GPIOPin.PUMP] });
+    graphData.button.push({ time: timestamp, value: gpioSnapshot[GPIOPin.BUTTON] });
 
     maxTime = Math.max(maxTime, timestamp);
 
@@ -260,10 +399,13 @@ export function addGraphDataFromGPIO(gpioState, timestamp) {
     drawGraph();
 }
 
-// Calculate visible time range
-function getVisibleRange() {
+/**
+ * Calculate visible time range
+ */
+function getVisibleRange(): VisibleRange {
     const timeWindow = getTimeWindow();
-    let endTime, startTime;
+    let endTime: number;
+    let startTime: number;
 
     if (maxTime === 0) {
         // No data yet
@@ -286,13 +428,19 @@ function getVisibleRange() {
     return { startTime, endTime, timeWindow };
 }
 
-// Draw all graphs
-function drawGraph() {
+// ------------------------------------------------------------
+// Drawing
+// ------------------------------------------------------------
+
+/**
+ * Draw all graphs
+ */
+function drawGraph(): void {
     const { startTime, endTime, timeWindow } = getVisibleRange();
 
     updateScrollPositionDisplay(startTime, endTime);
 
-    SIGNALS.forEach(sig => {
+    SIGNALS.forEach((sig) => {
         const ctx = contexts[sig];
         const canvas = canvases[sig];
         if (!ctx || !canvas) return;
@@ -331,10 +479,10 @@ function drawGraph() {
         }
 
         // Filter to visible data points
-        const visibleData = data.filter(p => p.time >= startTime && p.time <= endTime);
+        const visibleData = data.filter((p) => p.time >= startTime && p.time <= endTime);
 
         // Find the last point BEFORE the visible window (for initial state)
-        let pointBeforeWindow = null;
+        let pointBeforeWindow: DataPoint | null = null;
         for (let i = data.length - 1; i >= 0; i--) {
             if (data[i].time < startTime) {
                 pointBeforeWindow = data[i];
@@ -343,7 +491,7 @@ function drawGraph() {
         }
 
         // Find the first point AFTER the visible window (to know if we should extend)
-        let pointAfterWindow = null;
+        let pointAfterWindow: DataPoint | null = null;
         for (let i = 0; i < data.length; i++) {
             if (data[i].time > endTime) {
                 pointAfterWindow = data[i];
@@ -358,8 +506,8 @@ function drawGraph() {
         const highY = 8;
         const lowY = canvas.height - 8;
 
-        let lastY = null;
-        let lastX = null;
+        let lastY: number | null = null;
+        let lastX: number | null = null;
         let started = false;
 
         // If there's data before this window, start from the left edge with that state
@@ -380,7 +528,7 @@ function drawGraph() {
                 started = true;
             } else {
                 // Step function: horizontal to this x, then vertical to new y
-                ctx.lineTo(x, lastY);
+                ctx.lineTo(x, lastY!);
                 ctx.lineTo(x, y);
             }
 
@@ -401,13 +549,20 @@ function drawGraph() {
     drawTimeAxis(startTime, timeWindow);
 }
 
-// Draw grid for signal
-function drawSignalGrid(ctx, canvas, startTime, timeWindow) {
+/**
+ * Draw grid for a signal
+ */
+function drawSignalGrid(
+    ctx: CanvasRenderingContext2D,
+    canvas: HTMLCanvasElement,
+    startTime: number,
+    timeWindow: number
+): void {
     ctx.strokeStyle = 'rgba(0, 0, 0, 0.06)';
     ctx.lineWidth = 1;
 
     // Determine grid interval
-    let gridInterval;
+    let gridInterval: number;
     if (timeWindow <= 10) gridInterval = 1;
     else if (timeWindow <= 30) gridInterval = 5;
     else if (timeWindow <= 60) gridInterval = 10;
@@ -426,8 +581,10 @@ function drawSignalGrid(ctx, canvas, startTime, timeWindow) {
     }
 }
 
-// Draw shared time axis
-function drawTimeAxis(startTime, timeWindow) {
+/**
+ * Draw shared time axis
+ */
+function drawTimeAxis(startTime: number, timeWindow: number): void {
     if (!timeAxisCtx || !timeAxisCanvas) return;
 
     const ctx = timeAxisCtx;
@@ -440,7 +597,7 @@ function drawTimeAxis(startTime, timeWindow) {
     ctx.textAlign = 'center';
 
     // Determine label interval
-    let labelInterval;
+    let labelInterval: number;
     if (timeWindow <= 10) labelInterval = 1;
     else if (timeWindow <= 30) labelInterval = 5;
     else if (timeWindow <= 60) labelInterval = 10;
@@ -461,7 +618,7 @@ function drawTimeAxis(startTime, timeWindow) {
         ctx.stroke();
 
         // Label
-        let label;
+        let label: string;
         if (t >= 3600) {
             const h = Math.floor(t / 3600);
             const m = Math.floor((t % 3600) / 60);
@@ -478,9 +635,15 @@ function drawTimeAxis(startTime, timeWindow) {
     }
 }
 
-// Clear all graphs
-export function clearGraph() {
-    SIGNALS.forEach(sig => {
+// ------------------------------------------------------------
+// Clear
+// ------------------------------------------------------------
+
+/**
+ * Clear all graph data
+ */
+export function clearGraph(): void {
+    SIGNALS.forEach((sig) => {
         graphData[sig] = [];
     });
 
@@ -491,4 +654,7 @@ export function clearGraph() {
     drawGraph();
 }
 
-export { scrollToStart, scrollToEnd, scrollBy };
+// ------------------------------------------------------------
+// Exports
+// ------------------------------------------------------------
+

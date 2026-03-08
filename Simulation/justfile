@@ -1,4 +1,5 @@
 wasm:
-    meson setup buildwasm --cross-file emscripten.ini --wipe
+    cd /workspace/Simulation/ts && npx esbuild app.ts --bundle --outfile=../app.bundle.js --format=esm
+    cd /workspace/Simulation/ && meson setup buildwasm --cross-file emscripten.ini --wipe
     meson compile -C buildwasm
-    cd buildwasm && emrun --no_browser --port 8000 .
+    cd /workspace/Simulation/buildwasm && emrun --no_browser --port 8000 .
