@@ -5,16 +5,6 @@
 #include <stdbool.h>
 
 /* ================================================================
- * PUMP CONFIGURATION
- * ================================================================ */
-
-/** Minimum selectable pump duration level (in steps). */
-#define PUMP_DURATION_LEVEL_MIN (1U)
-
-/** Duration of one pump level in seconds. */
-#define PUMP_STEP_DURATION_SECONDS (5U)
-
-/* ================================================================
  * TIMEBASE CONFIGURATION
  * ================================================================ */
 
@@ -154,12 +144,5 @@ void handle_sensor_check(void);
  * @note Assumption: Called every tick (20 ms).
  */
 void handle_display(void);
-
-/**
- * @brief Increments the pump duration level with wrap-around.
- *
- * @note Assumption: Executed only when the pump is idle.
- */
-void update_pump_duration(void);
 
 #endif

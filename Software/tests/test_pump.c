@@ -57,6 +57,12 @@ extern PlantWateringData data;
 #define PUMP_ON GPIO_LEVEL_HIGH
 #define PUMP_OFF GPIO_LEVEL_LOW
 
+/** Minimum selectable pump duration level (in steps). */
+#define PUMP_DURATION_LEVEL_MIN (1U)
+
+/** Duration of one pump level in seconds. */
+#define PUMP_STEP_DURATION_SECONDS (5U)
+
 void setUp(void)
 {
     MOSFET_PIN = GPIO_LEVEL_LOW;

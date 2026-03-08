@@ -29,6 +29,10 @@
 
 **Note:** the VS Code configuration is for Windows and assumes you are using ```MPLAB v6.30```. If that's not the case, update the paths in [PlantWateringDevice.X/.vscode/tasks.json](./PlantWateringDevice.X/.vscode/tasks.json)
 
-# Tests
+# Formal Verification
+
+Fragma-C is used, [more details here](../DevOps/README.md).
+
+# Unit Tests
 
 There is a small set of manual integration tests, [more details here](../DevOps/README.md).

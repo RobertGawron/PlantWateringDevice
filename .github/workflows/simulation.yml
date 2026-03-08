@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Simulation Build
 
 on:
   workflow_run:
@@ -7,8 +7,8 @@ on:
     branches: [main, "feature/*"]
 
 jobs:
-  unit-tests:
-    name: Run Unit Tests
+  simulation-build:
+    name: Build Simulation
     runs-on: ubuntu-latest
 
     # Only run if Docker build succeeded
@@ -24,18 +24,17 @@ jobs:
       - name: Pull Docker image
         run: docker pull ${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-      - name: Run tests inside container
+      - name: Build simulation
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/workspace \
             ${{ env.IMAGE_NAME }}:${{ github.sha }} \
             bash -c "
-              cd /workspace/Software && just ut
+              cd /workspace/Simulation && just sim-build
             "
 
-      - name: Upload coverage artifacts
+      - name: Upload simulation artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
-          path: |
-            Devops/Build/Coverage/
+          name: simulation-build
+          path: Devops/Build/Simulation/

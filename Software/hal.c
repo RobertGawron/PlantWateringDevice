@@ -1,6 +1,6 @@
 #include "hal.h"
 
-#ifndef TARGET_HOST
+#if !defined(TARGET_HOST) && !defined(__FRAMAC__)
 
 /*
  * Firmware build:
@@ -11,7 +11,14 @@
  * call stack of the PIC10F202.
  */
 
-#else
+#elif defined(__FRAMAC__)
+
+/* Mock hardware registers */
+__HAL_VOLATILE uint8_t OPTION;
+__HAL_VOLATILE uint8_t TRISGPIO;
+__HAL_VOLATILE GPIObits_t GPIObits;
+
+#else /* TARGET_HOST */
 
 #include "logger.h"
 
@@ -19,9 +26,9 @@
 #include <emscripten/emscripten.h>
 
 /* Mock hardware registers */
-volatile uint8_t OPTION;
-volatile uint8_t TRISGPIO;
-volatile GPIObits_t GPIObits;
+__HAL_VOLATILE uint8_t OPTION;
+__HAL_VOLATILE uint8_t TRISGPIO;
+__HAL_VOLATILE GPIObits_t GPIObits;
 
 /* ================================================================
  * Time Control Synchronization
