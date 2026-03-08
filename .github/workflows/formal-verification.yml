@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Formal Verification
 
 on:
   workflow_run:
@@ -7,8 +7,8 @@ on:
     branches: [main, "feature/*"]
 
 jobs:
-  unit-tests:
-    name: Run Unit Tests
+  formal-verification:
+    name: Frama-C WP Proofs
     runs-on: ubuntu-latest
 
     # Only run if Docker build succeeded
@@ -24,18 +24,19 @@ jobs:
       - name: Pull Docker image
         run: docker pull ${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-      - name: Run tests inside container
+      - name: Run formal verification inside container
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/workspace \
             ${{ env.IMAGE_NAME }}:${{ github.sha }} \
             bash -c "
-              cd /workspace/Software && just ut
+              cd /workspace/Software && just prove-report
             "
 
-      - name: Upload coverage artifacts
+      - name: Upload proof report artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: proof-report
           path: |
-            Devops/Build/Coverage/
+            Devops/Build/Verification/proof-log.txt

@@ -43,6 +43,12 @@ extern PlantWateringData data;
  */
 #define PUMP_DURATION_LEVEL_MAX (9U)
 
+/** Minimum selectable pump duration level (in steps). */
+#define PUMP_DURATION_LEVEL_MIN (1U)
+
+/** Duration of one pump level in seconds. */
+#define PUMP_STEP_DURATION_SECONDS (5U)
+
 void setUp(void)
 {
     data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;

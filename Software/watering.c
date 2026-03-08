@@ -18,6 +18,12 @@
 #define SOIL_CHECK_INTERVAL_SECONDS \
     (TIME_SECONDS_PER_MINUTE * TIME_MINUTES_PER_HOUR)
 
+/** Minimum selectable pump duration level (in steps). */
+#define PUMP_DURATION_LEVEL_MIN (1U)
+
+/** Duration of one pump level in seconds. */
+#define PUMP_STEP_DURATION_SECONDS (5U)
+
 /* ================================================================
  * ASSERTS
  * ================================================================ */
@@ -68,8 +74,26 @@ PlantWateringData data =
         .sending_pulse_to_display = false,
         .display_overflow_pulse = false};
 
+/**
+ * @brief Increments the pump duration level with wrap-around.
+ *
+ * @note Assumption: Executed only when the pump is idle.
+ */
+void update_pump_duration(void);
+
+/*@
+    assigns OPTION, TRISGPIO,
+        data.send_pulse_to_display,
+        GPIObits;
+
+    ensures OPTION == 0xCF;
+    ensures TRISGPIO == 0x0A;
+    ensures data.send_pulse_to_display == true;
+    ensures GPIObits.GP2 == GPIO_LEVEL_LOW;
+    ensures GPIObits.GP0 == GPIO_LEVEL_LOW;
+*/
 void initialize(void)
-{
+{    
     /* Note: Taking advantage of XC8's support for binary literals (0b syntax). */
 
     /*
@@ -103,6 +127,51 @@ void initialize(void)
     GPIO_SET(GPIO_DISPLAY_DATA_OUTPUT, GPIO_LEVEL_LOW);
 }
 
+/*@
+    requires data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
+
+    assigns data.pump.remaining_cycle_levels,
+        data.pump.level_remaining_seconds,
+        GPIObits;
+
+    ensures data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
+
+    behavior pump_idle:
+        assumes data.pump.remaining_cycle_levels == 0;
+        ensures GPIObits.GP2 == GPIO_LEVEL_LOW;
+        ensures data.pump.remaining_cycle_levels == 0;
+        ensures data.pump.level_remaining_seconds ==
+            \old(data.pump.level_remaining_seconds);
+
+    behavior pump_active_counting:
+        assumes data.pump.remaining_cycle_levels > 0;
+        assumes data.pump.level_remaining_seconds > 1;
+        ensures GPIObits.GP2 == GPIO_LEVEL_HIGH;
+        ensures data.pump.level_remaining_seconds ==
+            \old(data.pump.level_remaining_seconds) - 1;
+        ensures data.pump.remaining_cycle_levels ==
+            \old(data.pump.remaining_cycle_levels);
+
+    behavior pump_level_complete_continue:
+        assumes data.pump.remaining_cycle_levels > 1;
+        assumes data.pump.level_remaining_seconds == 1;
+        ensures GPIObits.GP2 == GPIO_LEVEL_HIGH;
+        ensures data.pump.remaining_cycle_levels ==
+            \old(data.pump.remaining_cycle_levels) - 1;
+        ensures data.pump.level_remaining_seconds == PUMP_STEP_DURATION_SECONDS;
+
+    behavior pump_cycle_complete:
+        assumes data.pump.remaining_cycle_levels == 1;
+        assumes data.pump.level_remaining_seconds == 1;
+        ensures GPIObits.GP2 == GPIO_LEVEL_HIGH;
+        ensures data.pump.remaining_cycle_levels == 0;
+        ensures data.pump.level_remaining_seconds == 0;
+
+    complete behaviors;
+    disjoint behaviors;
+*/
 void handle_pump(void)
 {
     if (data.pump.remaining_cycle_levels > 0U)
@@ -134,6 +203,52 @@ void handle_pump(void)
 
 /* The button is connected to GND with a pull-up resistor to VCC;
    therefore, pressing the button signals a LOW state. */
+
+/*@
+    requires data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
+    requires data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    requires GPIObits.GP3 == 0 || GPIObits.GP3 == 1;
+    requires data.button_was_pressed == true || data.button_was_pressed == false;
+    requires data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
+
+    assigns data.button_was_pressed,
+        data.send_pulse_to_display,
+        data.sending_pulse_to_display,
+        data.pump.configured_duration_level,
+        data.display_overflow_pulse;
+
+    ensures data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
+    ensures data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    ensures data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
+
+    behavior button_pressed:
+        assumes GPIObits.GP3 == GPIO_LEVEL_LOW;
+        ensures data.button_was_pressed == true;
+        ensures data.pump.configured_duration_level ==
+            \old(data.pump.configured_duration_level);
+        ensures data.display_overflow_pulse ==
+            \old(data.display_overflow_pulse);
+
+    behavior button_released_after_press:
+        assumes GPIObits.GP3 == GPIO_LEVEL_HIGH;
+        assumes data.button_was_pressed == true;
+        ensures data.button_was_pressed == false;
+
+    behavior button_released_idle:
+        assumes GPIObits.GP3 == GPIO_LEVEL_HIGH;
+        assumes data.button_was_pressed == false;
+        assigns data.button_was_pressed;
+        ensures data.button_was_pressed == false;
+        ensures data.pump.configured_duration_level ==
+            \old(data.pump.configured_duration_level);
+        ensures data.display_overflow_pulse ==
+            \old(data.display_overflow_pulse);
+
+    complete behaviors;
+    disjoint behaviors;
+*/
 void handle_button(void)
 {
     /* Button is currently pressed (active LOW). */
@@ -154,6 +269,32 @@ void handle_button(void)
     data.button_was_pressed = false;
 }
 
+/*@
+    requires data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
+    requires data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    requires GPIObits.GP1 == 0 || GPIObits.GP1 == 1;
+    requires data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
+
+    assigns data.pump.remaining_cycle_levels,
+        data.pump.level_remaining_seconds;
+
+    ensures data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
+
+    behavior soil_dry:
+        assumes GPIObits.GP1 == GPIO_LEVEL_HIGH;
+        ensures data.pump.remaining_cycle_levels ==
+            data.pump.configured_duration_level;
+        ensures data.pump.level_remaining_seconds == PUMP_STEP_DURATION_SECONDS;
+
+    behavior soil_moist:
+        assumes GPIObits.GP1 == GPIO_LEVEL_LOW;
+        assigns \nothing;
+
+    complete behaviors;
+    disjoint behaviors;
+*/
 void handle_sensor_check(void)
 {
     if (GPIO_GET(GPIO_SOIL_SENSOR_INPUT))
@@ -172,6 +313,53 @@ void handle_sensor_check(void)
     }
 }
 
+/*@
+    requires data.send_pulse_to_display == true ||
+        data.send_pulse_to_display == false;
+    requires data.sending_pulse_to_display == true ||
+        data.sending_pulse_to_display == false;
+    requires data.display_overflow_pulse == true ||
+        data.display_overflow_pulse == false;
+
+    assigns data.send_pulse_to_display,
+        data.sending_pulse_to_display,
+        data.display_overflow_pulse,
+        GPIObits;
+
+    behavior start_pulse:
+        assumes data.send_pulse_to_display == true;
+        ensures data.send_pulse_to_display == false;
+        ensures data.sending_pulse_to_display == true;
+        ensures data.display_overflow_pulse ==
+            \old(data.display_overflow_pulse);
+        ensures GPIObits.GP0 == GPIO_LEVEL_HIGH;
+
+    behavior complete_pulse_no_overflow:
+        assumes data.send_pulse_to_display == false;
+        assumes data.sending_pulse_to_display == true;
+        assumes data.display_overflow_pulse == false;
+        ensures data.sending_pulse_to_display == false;
+        ensures data.send_pulse_to_display == false;
+        ensures data.display_overflow_pulse == false;
+        ensures GPIObits.GP0 == GPIO_LEVEL_LOW;
+
+    behavior complete_pulse_with_overflow:
+        assumes data.send_pulse_to_display == false;
+        assumes data.sending_pulse_to_display == true;
+        assumes data.display_overflow_pulse == true;
+        ensures data.sending_pulse_to_display == false;
+        ensures data.display_overflow_pulse == false;
+        ensures data.send_pulse_to_display == true;
+        ensures GPIObits.GP0 == GPIO_LEVEL_LOW;
+
+    behavior idle:
+        assumes data.send_pulse_to_display == false;
+        assumes data.sending_pulse_to_display == false;
+        assigns \nothing;
+
+    complete behaviors;
+    disjoint behaviors;
+*/
 void handle_display(void)
 {
     if (data.send_pulse_to_display == true)
@@ -194,6 +382,48 @@ void handle_display(void)
     }
 }
 
+/*@
+    requires data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
+    requires data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    requires data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
+
+    assigns data.send_pulse_to_display,
+        data.sending_pulse_to_display,
+        data.pump.configured_duration_level,
+        data.display_overflow_pulse;
+
+    ensures data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
+    ensures data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    ensures data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
+
+    behavior pump_idle:
+        assumes data.pump.remaining_cycle_levels == 0;
+        ensures data.send_pulse_to_display == true;
+        ensures data.sending_pulse_to_display == false;
+
+        ensures \old(data.pump.configured_duration_level) < PUMP_DURATION_LEVEL_MAX
+            ==> data.pump.configured_duration_level ==
+                \old(data.pump.configured_duration_level) + 1;
+
+        ensures \old(data.pump.configured_duration_level) < PUMP_DURATION_LEVEL_MAX
+            ==> data.display_overflow_pulse ==
+                \old(data.display_overflow_pulse);
+
+        ensures \old(data.pump.configured_duration_level) == PUMP_DURATION_LEVEL_MAX
+            ==> data.pump.configured_duration_level == PUMP_DURATION_LEVEL_MIN;
+
+        ensures \old(data.pump.configured_duration_level) == PUMP_DURATION_LEVEL_MAX
+            ==> data.display_overflow_pulse == true;
+
+    behavior pump_running:
+        assumes data.pump.remaining_cycle_levels > 0;
+        assigns \nothing;
+
+    complete behaviors;
+    disjoint behaviors;
+*/
 void update_pump_duration(void)
 {
     /* Update only when the pump is not running to avoid ambiguity

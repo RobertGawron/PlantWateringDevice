@@ -23,26 +23,40 @@
  */
 #define _XTAL_FREQ MCU_CLOCK_FREQUENCY_HZ
 
-#ifndef TARGET_HOST
+#if !defined(TARGET_HOST) && !defined(__FRAMAC__)
+/* ================================================================
+ * PIC HARDWARE BUILD
+ * ================================================================ */
 
 /* _XTAL_FREQ must be defined before including <xc.h>. */
 #include <xc.h>
 
-#else /* TARGET_HOST */
-
-/*
- * Host build:
+#else /* TARGET_HOST || __FRAMAC__ */
+/* ================================================================
+ * HOST BUILD (WASM Simulation) OR FRAMA-C (Formal Verification)
+ *
  * The Microchip-specific <xc.h> header is not available outside
- * the XC8 toolchain. For simulation and unit testing, the required
- * registers and types are redefined locally.
- */
+ * the XC8 toolchain. For simulation, unit testing, and formal
+ * verification, the required registers and types are redefined.
+ * ================================================================ */
 
 #include <stdint.h>
 #include <stdbool.h>
 
 /* Mock hardware registers */
-extern volatile uint8_t OPTION;
-extern volatile uint8_t TRISGPIO;
+/*
+ * Under Frama-C, volatile is removed so WP can reason about
+ * written values. No real hardware exists during verification.
+ */
+#ifdef __FRAMAC__
+#define __HAL_VOLATILE /* nothing */
+#else
+#define __HAL_VOLATILE volatile
+#endif
+
+/* Mock hardware registers */
+extern __HAL_VOLATILE uint8_t OPTION;
+extern __HAL_VOLATILE uint8_t TRISGPIO;
 
 typedef union
 {
@@ -55,9 +69,13 @@ typedef union
     };
 } GPIObits_t;
 
-extern volatile GPIObits_t GPIObits;
+extern __HAL_VOLATILE GPIObits_t GPIObits;
+#define __delay_ms(DURATION_MS) \
+    do                          \
+    { /* Nothing */             \
+    } while (0)
 
-#endif /* TARGET_HOST */
+#endif /* TARGET_HOST || __FRAMAC__ */
 
 /* ================================================================
  * GPIO ABSTRACTION
