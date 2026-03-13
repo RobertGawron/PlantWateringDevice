@@ -128,6 +128,9 @@ void initialize(void)
         data.pump.level_remaining_seconds,
         GPIObits;
 
+    ensures data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
+
     behavior pump_idle:
         assumes data.pump.remaining_cycle_levels == 0;
         ensures GPIObits.GP2 == GPIO_LEVEL_LOW;
@@ -199,6 +202,8 @@ void handle_pump(void)
     requires data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
     requires GPIObits.GP3 == 0 || GPIObits.GP3 == 1;
     requires data.button_was_pressed == true || data.button_was_pressed == false;
+    requires data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
 
     assigns data.button_was_pressed,
         data.send_pulse_to_display,
@@ -208,6 +213,8 @@ void handle_pump(void)
 
     ensures data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
     ensures data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    ensures data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
 
     behavior button_pressed:
         assumes GPIObits.GP3 == GPIO_LEVEL_LOW;
@@ -259,9 +266,14 @@ void handle_button(void)
     requires data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
     requires data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
     requires GPIObits.GP1 == 0 || GPIObits.GP1 == 1;
+    requires data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
 
     assigns data.pump.remaining_cycle_levels,
         data.pump.level_remaining_seconds;
+
+    ensures data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
 
     behavior soil_dry:
         assumes GPIObits.GP1 == GPIO_LEVEL_HIGH;
@@ -366,6 +378,8 @@ void handle_display(void)
 /*@
     requires data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
     requires data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    requires data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
 
     assigns data.send_pulse_to_display,
         data.sending_pulse_to_display,
@@ -374,6 +388,8 @@ void handle_display(void)
 
     ensures data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
     ensures data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    ensures data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
 
     behavior pump_idle:
         assumes data.pump.remaining_cycle_levels == 0;

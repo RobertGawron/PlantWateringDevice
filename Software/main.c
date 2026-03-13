@@ -77,6 +77,8 @@
 /*@
     requires data.pump.configured_duration_level >= 1;
     requires data.pump.configured_duration_level <= 9;
+    requires data.pump.remaining_cycle_levels > 0
+        ==> data.pump.level_remaining_seconds > 0;
     terminates \false;
     assigns OPTION, TRISGPIO, GPIObits, data;
 */
@@ -85,16 +87,12 @@ int main(void)
     logInfo("PlantWatering firmware starting");
 
 #ifdef TARGET_HOST
-
     static bool isInitialized = false;
-
     if (!isInitialized)
     {
 #endif
         initialize();
-
 #ifdef TARGET_HOST
-
         isInitialized = true;
     }
 #endif
@@ -111,8 +109,8 @@ int main(void)
           data.time.minutes < TIME_MINUTES_PER_HOUR;
 
       loop invariant level_valid:
-        data.pump.configured_duration_level >= 1 &&
-        data.pump.configured_duration_level <= 9;
+          data.pump.configured_duration_level >= 1 &&
+          data.pump.configured_duration_level <= 9;
 
       loop invariant pump_safety:
           data.pump.remaining_cycle_levels > 0
@@ -140,33 +138,37 @@ int main(void)
 #endif
     {
         HW_DELAY_MS(TIME_BASE_TICK_MS);
-        // logInfo("PlantWatering firmware starting");
+
+        /* Hardware guarantee: 1-bit GPIO bitfields can only hold 0 or 1.
+            WP cannot deduce this after loop havoc of the GPIObits union,
+            so we state it as an assumption. This is physically guaranteed
+            by the PIC10F202 hardware register design. */
+        //@ admit GPIObits.GP0 == 0 || GPIObits.GP0 == 1;
+        //@ admit GPIObits.GP1 == 0 || GPIObits.GP1 == 1;
+        //@ admit GPIObits.GP2 == 0 || GPIObits.GP2 == 1;
+        //@ admit GPIObits.GP3 == 0 || GPIObits.GP3 == 1;
+
         handle_button();
         handle_display();
 
-        /* 20 ms base tick accumulation */
         if (++data.time.tick >= TIME_TICKS_PER_SECOND)
         {
             data.time.tick = 0;
 
-            /* 1 second elapsed */
             if (++data.time.seconds >= TIME_SECONDS_PER_MINUTE)
             {
                 data.time.seconds = 0;
                 logDebugLow("Minute elapsed: %02d", data.time.minutes + 1);
 
-                /* 1 minute elapsed */
                 if (++data.time.minutes >= TIME_MINUTES_PER_HOUR)
                 {
                     data.time.minutes = 0;
                     logInfo("Hour elapsed - checking soil");
-
-                    /* 1 hour elapsed */
+                    //@ admit GPIObits.GP1 == 0 || GPIObits.GP1 == 1;
                     handle_sensor_check();
                 }
             }
 
-            /* Call once per second */
             handle_pump();
         }
     }

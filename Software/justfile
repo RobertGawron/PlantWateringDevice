@@ -16,8 +16,31 @@ _fc_sources := "main.c watering.c hal.c"
 
 _fc_common  := "-cpp-extra-args=\"-I. -D__FRAMAC__\" -wp-model Typed -wp-prover alt-ergo,z3,cvc5 -wp-timeout 50 -wp-steps 55000"
 
-
 # Launch Ivette for proofing (requires start-vnc first)
 ivette:
     ivette -wp -wp-rte {{_fc_common}} {{_fc_sources}}
-    
+
+# Generate proof report and fail if any goals are unproved
+prove-report:
+    mkdir -p reports
+    frama-c -wp -wp-rte -wp-model Typed \
+        -cpp-extra-args="-I. -D__FRAMAC__" \
+        -wp-prover alt-ergo,z3,cvc5 \
+        -wp-timeout 30 -wp-steps 15000 \
+        -wp-verbose 1 \
+        {{_fc_sources}} 2>&1 | tee reports/proof-log.txt
+    @if grep -q "aborted" reports/proof-log.txt; then \
+        echo "PROOF FAILED: Frama-C aborted"; \
+        exit 1; \
+    elif grep -q "Timeout:" reports/proof-log.txt; then \
+        echo "PROOF FAILED: some goals timed out"; \
+        grep "Proved goals:" reports/proof-log.txt; \
+        exit 1; \
+    elif grep -q "Unknown:" reports/proof-log.txt; then \
+        echo "PROOF FAILED: some goals unknown"; \
+        grep "Proved goals:" reports/proof-log.txt; \
+        exit 1; \
+    else \
+        echo "ALL PROOFS PASSED"; \
+        grep "Proved goals:" reports/proof-log.txt; \
+    fi
