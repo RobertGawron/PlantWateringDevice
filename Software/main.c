@@ -73,6 +73,13 @@
  *       that is not necessary. A 20 ms interval is acceptable for both
  *       button processing and driving the CD4026.
  */
+
+/*@
+    requires data.pump.configured_duration_level >= 1;
+    requires data.pump.configured_duration_level <= 9;
+    terminates \false;
+    assigns OPTION, TRISGPIO, GPIObits, data;
+*/
 int main(void)
 {
     logInfo("PlantWatering firmware starting");
@@ -93,6 +100,42 @@ int main(void)
 #endif
 
 #ifndef TARGET_HOST
+    /*@
+      loop invariant tick_range:
+          data.time.tick < TIME_TICKS_PER_SECOND;
+
+      loop invariant seconds_range:
+          data.time.seconds < TIME_SECONDS_PER_MINUTE;
+
+      loop invariant minutes_range:
+          data.time.minutes < TIME_MINUTES_PER_HOUR;
+
+      loop invariant level_valid:
+        data.pump.configured_duration_level >= 1 &&
+        data.pump.configured_duration_level <= 9;
+
+      loop invariant pump_safety:
+          data.pump.remaining_cycle_levels > 0
+          ==> data.pump.level_remaining_seconds > 0;
+
+      loop invariant button_range:
+          data.button_was_pressed == true ||
+          data.button_was_pressed == false;
+
+      loop invariant send_pulse_range:
+          data.send_pulse_to_display == true ||
+          data.send_pulse_to_display == false;
+
+      loop invariant sending_pulse_range:
+          data.sending_pulse_to_display == true ||
+          data.sending_pulse_to_display == false;
+
+      loop invariant overflow_pulse_range:
+          data.display_overflow_pulse == true ||
+          data.display_overflow_pulse == false;
+
+      loop assigns data, GPIObits;
+    */
     while (true)
 #endif
     {

@@ -5,3 +5,19 @@ ut:
     --exclude 'external/.*' \
     --exclude 'tests/.*' \
     --html --html-details -o coverage.html
+
+# ------------------------------------------------------------
+# Frama-C Formal Verification
+# ------------------------------------------------------------
+
+_fc_sources := "main.c watering.c hal.c"
+
+# Frama-C common flags:
+
+_fc_common  := "-cpp-extra-args=\"-I. -D__FRAMAC__\" -wp-model Typed -wp-prover alt-ergo,z3,cvc5 -wp-timeout 50 -wp-steps 55000"
+
+
+# Launch Ivette for proofing (requires start-vnc first)
+ivette:
+    ivette -wp -wp-rte {{_fc_common}} {{_fc_sources}}
+    
