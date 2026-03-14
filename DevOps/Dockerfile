@@ -54,7 +54,8 @@ RUN npm install -g typescript ts-node
 RUN git clone https://github.com/emscripten-core/emsdk.git /opt/emsdk && \
     cd /opt/emsdk && \
     ./emsdk install latest && \
-    ./emsdk activate latest
+    ./emsdk activate latest && \
+    echo "NODE_JS = '/usr/bin/node'" >> /opt/emsdk/.emscripten
 
 ENV EMSDK=/opt/emsdk
 ENV PATH="/opt/emsdk:/opt/emsdk/upstream/emscripten:${PATH}"

@@ -1,10 +1,20 @@
-sim:
+build_dir := "/workspace/Devops/Build"
+sim_dir   := build_dir + "/Simulation"
+
+sim-build:
     #!/usr/bin/env bash
     set -e
     . /opt/emsdk/emsdk_env.sh
-    cd /workspace/Simulation/ts
-    npx esbuild app.ts --bundle --outfile=/workspace/Simulation/app.bundle.js --format=esm
+    rm -rf {{sim_dir}}
     cd /workspace/Simulation
-    meson setup buildwasm --cross-file emscripten.ini --wipe
-    meson compile -C buildwasm
-    emrun --no_browser --port 8000 /workspace/Simulation/
+    meson setup {{sim_dir}} --cross-file emscripten.ini
+    meson compile -C {{sim_dir}}
+    cd /workspace/Simulation/ts
+    npx -y esbuild app.ts --bundle --outfile={{sim_dir}}/app.bundle.js --format=esm
+    cp /workspace/Simulation/index.html {{sim_dir}}/
+
+sim: sim-build
+    #!/usr/bin/env bash
+    set -e
+    . /opt/emsdk/emsdk_env.sh
+    emrun --no_browser --port 8000 {{sim_dir}}/
