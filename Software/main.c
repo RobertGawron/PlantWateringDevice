@@ -67,6 +67,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+/**** PIC CONFIG WORD ****/
+#pragma config WDTE = OFF
+#pragma config CP = OFF
+#pragma config MCLRE = OFF
+#pragma config OSC = IntRC 
+
 /**
  * @note Button and display handling depend directly on the 20 ms tick period.
  *       This could be decoupled, but doing so would require additional code

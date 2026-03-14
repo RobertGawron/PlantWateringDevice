@@ -94,6 +94,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     m4 \
     unzip \
     bubblewrap \
+    xdd \
     && rm -rf /var/lib/apt/lists/*
 
 # ------------------------------------------------------------

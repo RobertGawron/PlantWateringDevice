@@ -93,7 +93,7 @@ void update_pump_duration(void);
     ensures GPIObits.GP0 == GPIO_LEVEL_LOW;
 */
 void initialize(void)
-{
+{    
     /* Note: Taking advantage of XC8's support for binary literals (0b syntax). */
 
     /*
