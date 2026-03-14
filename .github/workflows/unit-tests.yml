@@ -1,0 +1,41 @@
+name: Unit Tests
+
+on:
+  workflow_run:
+    workflows: ["Build Docker"]
+    types: [completed]
+    branches: [main, "feature/*"]
+
+jobs:
+  unit-tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    # Only run if Docker build succeeded
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set image name
+        run: echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+
+      - name: Pull Docker image
+        run: docker pull ${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Run tests inside container
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            ${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            bash -c "
+              cd /workspace/Software && just ut
+            "
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            Devops/Build/Coverage/

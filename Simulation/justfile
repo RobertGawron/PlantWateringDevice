@@ -1,0 +1,17 @@
+build_dir := "/workspace/Devops/Build"
+sim_dir   := build_dir + "/Simulation"
+
+sim-build:
+    #!/usr/bin/env bash
+    set -e
+    . /opt/emsdk/emsdk_env.sh
+    cd /workspace/Simulation
+    meson setup {{sim_dir}} --cross-file emscripten.ini --wipe || \
+    meson setup {{sim_dir}} --cross-file emscripten.ini
+    meson compile -C {{sim_dir}}
+
+sim: sim-build
+    #!/usr/bin/env bash
+    set -e
+    . /opt/emsdk/emsdk_env.sh
+    emrun --no_browser --port 8000 {{sim_dir}}/

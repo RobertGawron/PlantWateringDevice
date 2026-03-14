@@ -1,58 +1,71 @@
 @startuml
 <style>
-element {MinimumWidth 150}
+element {MinimumWidth 200}
 </style>
-title Firmware Main Loop (Tick-based, 20ms period on average)
-start
-:Reset counter of passed time;
-repeat
-if (1 hour passed?) then (yes)
-:Reset counter of passed time;
-if (Soil needs watering?) then (yes)
-  :Run pump;
-note left
-This is a blocking event; no other actions 
-are performed when the pump is on.
-====
-Duration of how long the pump will be on when 
-watering is needed can be modified by the user 
-via button (step below).
 
-Level of soil humidity when the pump should be 
-started is selected via potentiometer by the user.
-The potentiometer and soil humidity sensor are then
-compared by a comparator, the value is what is 
-fed to the microcontroller.
-====
-Values of actual soil humidity and target soil 
-humidity when watering should be activated are 
-displayed on an LCD display which has its own ADC.
-This way we don't need an ADC on the PIC side.
-====
-When the pump is on, time will pass, 
-so the tick procedure will take way more than 20ms, 
-but for such a simple device this doesn't matter.
+title Firmware Main Loop (20 ms Tick-Based, Non-Blocking)
+
+start
+
+:Initialize hardware;
+
+repeat
+
+:Wait 20 ms;
+
+:Process button input;
+note right
+Detect press–release event.
+If pump is not currently running:
+  - Increase selected watering duration.
+  - Schedule display update pulse.
 end note
-else (no)
-endif
-else (no)
-endif
-:Wait 20ms;
-if (Key is pressed but wasn't previously?) then (yes)
-  :Update the value of when how long the pump should be on;
-note left
-Pressing the button increases time pump on duration by 5sec. 
-If the value reaches 10*5sec it goes back to 1*5sec.
-====
-Key debouncing is done on the hardware side.
-====
-The second key which decides what is displayed on LCD 
-is driven purely on the hardware side. The PIC 
-microcontroller is not aware of the existence of that key.
+
+:Process display pulse;
+note right
+If a pulse is scheduled:
+  - Drive display clock HIGH for one tick.
+On the next tick:
+  - Drive display clock LOW.
+The display hardware handles digit increment and wrapping.
 end note
- :Update bargraph showing pump duration on;
+
+:Update internal time counters;
+
+if (One second elapsed?) then (yes)
+
+    :Update pump runtime state;
+    note right
+    If watering is active:
+      - Keep pump enabled.
+      - Decrease remaining time of current 5-second segment.
+      - When the segment completes:
+          - Decrease number of remaining segments.
+          - If segments remain, start next 5-second segment.
+    If no watering is active:
+      - Ensure pump is disabled.
+    end note
+
+    if (One hour elapsed?) then (yes)
+
+        :Evaluate soil moisture;
+
+        if (Soil is dry?) then (yes)
+            :Start watering cycle using selected duration;
+            note right
+            This updates internal runtime state only.
+            The pump output will be enabled during the
+            next periodic pump update.
+            No blocking operation occurs here.
+            end note
+        else (no)
+        endif
+
+    else (no)
+    endif
+
 else (no)
 endif
- 
-repeat while ( )
+
+repeat while (true)
 @enduml

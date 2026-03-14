@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="display.css">
+    <link rel="stylesheet" href="graph.css">
+    
+    <title>PIC10F202 Plant Watering Simulator</title>
+</head>
+<body>
+    <!-- Top Section -->
+    <div class="top-section">
+        <!-- Left Column: Title + Controls/Display side by side -->
+        <div class="left-column">
+            <!-- Title Panel -->
+            <div class="panel title-panel">
+                <h1>PIC10F202 Plant Watering Simulator</h1>
+            </div>
+            
+            <!-- Controls and Display Row -->
+            <div class="controls-display-row">
+                <!-- Controls Panel -->
+                <div class="panel controls-panel">
+                    <h2>Controls</h2>
+
+                    <div class="controls">
+                        <button id="btnPress" 
+                                onmousedown="buttonDown()" 
+                                onmouseup="buttonUp()" 
+                                ontouchstart="buttonDown()" 
+                                ontouchend="buttonUp()">
+                            Press Hardware Button
+                        </button>
+                        <button onclick="toggleSoil()">Toggle Soil (Wet/Dry)</button>
+                    </div>
+
+                    <div class="slider-control">
+                        <label>Simulation Speed:</label>
+                        <input type="range" id="speedSlider" min="1" max="1000" value="1" step="1">
+                        <div class="speed-display">
+                            <span id="speedDisplay">1x</span> (Real-time: 20ms per tick)
+                        </div>
+                    </div>
+
+                    <div class="controls simulation-controls">
+                        <button id="btnStartStop" onclick="toggleSimulation()">Start</button>
+                        <button onclick="singleStep()">Single Step</button>
+                        <button onclick="runMinute()">Run 1 Minute</button>
+                        <button onclick="runHour()">Run 1 Hour</button>
+                    </div>
+
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <div class="status-label">Ticks Executed</div>
+                            <div class="status-value" id="tickCount">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-label">Runtime</div>
+                            <div class="status-value" id="runtime">0s</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hardware Display Panel -->
+                <div class="panel display-panel">
+                    <h2>Hardware Display</h2>
+                    <div class="display-container">
+                        <!-- Seven Segment Display -->
+                        <div class="display">
+                            <div class="seven-segment" id="sevenSegment">1</div>
+                            <div class="display-label">Duration Level (1-9)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Log Panel -->
+        <div class="right-column">
+            <div class="panel log-panel">
+                <h2>System Log</h2>
+                <div class="log-filters">
+                    <label><input type="checkbox" id="filterDebugLow" checked> Debug Low</label>
+                    <label><input type="checkbox" id="filterDebugHigh" checked> Debug High</label>
+                    <label><input type="checkbox" id="filterInfo" checked> Info</label>
+                    <label><input type="checkbox" id="filterWarning" checked> Warning</label>
+                    <label><input type="checkbox" id="filterError" checked> Error</label>
+                    <button onclick="clearLog()">Clear</button>
+                </div>
+                <div class="log" id="log"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Section: Graph -->
+    <div class="bottom-section">
+        <div class="panel graph-panel">
+            <h2>Signal Analyzer</h2>
+
+            <div class="graph-container">
+
+                <div class="graph-controls">
+                    <div class="graph-controls-left">
+                        <label>Time Window:</label>
+                        <select id="graphTimeWindow">
+                            <option value="10">10 sec</option>
+                            <option value="30">30 sec</option>
+                            <option value="60" selected>1 min</option>
+                            <option value="300">5 min</option>
+                            <option value="600">10 min</option>
+                            <option value="3600">1 hour</option>
+                        </select>
+                    </div>
+
+                    <div class="graph-controls-center">
+                        <button id="btnScrollStart" title="Go to start (Home)">⏮</button>
+                        <button id="btnScrollLeft" title="Scroll left (←)">◀</button>
+                        <button id="btnScrollRight" title="Scroll right (→)">▶</button>
+                        <button id="btnScrollEnd" title="Go to latest (End)">⏭</button>
+                        <label class="auto-scroll-label">
+                            <input type="checkbox" id="chkAutoScroll" checked>
+                            Auto
+                        </label>
+                    </div>
+
+                    <div class="graph-controls-right">
+                        <button id="btnZoomOut" title="Zoom out (-)">−</button>
+                        <button id="btnZoomIn" title="Zoom in (+)">+</button>
+                        <button id="btnFitToScreen" title="Fit all data (F)">Fit</button>
+                        <span id="scrollPosition" class="scroll-position">0.00s — 60.00s</span>
+                        <button id="btnClearGraph" title="Clear all graph data">Clear</button>
+                    </div>
+                </div>
+
+                
+                <!-- Graph Stack -->
+                <div class="graph-stack" id="graphStack">
+
+                    <div class="graph-signal">
+                        <div class="graph-label">Button</div>
+                        <canvas id="buttonGraph"></canvas>
+                    </div>
+
+                    <div class="graph-signal">
+                        <div class="graph-label">Pump</div>
+                        <canvas id="pumpGraph"></canvas>
+                    </div>
+
+                    <div class="graph-signal">
+                        <div class="graph-label">Soil</div>
+                        <canvas id="soilGraph"></canvas>
+                    </div>
+
+                    <div class="graph-signal">
+                        <div class="graph-label">Display</div>
+                        <canvas id="clockGraph"></canvas>
+                    </div>
+
+                </div>
+
+                <!-- Shared Time Axis -->
+                <div class="graph-time-axis">
+                    <canvas id="timeAxisCanvas"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./app.bundle.js"></script>
+    <script src="./plant-watering.js"></script>
+
+</body>
+</html>

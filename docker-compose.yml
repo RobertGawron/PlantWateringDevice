@@ -1,0 +1,16 @@
+services:
+  plant-watering-dev:
+    image: plant-watering-dev
+    build:
+      context: .
+      dockerfile: DevOps/Dockerfile
+    container_name: plant-watering-dev
+    volumes:
+      # Mount the current directory to /workspace with read/write access
+      - ./:/workspace
+    working_dir: /workspace
+    ports:
+      - "8000:8000" # web firmware simulation
+      - "6080:6080" # noVNC
+    stdin_open: true
+    tty: true

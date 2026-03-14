@@ -1,6 +1,8 @@
 # Plant Watering Device
 
-This is a device for watering indoor plants based on the 8-pin PIC10F200-IOT microcontroller.
+[![Formal Verification](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/formal-verification.yml/badge.svg)](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/formal-verification.yml) [![Unit Tests](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/unit-tests.yml) [![Simulation Build](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/simulation.yml/badge.svg)](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/simulation.yml)
+
+This is a device for watering indoor plants based on the 8-pin PIC10F202-IOT microcontroller.
 
 The goal is to try to make a project on this small MCU and learn how to deal with the limitations of such a small chip, as well as to learn the PIC MCU family ecosystem.
 
@@ -27,6 +29,23 @@ The software is written in assembler using pic-as assembler dialect.
 
 [Software details.](./Software/README.md)
 
+## Formal Verification
+
+The watering logic is formally verified using frama-c to mathematically prove correctness properties such as:
+
+* Watering is **never activated** when soil moisture is above the threshold
+* Watering **always stops** after the configured duration
+* No integer overflows or out-of-bounds array accesses occur
+
+This provides stronger guarantees than testing alone — instead of checking specific inputs, it exhaustively verifies **all possible** input combinations.
+
+## Simulation
+
+The software can be run in a web browser to speed up development (no need to flash the device, soil humidity can be simulated as wanted, etc.).
+
+![Simulation window.](./Documentation/Pictures/simulation.png)
+
+[Simulation details.](./Simulation/README.md)
 
 ## Hardware
 

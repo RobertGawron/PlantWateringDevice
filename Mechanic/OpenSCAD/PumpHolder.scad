@@ -3,12 +3,13 @@ include <Constants.scad>
 head_w = 21.0 + 0.3 + manufacturer_tolerance;
 
 // Part thickness (Z)
-pump_thickness_z = 12;  
+pump_thickness_z = 12 + 0.3;  
 
- // Rail thickness in XY
+// Rail thickness in XY
 rail_t = 3;            
 
- // Small horizontal tabs length, those tabs are needed to hold the pump in Y dimentions
+// Small horizontal tabs length, 
+// those tabs are needed to hold the pump in Y dimentions
 tongue_len = 2.5;      
 
 // Drawing-based dimensions (XY)
@@ -22,10 +23,6 @@ module side_rail_2d() {
     union() {
         // Bottom horizontal tab (motor cable side)
         translate([-motor_w/2 - rail_t, 0])
-            square([rail_t + tongue_len, rail_t]);
-
-        // Top horizontal tab (pipe side)
-        translate([-head_w/2 - rail_t, total_h + rail_t])
             square([rail_t + tongue_len, rail_t]);
 
         // Horizontal step at transition motor -> head
@@ -43,17 +40,24 @@ module side_rail_2d() {
 }
 
 module pump_rails_3d() {
-    union() {
-        // Left side
-        linear_extrude(height = pump_thickness_z) {
+    linear_extrude(height = pump_thickness_z) 
+    {
+        union() 
+        {
             side_rail_2d();
-        }
-        
-        // Right side - mirror in 3D
-        mirror([1, 0, 0]) {
-            linear_extrude(height = pump_thickness_z) {
+
+            // Right side - mirror in 3D
+            mirror([1, 0, 0]) 
+            {
                 side_rail_2d();
             }
+
+            // Top horizontal tab (pipe side), 
+            //only on one side to avoid blocking the tube connector
+            translate([-head_w/2 - rail_t, total_h + rail_t])
+            {
+                square([rail_t + 2*tongue_len, rail_t]);
+            }    
         }
     }
 }
