@@ -7,10 +7,9 @@ project(
 
 fs = import('fs')
 
-# Include directories
+# ── C → WASM ──────────────────────────────────────
 software_inc = include_directories('../Software')
 
-# WebAssembly build with ASYNCIFY (no threads)
 wasm_link_args = [
   '-sWASM=1',
   '-sASYNCIFY',
@@ -24,7 +23,6 @@ wasm_link_args = [
   '-sTOTAL_STACK=1MB',
   '-sSTRICT_JS=0',
   '-sINVOKE_RUN=0'
-
 ]
 
 executable(
@@ -39,11 +37,24 @@ executable(
   link_args : wasm_link_args,
 )
 
-# Copy files to build directory
+# ── TypeScript → JS bundle ────────────────────────
+esbuild = find_program('npx')
+
+custom_target('app-bundle',
+  output : 'app.bundle.js',
+  command : [
+    esbuild, '-y', 'esbuild',
+    meson.current_source_dir() / 'ts' / 'app.ts',
+    '--bundle',
+    '--format=esm',
+    '--outfile=@OUTPUT@',
+  ],
+  build_by_default : true,
+)
+
+# ── Static files → build dir ─────────────────────
 fs.copyfile('index.html')
 
 fs.copyfile('css/main.css')
 fs.copyfile('css/display.css')
 fs.copyfile('css/graph.css')
-
-fs.copyfile('app.bundle.js')

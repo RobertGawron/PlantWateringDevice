@@ -24,20 +24,48 @@ docker-compose run --service-ports plant-watering-dev
 
 You will be automatically logged into the container shell.
 
+# Formal Verification
+
+## Interactive version using Ivette
+
+Once inside the Docker container launch once:
+
+```bash
+start-vnc&
+```
+
+Then:
+
+```bash
+cd /workspace/Software && just ivette
+```
+
+On host machine open http://localhost:6080/ in web browser.
+
+## Non-interactive version
+
+```bash
+cd /workspace/Software && just prove-report
+```
+
+Results are in DevOps/Build/Verification.
+
 # Running Unit Tests
 
-Once inside the Docker container, configure the project:
+Once inside the Docker container:
 
 ```bash
 cd /workspace/Software && just ut
 ```
 
+Results (including code coverage) are in DevOps/Build/Coverage.
+
 # Running Firmware Simulation
 
-Once inside the Docker container, configure the project:
+Once inside the Docker container:
 
 ```bash
 cd /workspace/Simulation/ && just sim
 ```
 
-Simulation is at: http://localhost:8000/
+On host machine open http://localhost:8000/ in web browser.

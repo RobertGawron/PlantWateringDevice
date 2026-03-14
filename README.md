@@ -1,6 +1,6 @@
 # Plant Watering Device
 
-[![Formal Verification](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/formal-verification.yml/badge.svg)](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/formal-verification.yml) [![Unit Tests](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/unit-tests.yml)
+[![Formal Verification](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/formal-verification.yml/badge.svg)](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/formal-verification.yml) [![Unit Tests](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/unit-tests.yml) [![Simulation Build](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/simulation.yml/badge.svg)](https://github.com/RobertGawron/PlantWateringDevice/actions/workflows/simulation.yml)
 
 This is a device for watering indoor plants based on the 8-pin PIC10F202-IOT microcontroller.
 
