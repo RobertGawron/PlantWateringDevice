@@ -1,5 +1,10 @@
 sim:
-    cd /workspace/Simulation/ts && npx esbuild app.ts --bundle --outfile=../app.bundle.js --format=esm
-    cd /workspace/Simulation/ && meson setup buildwasm --cross-file emscripten.ini --wipe
+    #!/usr/bin/env bash
+    set -e
+    . /opt/emsdk/emsdk_env.sh
+    cd /workspace/Simulation/ts
+    npx esbuild app.ts --bundle --outfile=/workspace/Simulation/app.bundle.js --format=esm
+    cd /workspace/Simulation
+    meson setup buildwasm --cross-file emscripten.ini --wipe
     meson compile -C buildwasm
-    cd /workspace/Simulation/buildwasm && emrun --no_browser --port 8000 .
+    emrun --no_browser --port 8000 /workspace/Simulation/

@@ -145,11 +145,4 @@ void handle_sensor_check(void);
  */
 void handle_display(void);
 
-/**
- * @brief Increments the pump duration level with wrap-around.
- *
- * @note Assumption: Executed only when the pump is idle.
- */
-void update_pump_duration(void);
-
 #endif

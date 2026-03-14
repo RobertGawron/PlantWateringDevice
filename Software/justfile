@@ -1,10 +1,19 @@
+build_dir     := "/workspace/Devops/Build"
+ut_dir        := build_dir + "/UnitTests"
+coverage_dir  := build_dir + "/Coverage"
+verify_dir    := build_dir + "/Verification"
+
 ut:
-    meson setup build -Db_coverage=true --wipe
-    meson test -C build -v
-    gcovr -r . \
-    --exclude 'external/.*' \
-    --exclude 'tests/.*' \
-    --html --html-details -o coverage.html
+    rm -rf {{ut_dir}}
+    meson setup {{ut_dir}} -Db_coverage=true
+    meson test -C {{ut_dir}} -v
+    mkdir -p {{coverage_dir}}
+    gcovr {{ut_dir}} \
+        -r . \
+        --exclude 'external/.*' \
+        --exclude 'tests/.*' \
+        --html --html-details \
+        -o {{coverage_dir}}/coverage.html
 
 # ------------------------------------------------------------
 # Frama-C Formal Verification
@@ -13,7 +22,6 @@ ut:
 _fc_sources := "main.c watering.c hal.c"
 
 # Frama-C common flags:
-
 _fc_common  := "-cpp-extra-args=\"-I. -D__FRAMAC__\" -wp-model Typed -wp-prover alt-ergo,z3,cvc5 -wp-timeout 50 -wp-steps 55000"
 
 # Launch Ivette for proofing (requires start-vnc first)
@@ -22,25 +30,26 @@ ivette:
 
 # Generate proof report and fail if any goals are unproved
 prove-report:
-    mkdir -p reports
-    frama-c -wp -wp-rte -wp-model Typed \
-        -cpp-extra-args="-I. -D__FRAMAC__" \
-        -wp-prover alt-ergo,z3,cvc5 \
-        -wp-timeout 30 -wp-steps 15000 \
+    mkdir -p {{verify_dir}}
+    frama-c -wp -wp-rte {{_fc_common}} \
         -wp-verbose 1 \
-        {{_fc_sources}} 2>&1 | tee reports/proof-log.txt
-    @if grep -q "aborted" reports/proof-log.txt; then \
+        {{_fc_sources}} 2>&1 | tee {{verify_dir}}/proof-log.txt
+    @if grep -q "aborted" {{verify_dir}}/proof-log.txt; then \
         echo "PROOF FAILED: Frama-C aborted"; \
         exit 1; \
-    elif grep -q "Timeout:" reports/proof-log.txt; then \
+    elif grep -q "Timeout:" {{verify_dir}}/proof-log.txt; then \
         echo "PROOF FAILED: some goals timed out"; \
-        grep "Proved goals:" reports/proof-log.txt; \
+        grep "Proved goals:" {{verify_dir}}/proof-log.txt; \
         exit 1; \
-    elif grep -q "Unknown:" reports/proof-log.txt; then \
+    elif grep -q "Unknown:" {{verify_dir}}/proof-log.txt; then \
         echo "PROOF FAILED: some goals unknown"; \
-        grep "Proved goals:" reports/proof-log.txt; \
+        grep "Proved goals:" {{verify_dir}}/proof-log.txt; \
         exit 1; \
     else \
         echo "ALL PROOFS PASSED"; \
-        grep "Proved goals:" reports/proof-log.txt; \
+        grep "Proved goals:" {{verify_dir}}/proof-log.txt; \
     fi
+
+# Clean all build artifacts
+clean:
+    rm -rf {{build_dir}}

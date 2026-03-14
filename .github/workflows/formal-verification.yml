@@ -39,6 +39,4 @@ jobs:
         with:
           name: proof-report
           path: |
-            Software/reports/proof-report.html
-            Software/reports/proof-log.txt
-            Software/reports/proof-results.csv
+            Devops/Build/Verification/proof-log.txt

@@ -38,4 +38,4 @@ jobs:
         with:
           name: coverage-report
           path: |
-            Software/coverage.*
+            Devops/Build/Coverage/

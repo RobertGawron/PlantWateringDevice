@@ -74,6 +74,13 @@ PlantWateringData data =
         .sending_pulse_to_display = false,
         .display_overflow_pulse = false};
 
+/**
+ * @brief Increments the pump duration level with wrap-around.
+ *
+ * @note Assumption: Executed only when the pump is idle.
+ */
+void update_pump_duration(void);
+
 /*@
     assigns OPTION, TRISGPIO,
         data.send_pulse_to_display,
