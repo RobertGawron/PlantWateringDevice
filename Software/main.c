@@ -68,10 +68,12 @@
 #include <stdbool.h>
 
 /**** PIC CONFIG WORD ****/
+#if !defined(TARGET_HOST) && !defined(__FRAMAC__)
 #pragma config WDTE = OFF
 #pragma config CP = OFF
 #pragma config MCLRE = OFF
-#pragma config OSC = IntRC 
+#pragma config OSC = IntRC
+#endif
 
 /**
  * @note Button and display handling depend directly on the 20 ms tick period.
