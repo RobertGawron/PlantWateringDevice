@@ -1,10 +1,10 @@
 /**
- * @file test_handle_button.c
+ * @file test_watering_handle_button.c
  *
  * @brief Unit tests for the button press–release edge detection logic.
  *
  * @details
- * handle_button() is called once per tick (every 20 ms) and implements
+ * watering_handle_button() is called once per tick (every 20 ms) and implements
  * a simple press–release edge detector.
  *
  * Behavior:
@@ -14,17 +14,17 @@
  *    - Function returns immediately; no further action.
  *
  * 2. Button released (HIGH) after a press:
- *    - update_pump_duration() is called.
+ *    - watering_update_pump_duration() is called.
  *    - button_was_pressed is cleared to false.
  *
  * 3. Button released without prior press:
  *    - button_was_pressed is cleared to false.
- *    - No call to update_pump_duration().
+ *    - No call to watering_update_pump_duration().
  *
  * Key properties:
  * - Action occurs on the release edge only.
  * - A single press–release cycle produces exactly one call to
- *   update_pump_duration().
+ *   watering_update_pump_duration().
  * - Holding the button does not produce repeated actions.
  * - Debouncing is handled in hardware; this function assumes
  *   a clean signal.
@@ -37,7 +37,7 @@
 #include "xc.h"
 #include "watering.h"
 
-extern void handle_button(void);
+extern void watering_handle_button(void);
 extern PlantWateringData data;
 
 #define BUTTON_PIN GPIObits.GP3
@@ -49,22 +49,22 @@ extern PlantWateringData data;
 #define BUTTON_RELEASED GPIO_LEVEL_HIGH
 
 /**
- * @note PUMP_DURATION_LEVEL_MAX is defined in watering.c (translation
+ * @note WATERING_PUMP_DURATION_LEVEL_MAX is defined in watering.c (translation
  *       unit scope). Duplicated here for boundary verification.
  *       Must be kept in sync with the production definition.
  */
-#define PUMP_DURATION_LEVEL_MAX (9U)
+#define WATERING_PUMP_DURATION_LEVEL_MAX (9U)
 
 /** Minimum selectable pump duration level (in steps). */
-#define PUMP_DURATION_LEVEL_MIN (1U)
+#define WATERING_PUMP_DURATION_LEVEL_MIN (1U)
 
 /** Duration of one pump level in seconds. */
-#define PUMP_STEP_DURATION_SECONDS (5U)
+#define WATERING_PUMP_STEP_DURATION_SECONDS (5U)
 
 void setUp(void)
 {
     BUTTON_PIN = BUTTON_RELEASED;
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
     data.pump.level_remaining_seconds = 0U;
     data.button_was_pressed = false;
@@ -90,7 +90,7 @@ void test_idle_no_action(void)
     data.button_was_pressed = false;
     data.pump.configured_duration_level = 3U;
 
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_FALSE(data.button_was_pressed);
     TEST_ASSERT_EQUAL_UINT8(3U, data.pump.configured_duration_level);
@@ -105,7 +105,7 @@ void test_idle_no_display_pulse(void)
     data.button_was_pressed = false;
     data.send_pulse_to_display = false;
 
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_FALSE(data.send_pulse_to_display);
 }
@@ -121,7 +121,7 @@ void test_idle_consecutive_calls_no_change(void)
 
     for (uint8_t i = 0; i < 20U; i++)
     {
-        handle_button();
+        watering_handle_button();
     }
 
     TEST_ASSERT_FALSE(data.button_was_pressed);
@@ -141,7 +141,7 @@ void test_press_sets_flag(void)
     BUTTON_PIN = BUTTON_PRESSED;
     data.button_was_pressed = false;
 
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_TRUE(data.button_was_pressed);
 }
@@ -157,16 +157,16 @@ void test_press_held_flag_stays_true(void)
 
     for (uint8_t i = 0; i < 50U; i++)
     {
-        handle_button();
+        watering_handle_button();
         TEST_ASSERT_TRUE(data.button_was_pressed);
     }
 }
 
 /**
- * @brief Verify update_pump_duration is NOT called while button
+ * @brief Verify watering_update_pump_duration is NOT called while button
  *        is pressed.
  *
- * The action must occur on release only. If update_pump_duration
+ * The action must occur on release only. If watering_update_pump_duration
  * were called during press, configured_duration_level would change.
  */
 void test_press_does_not_trigger_update(void)
@@ -175,7 +175,7 @@ void test_press_does_not_trigger_update(void)
     data.button_was_pressed = false;
     data.pump.configured_duration_level = 4U;
 
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_EQUAL_UINT8(4U, data.pump.configured_duration_level);
 }
@@ -188,14 +188,14 @@ void test_press_no_display_pulse(void)
     BUTTON_PIN = BUTTON_PRESSED;
     data.send_pulse_to_display = false;
 
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_FALSE(data.send_pulse_to_display);
 }
 
 /**
  * @brief Verify holding button for many ticks does not trigger
- *        update_pump_duration.
+ *        watering_update_pump_duration.
  *
  * Simulates a long press (1 second = 50 ticks at 20 ms).
  */
@@ -206,7 +206,7 @@ void test_long_press_no_update(void)
 
     for (uint8_t i = 0; i < 50U; i++)
     {
-        handle_button();
+        watering_handle_button();
     }
 
     TEST_ASSERT_EQUAL_UINT8(2U, data.pump.configured_duration_level);
@@ -218,25 +218,25 @@ void test_long_press_no_update(void)
  * ================================================================ */
 
 /**
- * @brief Verify update_pump_duration is called on release after
+ * @brief Verify watering_update_pump_duration is called on release after
  *        press.
  *
  * Observable effect: configured_duration_level increments by 1.
  */
 void test_release_after_press_triggers_update(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
     /* Press */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
 
     /* Release */
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN + 1U,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN + 1U,
                             data.pump.configured_duration_level);
 }
 
@@ -248,7 +248,7 @@ void test_release_clears_flag(void)
     data.button_was_pressed = true;
     BUTTON_PIN = BUTTON_RELEASED;
 
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_FALSE(data.button_was_pressed);
 }
@@ -263,11 +263,11 @@ void test_release_triggers_display_pulse(void)
 
     /* Press */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
 
     /* Release */
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_TRUE(data.send_pulse_to_display);
 }
@@ -284,11 +284,11 @@ void test_release_increments_exactly_once(void)
 
     /* Press */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
 
     /* Release */
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_EQUAL_UINT8(6U, data.pump.configured_duration_level);
 }
@@ -307,7 +307,7 @@ void test_release_without_press_no_update(void)
     data.pump.configured_duration_level = 3U;
     data.pump.remaining_cycle_levels = 0U;
 
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_EQUAL_UINT8(3U, data.pump.configured_duration_level);
 }
@@ -321,7 +321,7 @@ void test_release_without_press_no_display_pulse(void)
     data.button_was_pressed = false;
     data.send_pulse_to_display = false;
 
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_FALSE(data.send_pulse_to_display);
 }
@@ -335,26 +335,26 @@ void test_release_without_press_no_display_pulse(void)
  *        another update.
  *
  * After a press–release cycle, subsequent released ticks must
- * not re-trigger update_pump_duration.
+ * not re-trigger watering_update_pump_duration.
  */
 void test_second_release_no_action(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
     /* Press */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
 
     /* First release — triggers update */
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN + 1U,
+    watering_handle_button();
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN + 1U,
                             data.pump.configured_duration_level);
 
     /* Second release — must not trigger again */
-    handle_button();
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN + 1U,
+    watering_handle_button();
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN + 1U,
                             data.pump.configured_duration_level);
 }
 
@@ -369,13 +369,13 @@ void test_many_releases_after_press_single_update(void)
 
     /* Press */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
 
     /* Release and hold released for many ticks */
     BUTTON_PIN = BUTTON_RELEASED;
     for (uint8_t i = 0; i < 50U; i++)
     {
-        handle_button();
+        watering_handle_button();
     }
 
     /* Only one increment total */
@@ -392,25 +392,25 @@ void test_many_releases_after_press_single_update(void)
  */
 void test_two_press_release_cycles(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
     /* Cycle 1 */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN + 1U,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN + 1U,
                             data.pump.configured_duration_level);
 
     /* Cycle 2 */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN + 2U,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN + 2U,
                             data.pump.configured_duration_level);
 }
 
@@ -422,21 +422,21 @@ void test_two_press_release_cycles(void)
  */
 void test_full_cycle_traversal_via_button(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
     const uint8_t cycles_to_wrap =
-        PUMP_DURATION_LEVEL_MAX - PUMP_DURATION_LEVEL_MIN + 1U;
+        WATERING_PUMP_DURATION_LEVEL_MAX - WATERING_PUMP_DURATION_LEVEL_MIN + 1U;
 
     for (uint8_t i = 0; i < cycles_to_wrap; i++)
     {
         BUTTON_PIN = BUTTON_PRESSED;
-        handle_button();
+        watering_handle_button();
         BUTTON_PIN = BUTTON_RELEASED;
-        handle_button();
+        watering_handle_button();
     }
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN,
                             data.pump.configured_duration_level);
 }
 
@@ -445,16 +445,16 @@ void test_full_cycle_traversal_via_button(void)
  */
 void test_every_level_during_traversal(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
-    for (uint8_t expected = PUMP_DURATION_LEVEL_MIN + 1U;
-         expected <= PUMP_DURATION_LEVEL_MAX; expected++)
+    for (uint8_t expected = WATERING_PUMP_DURATION_LEVEL_MIN + 1U;
+         expected <= WATERING_PUMP_DURATION_LEVEL_MAX; expected++)
     {
         BUTTON_PIN = BUTTON_PRESSED;
-        handle_button();
+        watering_handle_button();
         BUTTON_PIN = BUTTON_RELEASED;
-        handle_button();
+        watering_handle_button();
 
         TEST_ASSERT_EQUAL_UINT8(expected,
                                 data.pump.configured_duration_level);
@@ -462,11 +462,11 @@ void test_every_level_during_traversal(void)
 
     /* Wrap */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN,
                             data.pump.configured_duration_level);
 }
 
@@ -490,7 +490,7 @@ void test_realistic_multi_tick_press_release(void)
     BUTTON_PIN = BUTTON_PRESSED;
     for (uint8_t i = 0; i < 5U; i++)
     {
-        handle_button();
+        watering_handle_button();
     }
 
     TEST_ASSERT_EQUAL_UINT8(3U, data.pump.configured_duration_level);
@@ -500,7 +500,7 @@ void test_realistic_multi_tick_press_release(void)
     BUTTON_PIN = BUTTON_RELEASED;
     for (uint8_t i = 0; i < 10U; i++)
     {
-        handle_button();
+        watering_handle_button();
     }
 
     /* Exactly one increment */
@@ -523,14 +523,14 @@ void test_two_realistic_cycles(void)
         BUTTON_PIN = BUTTON_PRESSED;
         for (uint8_t i = 0; i < 3U; i++)
         {
-            handle_button();
+            watering_handle_button();
         }
 
         /* Release for 5 ticks */
         BUTTON_PIN = BUTTON_RELEASED;
         for (uint8_t i = 0; i < 5U; i++)
         {
-            handle_button();
+            watering_handle_button();
         }
     }
 
@@ -545,7 +545,7 @@ void test_two_realistic_cycles(void)
  * @brief Verify that a press–release cycle during pump activity
  *        does NOT change configured_duration_level.
  *
- * handle_button calls update_pump_duration, which is guarded by
+ * watering_handle_button calls watering_update_pump_duration, which is guarded by
  * remaining_cycle_levels == 0. This tests the end-to-end guard.
  */
 void test_press_release_during_pump_active_no_update(void)
@@ -555,11 +555,11 @@ void test_press_release_during_pump_active_no_update(void)
 
     /* Press */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
 
     /* Release */
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_EQUAL_UINT8(5U, data.pump.configured_duration_level);
 }
@@ -577,12 +577,12 @@ void test_flag_cleared_even_when_update_blocked(void)
 
     /* Press */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
     TEST_ASSERT_TRUE(data.button_was_pressed);
 
     /* Release — update blocked, but flag must clear */
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
     TEST_ASSERT_FALSE(data.button_was_pressed);
 }
 
@@ -597,11 +597,11 @@ void test_no_display_pulse_during_pump_active(void)
 
     /* Press */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
 
     /* Release */
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_FALSE(data.send_pulse_to_display);
 }
@@ -620,9 +620,9 @@ void test_update_succeeds_after_pump_becomes_idle(void)
 
     /* Press–release while active — blocked */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_EQUAL_UINT8(4U, data.pump.configured_duration_level);
 
@@ -631,9 +631,9 @@ void test_update_succeeds_after_pump_becomes_idle(void)
 
     /* Press–release while idle — succeeds */
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_EQUAL_UINT8(5U, data.pump.configured_duration_level);
 }
@@ -644,64 +644,64 @@ void test_update_succeeds_after_pump_becomes_idle(void)
 
 /**
  * @brief Verify remaining_cycle_levels is not modified by
- *        handle_button during press.
+ *        watering_handle_button during press.
  */
 void test_press_does_not_modify_remaining(void)
 {
     data.pump.remaining_cycle_levels = 0U;
     BUTTON_PIN = BUTTON_PRESSED;
 
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
 }
 
 /**
  * @brief Verify level_remaining_seconds is not modified by
- *        handle_button during press.
+ *        watering_handle_button during press.
  */
 void test_press_does_not_modify_seconds(void)
 {
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
     BUTTON_PIN = BUTTON_PRESSED;
 
-    handle_button();
+    watering_handle_button();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
 }
 
 /**
  * @brief Verify remaining_cycle_levels is not modified by
- *        handle_button on release edge.
+ *        watering_handle_button on release edge.
  */
 void test_release_does_not_modify_remaining(void)
 {
     data.pump.remaining_cycle_levels = 0U;
 
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
 }
 
 /**
  * @brief Verify level_remaining_seconds is not modified by
- *        handle_button on release edge.
+ *        watering_handle_button on release edge.
  */
 void test_release_does_not_modify_seconds(void)
 {
     data.pump.remaining_cycle_levels = 0U;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
 }
 
@@ -709,7 +709,7 @@ void test_release_does_not_modify_seconds(void)
  * @brief Verify sending_pulse_to_display is not set to true
  *        by a press–release cycle.
  *
- * update_pump_duration sets send_pulse_to_display and clears
+ * watering_update_pump_duration sets send_pulse_to_display and clears
  * sending_pulse_to_display. Verify sending is not set to true.
  */
 void test_release_does_not_set_sending_pulse(void)
@@ -718,9 +718,9 @@ void test_release_does_not_set_sending_pulse(void)
     data.sending_pulse_to_display = false;
 
     BUTTON_PIN = BUTTON_PRESSED;
-    handle_button();
+    watering_handle_button();
     BUTTON_PIN = BUTTON_RELEASED;
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_FALSE(data.sending_pulse_to_display);
 }
@@ -739,7 +739,7 @@ void test_low_is_pressed(void)
     BUTTON_PIN = GPIO_LEVEL_LOW;
     data.button_was_pressed = false;
 
-    handle_button();
+    watering_handle_button();
 
     TEST_ASSERT_TRUE(data.button_was_pressed);
 }
@@ -756,7 +756,7 @@ void test_high_is_released(void)
     data.pump.configured_duration_level = 2U;
     data.pump.remaining_cycle_levels = 0U;
 
-    handle_button();
+    watering_handle_button();
 
     /* Release edge detected: update triggered */
     TEST_ASSERT_EQUAL_UINT8(3U, data.pump.configured_duration_level);

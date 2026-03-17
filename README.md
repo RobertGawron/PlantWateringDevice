@@ -25,7 +25,7 @@ Features:
 
 ## Software
 
-The software is written in assembler using pic-as assembler dialect.
+The software is written in C (C99 with _Static_assert from C11).
 
 [Software details.](./Software/README.md)
 

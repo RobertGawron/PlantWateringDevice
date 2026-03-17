@@ -2,7 +2,7 @@
 #include "xc.h"
 #include "watering.h"
 
-extern void handle_display(void);
+extern void watering_handle_display(void);
 extern PlantWateringData data;
 
 #define DISPLAY_PIN GPIObits.GP0
@@ -26,7 +26,7 @@ void tearDown(void) {}
  *
  * @par Scenario:
  *  - Step 1: Ensure both flags are false.
- *  - Step 2: Call handle_display().
+ *  - Step 2: Call watering_handle_display().
  *
  * @par Expected Result:
  *  - Display output remains LOW.
@@ -34,7 +34,7 @@ void tearDown(void) {}
  */
 void test_no_pulse_when_flags_false(void)
 {
-    handle_display();
+    watering_handle_display();
 
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_LOW, DISPLAY_PIN);
     TEST_ASSERT_FALSE(data.send_pulse_to_display);
@@ -46,7 +46,7 @@ void test_no_pulse_when_flags_false(void)
  *
  * @par Scenario:
  *  - Step 1: Set send_pulse_to_display = true.
- *  - Step 2: Call handle_display().
+ *  - Step 2: Call watering_handle_display().
  *
  * @par Expected Result:
  *  - Output becomes HIGH.
@@ -57,7 +57,7 @@ void test_first_pulse_sets_high(void)
 {
     data.send_pulse_to_display = true;
 
-    handle_display();
+    watering_handle_display();
 
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_HIGH, DISPLAY_PIN);
     TEST_ASSERT_FALSE(data.send_pulse_to_display);
@@ -69,7 +69,7 @@ void test_first_pulse_sets_high(void)
  *
  * @par Scenario:
  *  - Step 1: Set sending_pulse_to_display = true.
- *  - Step 2: Call handle_display().
+ *  - Step 2: Call watering_handle_display().
  *
  * @par Expected Result:
  *  - Output becomes LOW.
@@ -80,7 +80,7 @@ void test_second_pulse_sets_low(void)
     data.sending_pulse_to_display = true;
     DISPLAY_PIN = TEST_GPIO_LEVEL_HIGH;
 
-    handle_display();
+    watering_handle_display();
 
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_LOW, DISPLAY_PIN);
     TEST_ASSERT_FALSE(data.sending_pulse_to_display);
@@ -91,8 +91,8 @@ void test_second_pulse_sets_low(void)
  *
  * @par Scenario:
  *  - Step 1: Set send_pulse_to_display = true.
- *  - Step 2: Call handle_display() → expect HIGH.
- *  - Step 3: Call handle_display() again → expect LOW.
+ *  - Step 2: Call watering_handle_display() → expect HIGH.
+ *  - Step 3: Call watering_handle_display() again → expect LOW.
  *
  * @par Expected Result:
  *  - First call sets HIGH.
@@ -104,11 +104,11 @@ void test_full_pulse_sequence(void)
     data.send_pulse_to_display = true;
 
     /* First tick */
-    handle_display();
+    watering_handle_display();
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_HIGH, DISPLAY_PIN);
 
     /* Second tick */
-    handle_display();
+    watering_handle_display();
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_LOW, DISPLAY_PIN);
 
     TEST_ASSERT_FALSE(data.send_pulse_to_display);
@@ -120,7 +120,7 @@ void test_full_pulse_sequence(void)
  *
  * @par Scenario:
  *  - Step 1: Set sending_pulse_to_display = true and display_overflow_pulse = true.
- *  - Step 2: Call handle_display().
+ *  - Step 2: Call watering_handle_display().
  *
  * @par Expected Result:
  *  - Output becomes LOW.
@@ -134,7 +134,7 @@ void test_overflow_pulse_triggers_additional_pulse(void)
     data.display_overflow_pulse = true;
     DISPLAY_PIN = TEST_GPIO_LEVEL_HIGH;
 
-    handle_display();
+    watering_handle_display();
 
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_LOW, DISPLAY_PIN);
     TEST_ASSERT_FALSE(data.sending_pulse_to_display);
@@ -147,7 +147,7 @@ void test_overflow_pulse_triggers_additional_pulse(void)
  *
  * @par Scenario:
  *  - Step 1: Set send_pulse_to_display = true and display_overflow_pulse = true.
- *  - Step 2: Call handle_display() four times.
+ *  - Step 2: Call watering_handle_display() four times.
  *
  * @par Expected Result:
  *  - Tick 1: HIGH (first pulse start)
@@ -162,25 +162,25 @@ void test_full_overflow_pulse_sequence(void)
     data.display_overflow_pulse = true;
 
     /* Tick 1: First pulse HIGH */
-    handle_display();
+    watering_handle_display();
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_HIGH, DISPLAY_PIN);
     TEST_ASSERT_TRUE(data.sending_pulse_to_display);
     TEST_ASSERT_TRUE(data.display_overflow_pulse);
 
     /* Tick 2: First pulse LOW, overflow triggers second pulse */
-    handle_display();
+    watering_handle_display();
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_LOW, DISPLAY_PIN);
     TEST_ASSERT_FALSE(data.sending_pulse_to_display);
     TEST_ASSERT_FALSE(data.display_overflow_pulse);
     TEST_ASSERT_TRUE(data.send_pulse_to_display);
 
     /* Tick 3: Second pulse HIGH */
-    handle_display();
+    watering_handle_display();
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_HIGH, DISPLAY_PIN);
     TEST_ASSERT_TRUE(data.sending_pulse_to_display);
 
     /* Tick 4: Second pulse LOW */
-    handle_display();
+    watering_handle_display();
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_LOW, DISPLAY_PIN);
 
     /* All flags cleared */

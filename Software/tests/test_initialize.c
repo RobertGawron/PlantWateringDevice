@@ -37,7 +37,7 @@ void tearDown(void) {}
  */
 void test_initialize_configures_registers(void)
 {
-    initialize();
+    watering_initialize();
 
     TEST_ASSERT_EQUAL_UINT8(EXPECTED_OPTION_VALUE, OPTION);
     TEST_ASSERT_EQUAL_UINT8(EXPECTED_TRISGPIO_VALUE, TRISGPIO);
@@ -55,7 +55,7 @@ void test_initialize_configures_registers(void)
  */
 void test_initialize_sets_outputs_to_safe_state(void)
 {
-    initialize();
+    watering_initialize();
 
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_LOW, GPIObits.GP2);
     TEST_ASSERT_EQUAL_UINT8(TEST_GPIO_LEVEL_LOW, GPIObits.GP0);
@@ -72,7 +72,7 @@ void test_initialize_sets_outputs_to_safe_state(void)
  */
 void test_initialize_sets_startup_display_pulse(void)
 {
-    initialize();
+    watering_initialize();
 
     TEST_ASSERT_TRUE(data.send_pulse_to_display);
 }

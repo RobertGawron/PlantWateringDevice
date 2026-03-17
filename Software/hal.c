@@ -66,7 +66,7 @@ void GPIO_SET(uint8_t GPIO_PIN, uint8_t STATE)
     jsSetGPIOState(GPIO_PIN, STATE);
 }
 
-bool GPIO_GET(uint8_t GPIO_PIN)
+bool GPIO_IS_HIGH(uint8_t GPIO_PIN)
 {
     return jsGetGPIOState(GPIO_PIN) != 0;
 }

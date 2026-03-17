@@ -87,12 +87,12 @@ extern __HAL_VOLATILE GPIObits_t GPIObits;
 #ifndef TARGET_HOST
 
 #define GPIO_SET(GPIO_PIN, STATE) ((GPIO_PIN) = (STATE))
-#define GPIO_GET(GPIO_PIN) ((GPIO_PIN) == GPIO_LEVEL_HIGH)
+#define GPIO_IS_HIGH(GPIO_PIN) ((GPIO_PIN) == GPIO_LEVEL_HIGH)
 
 #else /* TARGET_HOST */
 
 void GPIO_SET(uint8_t GPIO_PIN, uint8_t STATE);
-bool GPIO_GET(uint8_t GPIO_PIN);
+bool GPIO_IS_HIGH(uint8_t GPIO_PIN);
 
 #endif
 
