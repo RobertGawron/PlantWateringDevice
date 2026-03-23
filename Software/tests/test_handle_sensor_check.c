@@ -11,8 +11,8 @@
  * Behavior:
  *
  * 1. Sensor read: GPIO_SOIL_SENSOR_INPUT is sampled.
- *    HIGH = soil is dry (watering required).
- *    LOW  = soil is wet (no action).
+ *    LOW  = soil is dry (watering required).
+ *    HIGH = soil is wet (no action).
  *
  * 2. Activation: When soil is dry:
  *    - remaining_cycle_levels is loaded from configured_duration_level.
@@ -42,8 +42,8 @@ extern PlantWateringData data;
 #define GPIO_LEVEL_LOW (0U)
 #define GPIO_LEVEL_HIGH (1U)
 
-#define SOIL_DRY GPIO_LEVEL_HIGH
-#define SOIL_WET GPIO_LEVEL_LOW
+#define SOIL_DRY GPIO_LEVEL_LOW
+#define SOIL_WET GPIO_LEVEL_HIGH
 
 /**
  * @note WATERING_PUMP_DURATION_LEVEL_MAX is defined in watering.c (translation
@@ -416,11 +416,11 @@ void test_dry_button_state_unchanged(void)
  * ================================================================ */
 
 /**
- * @brief Verify LOW sensor value is interpreted as wet (no action).
+ * @brief Verify LOW sensor value is interpreted as dry (activate).
  *
  * Explicit polarity check. Detects inverted sensor logic.
  */
-void test_sensor_low_is_wet(void)
+void test_sensor_low_is_dry(void)
 {
     SOIL_SENSOR_PIN = GPIO_LEVEL_LOW;
     data.pump.configured_duration_level = 5U;
@@ -428,15 +428,15 @@ void test_sensor_low_is_wet(void)
 
     watering_handle_sensor_check();
 
-    TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
+    TEST_ASSERT_EQUAL_UINT8(5U, data.pump.remaining_cycle_levels);
 }
 
 /**
- * @brief Verify HIGH sensor value is interpreted as dry (activate).
+ * @brief Verify HIGH sensor value is interpreted as wet (no action).
  *
  * Explicit polarity check. Detects inverted sensor logic.
  */
-void test_sensor_high_is_dry(void)
+void test_sensor_high_is_wet(void)
 {
     SOIL_SENSOR_PIN = GPIO_LEVEL_HIGH;
     data.pump.configured_duration_level = 5U;
@@ -444,7 +444,7 @@ void test_sensor_high_is_dry(void)
 
     watering_handle_sensor_check();
 
-    TEST_ASSERT_EQUAL_UINT8(5U, data.pump.remaining_cycle_levels);
+    TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
 }
 
 /* ================================================================
@@ -574,8 +574,8 @@ int main(void)
     RUN_TEST(test_dry_button_state_unchanged);
 
     /* Group 7: Sensor polarity */
-    RUN_TEST(test_sensor_low_is_wet);
-    RUN_TEST(test_sensor_high_is_dry);
+    RUN_TEST(test_sensor_low_is_dry);
+    RUN_TEST(test_sensor_high_is_wet);
 
     /* Group 8: Consecutive dry checks */
     RUN_TEST(test_dry_consecutive_reloads_identical);

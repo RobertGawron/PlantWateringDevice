@@ -55,7 +55,7 @@ common_sources = [
   test('test_display', display_test)
 
   # Update pump duration tests
-  update_pump_duration_test = executable(
+  watering_update_pump_duration_test = executable(
     'test_update_pump_duration',
     common_sources + [
       'tests/test_update_pump_duration.c',
@@ -64,7 +64,7 @@ common_sources = [
     c_args : ['-DUNIT_TEST']
   )
 
-  test('test_update_pump_duration', update_pump_duration_test)
+  test('test_update_pump_duration', watering_update_pump_duration_test)
 
   # Handle sensor check tests
   handle_sensor_check_test = executable(

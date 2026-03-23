@@ -11,8 +11,8 @@
  *   Connected to the CD4026 clock input of a single-digit seven-segment display.
  *
  * - GP1 (pin 3): Input - Soil moisture sensor
- *   HIGH = soil is dry (watering required)
- *   LOW  = soil is wet (no action)
+ *   HIGH = soil is wet (no action)
+ *   LOW  = soil is dry (watering required)
  *
  * - GP2 (pin 4): Output - Pump MOSFT control
  *   HIGH = pump running

@@ -52,7 +52,7 @@
  * Initial seconds counter value used to schedule
  * the first soil check after startup delay.
  */
-#define SOIL_CHECK_STARTUP_SECONDS_INIT \
+#define WATERING_SOIL_CHECK_STARTUP_SECONDS_INIT \
     (WATERING_TIME_SECONDS_PER_MINUTE - WATERING_SOIL_CHECK_STARTUP_DELAY_SECONDS)
 
 typedef struct

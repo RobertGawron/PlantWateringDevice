@@ -66,7 +66,7 @@ PlantWateringData data =
         .time =
             {
                 .tick = 0U,
-                .seconds = SOIL_CHECK_STARTUP_SECONDS_INIT,
+                .seconds = WATERING_SOIL_CHECK_STARTUP_SECONDS_INIT,
                 .minutes = WATERING_SOIL_CHECK_STARTUP_MINUTES_INIT},
 
         .button_was_pressed = false,
@@ -277,19 +277,19 @@ void watering_handle_button(void)
         ==> data.pump.level_remaining_seconds > 0;
 
     assigns data.pump.remaining_cycle_levels,
-        data.pump.level_remaining_seconds;
+            data.pump.level_remaining_seconds;
 
     ensures data.pump.remaining_cycle_levels > 0
         ==> data.pump.level_remaining_seconds > 0;
 
     behavior soil_dry:
-        assumes GPIObits.GP1 == GPIO_LEVEL_HIGH;
+        assumes GPIObits.GP1 == GPIO_LEVEL_LOW;
         ensures data.pump.remaining_cycle_levels ==
             data.pump.configured_duration_level;
         ensures data.pump.level_remaining_seconds == WATERING_PUMP_STEP_DURATION_SECONDS;
 
     behavior soil_moist:
-        assumes GPIObits.GP1 == GPIO_LEVEL_LOW;
+        assumes GPIObits.GP1 == GPIO_LEVEL_HIGH;
         assigns \nothing;
 
     complete behaviors;
@@ -297,7 +297,7 @@ void watering_handle_button(void)
 */
 void watering_handle_sensor_check(void)
 {
-    if (GPIO_IS_HIGH(GPIO_SOIL_SENSOR_INPUT))
+    if (GPIO_IS_HIGH(GPIO_SOIL_SENSOR_INPUT) == false)
     {
         WATERING_LOG_WARNING("Soil dry - starting watering (level %d, %ds)",
                              data.pump.configured_duration_level,
