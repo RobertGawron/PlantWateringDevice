@@ -1,28 +1,28 @@
 /**
- * @file test_handle_sensor_check.c
+ * @file test_watering_handle_sensor_check.c
  *
  * @brief Unit tests for the soil moisture sensor check logic.
  *
  * @details
- * handle_sensor_check() is called once per hour by the main loop
+ * watering_handle_sensor_check() is called once per hour by the main loop
  * timebase. It reads the soil moisture sensor and, if the soil is
  * dry, schedules a pump activation cycle.
  *
  * Behavior:
  *
  * 1. Sensor read: GPIO_SOIL_SENSOR_INPUT is sampled.
- *    HIGH = soil is dry (watering required).
- *    LOW  = soil is wet (no action).
+ *    LOW  = soil is dry (watering required).
+ *    HIGH = soil is wet (no action).
  *
  * 2. Activation: When soil is dry:
  *    - remaining_cycle_levels is loaded from configured_duration_level.
- *    - level_remaining_seconds is reset to PUMP_STEP_DURATION_SECONDS.
+ *    - level_remaining_seconds is reset to WATERING_PUMP_STEP_DURATION_SECONDS.
  *
  * 3. No action: When soil is wet, no state is modified.
  *
  * Architectural constraints:
  * - Pump runtime is shorter than the soil-check interval; therefore,
- *   the pump will always be idle when handle_sensor_check is called
+ *   the pump will always be idle when watering_handle_sensor_check is called
  *   under normal operation. However, the function itself does not
  *   enforce this.
  *
@@ -34,7 +34,7 @@
 #include "xc.h"
 #include "watering.h"
 
-extern void handle_sensor_check(void);
+extern void watering_handle_sensor_check(void);
 extern PlantWateringData data;
 
 #define SOIL_SENSOR_PIN GPIObits.GP1
@@ -42,26 +42,26 @@ extern PlantWateringData data;
 #define GPIO_LEVEL_LOW (0U)
 #define GPIO_LEVEL_HIGH (1U)
 
-#define SOIL_DRY GPIO_LEVEL_HIGH
-#define SOIL_WET GPIO_LEVEL_LOW
+#define SOIL_DRY GPIO_LEVEL_LOW
+#define SOIL_WET GPIO_LEVEL_HIGH
 
 /**
- * @note PUMP_DURATION_LEVEL_MAX is defined in watering.c (translation
+ * @note WATERING_PUMP_DURATION_LEVEL_MAX is defined in watering.c (translation
  *       unit scope). Duplicated here for boundary verification.
  *       Must be kept in sync with the production definition.
  */
-#define PUMP_DURATION_LEVEL_MAX (9U)
+#define WATERING_PUMP_DURATION_LEVEL_MAX (9U)
 
 /** Minimum selectable pump duration level (in steps). */
-#define PUMP_DURATION_LEVEL_MIN (1U)
+#define WATERING_PUMP_DURATION_LEVEL_MIN (1U)
 
 /** Duration of one pump level in seconds. */
-#define PUMP_STEP_DURATION_SECONDS (5U)
+#define WATERING_PUMP_STEP_DURATION_SECONDS (5U)
 
 void setUp(void)
 {
     SOIL_SENSOR_PIN = SOIL_WET;
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
     data.pump.level_remaining_seconds = 0U;
     data.send_pulse_to_display = false;
@@ -84,7 +84,7 @@ void test_wet_no_activation(void)
     data.pump.configured_duration_level = 5U;
     data.pump.remaining_cycle_levels = 0U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
 }
@@ -97,7 +97,7 @@ void test_wet_seconds_unchanged(void)
     SOIL_SENSOR_PIN = SOIL_WET;
     data.pump.level_remaining_seconds = 0U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.level_remaining_seconds);
 }
@@ -107,14 +107,14 @@ void test_wet_seconds_unchanged(void)
  *        is not modified when wet.
  *
  * Guards against the function resetting seconds to
- * PUMP_STEP_DURATION_SECONDS regardless of sensor state.
+ * WATERING_PUMP_STEP_DURATION_SECONDS regardless of sensor state.
  */
 void test_wet_stale_seconds_not_modified(void)
 {
     SOIL_SENSOR_PIN = SOIL_WET;
     data.pump.level_remaining_seconds = 3U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_EQUAL_UINT8(3U, data.pump.level_remaining_seconds);
 }
@@ -128,7 +128,7 @@ void test_wet_configured_duration_unchanged(void)
     SOIL_SENSOR_PIN = SOIL_WET;
     data.pump.configured_duration_level = 7U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_EQUAL_UINT8(7U, data.pump.configured_duration_level);
 }
@@ -145,7 +145,7 @@ void test_wet_stale_remaining_not_modified(void)
     SOIL_SENSOR_PIN = SOIL_WET;
     data.pump.remaining_cycle_levels = 4U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_EQUAL_UINT8(4U, data.pump.remaining_cycle_levels);
 }
@@ -159,7 +159,7 @@ void test_wet_display_flags_unchanged(void)
     data.send_pulse_to_display = false;
     data.sending_pulse_to_display = true;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_FALSE(data.send_pulse_to_display);
     TEST_ASSERT_TRUE(data.sending_pulse_to_display);
@@ -173,7 +173,7 @@ void test_wet_button_state_unchanged(void)
     SOIL_SENSOR_PIN = SOIL_WET;
     data.button_was_pressed = true;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_TRUE(data.button_was_pressed);
 }
@@ -190,7 +190,7 @@ void test_wet_consecutive_calls_no_change(void)
 
     for (uint8_t i = 0; i < 10U; i++)
     {
-        handle_sensor_check();
+        watering_handle_sensor_check();
     }
 
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
@@ -212,14 +212,14 @@ void test_dry_loads_remaining_from_configured(void)
     data.pump.configured_duration_level = 5U;
     data.pump.remaining_cycle_levels = 0U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_EQUAL_UINT8(5U, data.pump.remaining_cycle_levels);
 }
 
 /**
  * @brief Verify level_remaining_seconds is reset to
- *        PUMP_STEP_DURATION_SECONDS when dry.
+ *        WATERING_PUMP_STEP_DURATION_SECONDS when dry.
  */
 void test_dry_resets_seconds(void)
 {
@@ -227,9 +227,9 @@ void test_dry_resets_seconds(void)
     data.pump.configured_duration_level = 3U;
     data.pump.level_remaining_seconds = 0U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
 }
 
@@ -243,9 +243,9 @@ void test_dry_resets_seconds_from_stale_value(void)
     data.pump.configured_duration_level = 2U;
     data.pump.level_remaining_seconds = 99U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
 }
 
@@ -259,7 +259,7 @@ void test_dry_configured_duration_unchanged(void)
     SOIL_SENSOR_PIN = SOIL_DRY;
     data.pump.configured_duration_level = 8U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_EQUAL_UINT8(8U, data.pump.configured_duration_level);
 }
@@ -276,14 +276,14 @@ void test_dry_configured_duration_unchanged(void)
 void test_dry_min_level_loads_correctly(void)
 {
     SOIL_SENSOR_PIN = SOIL_DRY;
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN,
                             data.pump.remaining_cycle_levels);
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
 }
 
@@ -291,16 +291,16 @@ void test_dry_min_level_loads_correctly(void)
  * @brief Verify remaining_cycle_levels is not zero after min
  *        level activation.
  *
- * Explicit zero-exclusion. If remaining is zero, handle_pump
+ * Explicit zero-exclusion. If remaining is zero, watering_handle_pump
  * would never turn the pump on.
  */
 void test_dry_min_level_remaining_not_zero(void)
 {
     SOIL_SENSOR_PIN = SOIL_DRY;
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_NOT_EQUAL(0U, data.pump.remaining_cycle_levels);
 }
@@ -315,19 +315,19 @@ void test_dry_min_level_remaining_not_zero(void)
 void test_dry_max_level_loads_correctly(void)
 {
     SOIL_SENSOR_PIN = SOIL_DRY;
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MAX;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MAX;
     data.pump.remaining_cycle_levels = 0U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MAX,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MAX,
                             data.pump.remaining_cycle_levels);
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
 }
 
 /**
- * @brief Verify seconds is exactly PUMP_STEP_DURATION_SECONDS
+ * @brief Verify seconds is exactly WATERING_PUMP_STEP_DURATION_SECONDS
  *        at max level, not scaled by level.
  *
  * Guards against an implementation that multiplies seconds by
@@ -336,11 +336,11 @@ void test_dry_max_level_loads_correctly(void)
 void test_dry_max_level_seconds_not_scaled(void)
 {
     SOIL_SENSOR_PIN = SOIL_DRY;
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MAX;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MAX;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
 }
 
@@ -355,21 +355,21 @@ void test_dry_max_level_seconds_not_scaled(void)
  */
 void test_dry_all_levels_load_correctly(void)
 {
-    for (uint8_t level = PUMP_DURATION_LEVEL_MIN;
-         level <= PUMP_DURATION_LEVEL_MAX; level++)
+    for (uint8_t level = WATERING_PUMP_DURATION_LEVEL_MIN;
+         level <= WATERING_PUMP_DURATION_LEVEL_MAX; level++)
     {
         SOIL_SENSOR_PIN = SOIL_DRY;
         data.pump.configured_duration_level = level;
         data.pump.remaining_cycle_levels = 0U;
         data.pump.level_remaining_seconds = 0U;
 
-        handle_sensor_check();
+        watering_handle_sensor_check();
 
         TEST_ASSERT_EQUAL_UINT8_MESSAGE(
             level, data.pump.remaining_cycle_levels,
             "remaining_cycle_levels mismatch");
         TEST_ASSERT_EQUAL_UINT8_MESSAGE(
-            PUMP_STEP_DURATION_SECONDS,
+            WATERING_PUMP_STEP_DURATION_SECONDS,
             data.pump.level_remaining_seconds,
             "level_remaining_seconds mismatch");
     }
@@ -382,7 +382,7 @@ void test_dry_all_levels_load_correctly(void)
 /**
  * @brief Verify display flags are not modified when dry.
  *
- * handle_sensor_check must not trigger display pulses.
+ * watering_handle_sensor_check must not trigger display pulses.
  */
 void test_dry_display_flags_unchanged(void)
 {
@@ -391,7 +391,7 @@ void test_dry_display_flags_unchanged(void)
     data.send_pulse_to_display = false;
     data.sending_pulse_to_display = true;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_FALSE(data.send_pulse_to_display);
     TEST_ASSERT_TRUE(data.sending_pulse_to_display);
@@ -406,7 +406,7 @@ void test_dry_button_state_unchanged(void)
     data.pump.configured_duration_level = 3U;
     data.button_was_pressed = true;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_TRUE(data.button_was_pressed);
 }
@@ -416,35 +416,35 @@ void test_dry_button_state_unchanged(void)
  * ================================================================ */
 
 /**
- * @brief Verify LOW sensor value is interpreted as wet (no action).
+ * @brief Verify LOW sensor value is interpreted as dry (activate).
  *
  * Explicit polarity check. Detects inverted sensor logic.
  */
-void test_sensor_low_is_wet(void)
+void test_sensor_low_is_dry(void)
 {
     SOIL_SENSOR_PIN = GPIO_LEVEL_LOW;
     data.pump.configured_duration_level = 5U;
     data.pump.remaining_cycle_levels = 0U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
-    TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
+    TEST_ASSERT_EQUAL_UINT8(5U, data.pump.remaining_cycle_levels);
 }
 
 /**
- * @brief Verify HIGH sensor value is interpreted as dry (activate).
+ * @brief Verify HIGH sensor value is interpreted as wet (no action).
  *
  * Explicit polarity check. Detects inverted sensor logic.
  */
-void test_sensor_high_is_dry(void)
+void test_sensor_high_is_wet(void)
 {
     SOIL_SENSOR_PIN = GPIO_LEVEL_HIGH;
     data.pump.configured_duration_level = 5U;
     data.pump.remaining_cycle_levels = 0U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
-    TEST_ASSERT_EQUAL_UINT8(5U, data.pump.remaining_cycle_levels);
+    TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
 }
 
 /* ================================================================
@@ -468,17 +468,17 @@ void test_dry_consecutive_reloads_identical(void)
         data.pump.remaining_cycle_levels = 0U;
         data.pump.level_remaining_seconds = 0U;
 
-        handle_sensor_check();
+        watering_handle_sensor_check();
 
         TEST_ASSERT_EQUAL_UINT8(4U,
                                 data.pump.remaining_cycle_levels);
-        TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+        TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                                 data.pump.level_remaining_seconds);
     }
 }
 
 /**
- * @brief Verify that calling handle_sensor_check while the pump
+ * @brief Verify that calling watering_handle_sensor_check while the pump
  *        is still running overwrites remaining_cycle_levels.
  *
  * Under normal operation this cannot happen (pump finishes before
@@ -493,10 +493,10 @@ void test_dry_overwrites_active_remaining(void)
     data.pump.remaining_cycle_levels = 7U;
     data.pump.level_remaining_seconds = 2U;
 
-    handle_sensor_check();
+    watering_handle_sensor_check();
 
     TEST_ASSERT_EQUAL_UINT8(3U, data.pump.remaining_cycle_levels);
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
 }
 
@@ -519,21 +519,21 @@ void test_wet_dry_wet_sequence(void)
 
     /* Wet: no action */
     SOIL_SENSOR_PIN = SOIL_WET;
-    handle_sensor_check();
+    watering_handle_sensor_check();
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
 
     /* Dry: activate */
     SOIL_SENSOR_PIN = SOIL_DRY;
-    handle_sensor_check();
+    watering_handle_sensor_check();
     TEST_ASSERT_EQUAL_UINT8(6U, data.pump.remaining_cycle_levels);
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
 
     /* Wet: must not cancel activation */
     SOIL_SENSOR_PIN = SOIL_WET;
-    handle_sensor_check();
+    watering_handle_sensor_check();
     TEST_ASSERT_EQUAL_UINT8(6U, data.pump.remaining_cycle_levels);
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
 }
 
@@ -574,8 +574,8 @@ int main(void)
     RUN_TEST(test_dry_button_state_unchanged);
 
     /* Group 7: Sensor polarity */
-    RUN_TEST(test_sensor_low_is_wet);
-    RUN_TEST(test_sensor_high_is_dry);
+    RUN_TEST(test_sensor_low_is_dry);
+    RUN_TEST(test_sensor_high_is_wet);
 
     /* Group 8: Consecutive dry checks */
     RUN_TEST(test_dry_consecutive_reloads_identical);

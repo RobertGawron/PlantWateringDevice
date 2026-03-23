@@ -19,7 +19,7 @@
  *  - ...
  *  - Level 9 -> 45 seconds
  *
- * Each level corresponds to PUMP_STEP_DURATION_SECONDS seconds
+ * Each level corresponds to WATERING_PUMP_STEP_DURATION_SECONDS seconds
  * of pump activity.
  *
  * Runtime model:
@@ -35,7 +35,7 @@
  *      - When level_remaining_seconds reaches 0:
  *            remaining_cycle_levels is decremented.
  *            If remaining_cycle_levels > 0, level_remaining_seconds
- *            resets to PUMP_STEP_DURATION_SECONDS.
+ *            resets to WATERING_PUMP_STEP_DURATION_SECONDS.
  *
  * The tests below verify all state transitions and boundary conditions
  * of this state machine.
@@ -45,7 +45,7 @@
 #include "xc.h"
 #include "watering.h"
 
-extern void handle_pump(void);
+extern void watering_handle_pump(void);
 extern PlantWateringData data;
 
 #define MOSFET_PIN GPIObits.GP2
@@ -58,15 +58,15 @@ extern PlantWateringData data;
 #define PUMP_OFF GPIO_LEVEL_LOW
 
 /** Minimum selectable pump duration level (in steps). */
-#define PUMP_DURATION_LEVEL_MIN (1U)
+#define WATERING_PUMP_DURATION_LEVEL_MIN (1U)
 
 /** Duration of one pump level in seconds. */
-#define PUMP_STEP_DURATION_SECONDS (5U)
+#define WATERING_PUMP_STEP_DURATION_SECONDS (5U)
 
 void setUp(void)
 {
     MOSFET_PIN = GPIO_LEVEL_LOW;
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
     data.pump.level_remaining_seconds = 0U;
 }
@@ -85,7 +85,7 @@ void test_idle_pump_remains_off(void)
     data.pump.remaining_cycle_levels = 0U;
     data.pump.level_remaining_seconds = 0U;
 
-    handle_pump();
+    watering_handle_pump();
 
     TEST_ASSERT_EQUAL_UINT8(PUMP_OFF, MOSFET_PIN);
 }
@@ -100,9 +100,9 @@ void test_idle_pump_remains_off(void)
 void test_idle_pump_off_despite_stale_seconds(void)
 {
     data.pump.remaining_cycle_levels = 0U;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
-    handle_pump();
+    watering_handle_pump();
 
     TEST_ASSERT_EQUAL_UINT8(PUMP_OFF, MOSFET_PIN);
 }
@@ -110,7 +110,7 @@ void test_idle_pump_off_despite_stale_seconds(void)
 /**
  * @brief Verify level_remaining_seconds is not modified when idle.
  *
- * handle_pump must not decrement or reset level_remaining_seconds
+ * watering_handle_pump must not decrement or reset level_remaining_seconds
  * when remaining_cycle_levels is zero.
  */
 void test_idle_does_not_modify_level_remaining_seconds(void)
@@ -118,7 +118,7 @@ void test_idle_does_not_modify_level_remaining_seconds(void)
     data.pump.remaining_cycle_levels = 0U;
     data.pump.level_remaining_seconds = 3U;
 
-    handle_pump();
+    watering_handle_pump();
 
     TEST_ASSERT_EQUAL_UINT8(3U, data.pump.level_remaining_seconds);
 }
@@ -131,7 +131,7 @@ void test_idle_does_not_modify_remaining_cycle_levels(void)
     data.pump.remaining_cycle_levels = 0U;
     data.pump.level_remaining_seconds = 0U;
 
-    handle_pump();
+    watering_handle_pump();
 
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
 }
@@ -146,7 +146,7 @@ void test_consecutive_idle_calls_remain_off(void)
 
     for (uint8_t i = 0; i < 10U; i++)
     {
-        handle_pump();
+        watering_handle_pump();
         TEST_ASSERT_EQUAL_UINT8(PUMP_OFF, MOSFET_PIN);
     }
 }
@@ -161,9 +161,9 @@ void test_consecutive_idle_calls_remain_off(void)
 void test_active_pump_turns_on(void)
 {
     data.pump.remaining_cycle_levels = 1U;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
-    handle_pump();
+    watering_handle_pump();
 
     TEST_ASSERT_EQUAL_UINT8(PUMP_ON, MOSFET_PIN);
 }
@@ -175,11 +175,11 @@ void test_active_pump_turns_on(void)
 void test_active_seconds_decrement_without_level_change(void)
 {
     data.pump.remaining_cycle_levels = 2U;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
-    handle_pump();
+    watering_handle_pump();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS - 1U,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS - 1U,
                             data.pump.level_remaining_seconds);
     TEST_ASSERT_EQUAL_UINT8(2U, data.pump.remaining_cycle_levels);
     TEST_ASSERT_EQUAL_UINT8(PUMP_ON, MOSFET_PIN);
@@ -187,7 +187,7 @@ void test_active_seconds_decrement_without_level_change(void)
 
 /**
  * @brief Verify configured_duration_level is never modified by
- *        handle_pump across an entire watering cycle.
+ *        watering_handle_pump across an entire watering cycle.
  *
  * configured_duration_level is a user setting and must remain
  * constant throughout pump operation.
@@ -196,15 +196,15 @@ void test_active_configured_duration_unchanged(void)
 {
     data.pump.configured_duration_level = 7U;
     data.pump.remaining_cycle_levels = 3U;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
     /* Run through the entire cycle and beyond into idle */
     const uint8_t total_calls =
-        (3U * PUMP_STEP_DURATION_SECONDS) + 5U;
+        (3U * WATERING_PUMP_STEP_DURATION_SECONDS) + 5U;
 
     for (uint8_t i = 0; i < total_calls; i++)
     {
-        handle_pump();
+        watering_handle_pump();
     }
 
     TEST_ASSERT_EQUAL_UINT8(7U, data.pump.configured_duration_level);
@@ -223,10 +223,10 @@ void test_level_transition_decrements_and_resets_seconds(void)
     data.pump.remaining_cycle_levels = 2U;
     data.pump.level_remaining_seconds = 1U;
 
-    handle_pump();
+    watering_handle_pump();
 
     TEST_ASSERT_EQUAL_UINT8(1U, data.pump.remaining_cycle_levels);
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
     TEST_ASSERT_EQUAL_UINT8(PUMP_ON, MOSFET_PIN);
 }
@@ -240,12 +240,12 @@ void test_level_transition_decrements_and_resets_seconds(void)
 void test_seconds_countdown_through_entire_level(void)
 {
     data.pump.remaining_cycle_levels = 1U;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
-    for (uint8_t expected = PUMP_STEP_DURATION_SECONDS;
+    for (uint8_t expected = WATERING_PUMP_STEP_DURATION_SECONDS;
          expected > 1U; expected--)
     {
-        handle_pump();
+        watering_handle_pump();
         TEST_ASSERT_EQUAL_UINT8(expected - 1U,
                                 data.pump.level_remaining_seconds);
         TEST_ASSERT_EQUAL_UINT8(1U,
@@ -253,7 +253,7 @@ void test_seconds_countdown_through_entire_level(void)
     }
 
     /* Final second of this level */
-    handle_pump();
+    watering_handle_pump();
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.level_remaining_seconds);
 }
@@ -270,7 +270,7 @@ void test_final_level_completion_pump_on_and_state_zeroed(void)
     data.pump.remaining_cycle_levels = 1U;
     data.pump.level_remaining_seconds = 1U;
 
-    handle_pump();
+    watering_handle_pump();
 
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.level_remaining_seconds);
@@ -280,7 +280,7 @@ void test_final_level_completion_pump_on_and_state_zeroed(void)
 
 /**
  * @brief Verify that level_remaining_seconds is NOT reset to
- *        PUMP_STEP_DURATION_SECONDS when remaining_cycle_levels
+ *        WATERING_PUMP_STEP_DURATION_SECONDS when remaining_cycle_levels
  *        reaches zero.
  *
  * Documents the correct terminal state. If seconds were
@@ -292,10 +292,10 @@ void test_final_level_seconds_not_reset(void)
     data.pump.remaining_cycle_levels = 1U;
     data.pump.level_remaining_seconds = 1U;
 
-    handle_pump();
+    watering_handle_pump();
 
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.level_remaining_seconds);
-    TEST_ASSERT_NOT_EQUAL(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_NOT_EQUAL(WATERING_PUMP_STEP_DURATION_SECONDS,
                           data.pump.level_remaining_seconds);
 }
 
@@ -316,11 +316,11 @@ void test_pump_off_on_call_after_completion(void)
     data.pump.level_remaining_seconds = 1U;
 
     /* Final active call */
-    handle_pump();
+    watering_handle_pump();
     TEST_ASSERT_EQUAL_UINT8(PUMP_ON, MOSFET_PIN);
 
     /* First idle call — pump must be OFF */
-    handle_pump();
+    watering_handle_pump();
     TEST_ASSERT_EQUAL_UINT8(PUMP_OFF, MOSFET_PIN);
 }
 
@@ -332,18 +332,18 @@ void test_reactivation_after_completion(void)
     /* Complete a cycle */
     data.pump.remaining_cycle_levels = 1U;
     data.pump.level_remaining_seconds = 1U;
-    handle_pump();
-    handle_pump();
+    watering_handle_pump();
+    watering_handle_pump();
     TEST_ASSERT_EQUAL_UINT8(PUMP_OFF, MOSFET_PIN);
 
     /* Re-activate */
     data.pump.remaining_cycle_levels = 2U;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
-    handle_pump();
+    watering_handle_pump();
     TEST_ASSERT_EQUAL_UINT8(PUMP_ON, MOSFET_PIN);
     TEST_ASSERT_EQUAL_UINT8(2U, data.pump.remaining_cycle_levels);
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS - 1U,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS - 1U,
                             data.pump.level_remaining_seconds);
 }
 
@@ -358,15 +358,15 @@ void test_reactivation_after_completion(void)
 void test_full_cycle_single_level(void)
 {
     data.pump.remaining_cycle_levels = 1U;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
-    const uint8_t expected_on = PUMP_STEP_DURATION_SECONDS;
+    const uint8_t expected_on = WATERING_PUMP_STEP_DURATION_SECONDS;
     const uint8_t total_calls = expected_on + 1U;
     uint8_t on_count = 0U;
 
     for (uint8_t i = 0; i < total_calls; i++)
     {
-        handle_pump();
+        watering_handle_pump();
         if (MOSFET_PIN == PUMP_ON)
         {
             on_count++;
@@ -385,15 +385,15 @@ void test_full_cycle_single_level(void)
 void test_full_cycle_two_levels(void)
 {
     data.pump.remaining_cycle_levels = 2U;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
-    const uint8_t expected_on = 2U * PUMP_STEP_DURATION_SECONDS;
+    const uint8_t expected_on = 2U * WATERING_PUMP_STEP_DURATION_SECONDS;
     const uint8_t total_calls = expected_on + 1U;
     uint8_t on_count = 0U;
 
     for (uint8_t i = 0; i < total_calls; i++)
     {
-        handle_pump();
+        watering_handle_pump();
         if (MOSFET_PIN == PUMP_ON)
         {
             on_count++;
@@ -416,16 +416,16 @@ void test_full_cycle_max_level(void)
     const uint8_t max_level = 9U;
 
     data.pump.remaining_cycle_levels = max_level;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
     const uint8_t expected_on =
-        max_level * PUMP_STEP_DURATION_SECONDS;
+        max_level * WATERING_PUMP_STEP_DURATION_SECONDS;
     const uint8_t total_calls = expected_on + 1U;
     uint8_t on_count = 0U;
 
     for (uint8_t i = 0; i < total_calls; i++)
     {
-        handle_pump();
+        watering_handle_pump();
         if (MOSFET_PIN == PUMP_ON)
         {
             on_count++;
@@ -447,20 +447,20 @@ void test_full_cycle_max_level(void)
 void test_mosfet_on_every_active_call(void)
 {
     data.pump.remaining_cycle_levels = 3U;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
-    const uint8_t expected_on = 3U * PUMP_STEP_DURATION_SECONDS;
+    const uint8_t expected_on = 3U * WATERING_PUMP_STEP_DURATION_SECONDS;
 
     for (uint8_t i = 0; i < expected_on; i++)
     {
-        handle_pump();
+        watering_handle_pump();
         TEST_ASSERT_EQUAL_UINT8_MESSAGE(
             PUMP_ON, MOSFET_PIN,
             "MOSFET unexpectedly OFF during active cycle");
     }
 
     /* Next call must turn OFF */
-    handle_pump();
+    watering_handle_pump();
     TEST_ASSERT_EQUAL_UINT8(PUMP_OFF, MOSFET_PIN);
 }
 
@@ -480,11 +480,11 @@ void test_minimum_active_state(void)
     data.pump.remaining_cycle_levels = 1U;
     data.pump.level_remaining_seconds = 1U;
 
-    handle_pump();
+    watering_handle_pump();
     TEST_ASSERT_EQUAL_UINT8(PUMP_ON, MOSFET_PIN);
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
 
-    handle_pump();
+    watering_handle_pump();
     TEST_ASSERT_EQUAL_UINT8(PUMP_OFF, MOSFET_PIN);
 }
 

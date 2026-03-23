@@ -5,7 +5,7 @@
 /**
  * Log level types matching the HTML filter checkboxes
  */
-export type LogLevel = 'info' | 'warning' | 'error' | 'debug-low' | 'debug-high';
+export type WateringLogLevel = 'info' | 'warning' | 'error' | 'debug-low' | 'debug-high';
 
 /**
  * Filter checkbox IDs mapped from log levels
@@ -45,7 +45,7 @@ const LOG_ELEMENT_ID = 'log';
  * @param type - Log type like "debug-low", "info", etc.
  * @returns Filter ID like "filterDebugLow"
  */
-function getFilterId(type: LogLevel): FilterId {
+function getFilterId(type: WateringLogLevel): FilterId {
     // Split by hyphen and capitalize each part
     // "debug-low" -> ["debug", "low"] -> ["Debug", "Low"] -> "DebugLow"
     const parts = type.split('-');
@@ -61,7 +61,7 @@ function getFilterId(type: LogLevel): FilterId {
  * @param type - Log level to check
  * @returns true if the log level should be displayed
  */
-function isLogLevelEnabled(type: LogLevel): boolean {
+function isWateringLogLevelEnabled(type: WateringLogLevel): boolean {
     const filterId = getFilterId(type);
     const filterCheckbox = document.getElementById(filterId) as HTMLInputElement | null;
     
@@ -108,7 +108,11 @@ function trimOldEntries(logElement: HTMLElement): void {
 // ------------------------------------------------------------
 // Public API
 // ------------------------------------------------------------
-
+// These functions use the underscore naming convention because 
+// that is the convention in C, and they are used in C code.
+// Firmware is the main part of the project; simulation 
+// is secondary. Therefore, the inconsistency will be in 
+// TypeScript, not in the firmware. 
 /**
  * Add a log entry to the system log
  * 
@@ -120,9 +124,9 @@ function trimOldEntries(logElement: HTMLElement): void {
  * @param message - Log message to display
  * @param type - Log type: 'info', 'warning', 'error', 'debug-low', 'debug-high'
  */
-export function addLog(message: string, type: LogLevel = 'info'): void {
+export function addLog(message: string, type: WateringLogLevel = 'info'): void {
     // Check if this log level is filtered out
-    if (!isLogLevelEnabled(type)) {
+    if (!isWateringLogLevelEnabled(type)) {
         return;
     }
 
@@ -164,7 +168,7 @@ export function clearLog(): void {
  * 
  * @param message - Log message
  */
-export function logInfo(message: string): void {
+export function WATERING_LOG_INFO(message: string): void {
     addLog(message, 'info');
 }
 
@@ -173,7 +177,7 @@ export function logInfo(message: string): void {
  * 
  * @param message - Log message
  */
-export function logWarning(message: string): void {
+export function WATERING_LOG_WARNING(message: string): void {
     addLog(message, 'warning');
 }
 
@@ -182,7 +186,7 @@ export function logWarning(message: string): void {
  * 
  * @param message - Log message
  */
-export function logError(message: string): void {
+export function WATERING_LOG_ERROR(message: string): void {
     addLog(message, 'error');
 }
 
@@ -191,7 +195,7 @@ export function logError(message: string): void {
  * 
  * @param message - Log message
  */
-export function logDebugLow(message: string): void {
+export function WATERING_LOG_DEBUG_LOW(message: string): void {
     addLog(message, 'debug-low');
 }
 
@@ -200,7 +204,7 @@ export function logDebugLow(message: string): void {
  * 
  * @param message - Log message
  */
-export function logDebugHigh(message: string): void {
+export function WATERING_LOG_DEBUG_HIGH(message: string): void {
     addLog(message, 'debug-high');
 }
 
@@ -210,7 +214,7 @@ export function logDebugHigh(message: string): void {
  * @param context - Context description for the error
  * @param error - Error object or unknown error
  */
-export function logErrorObject(context: string, error: unknown): void {
+export function WATERING_LOG_ERRORObject(context: string, error: unknown): void {
     const errorMessage = error instanceof Error ? error.message : String(error);
     addLog(`${context}: ${errorMessage}`, 'error');
     console.error(`[LOGGING] ${context}:`, error);

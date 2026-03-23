@@ -10,45 +10,45 @@
  * ================================================================ */
 
 /** Maximum selectable pump duration (in steps). */
-#define PUMP_DURATION_LEVEL_MAX (9U)
-
-#define PUMP_MAX_RUNTIME_SECONDS \
-    (PUMP_DURATION_LEVEL_MAX * PUMP_STEP_DURATION_SECONDS)
-
-#define SOIL_CHECK_INTERVAL_SECONDS \
-    (TIME_SECONDS_PER_MINUTE * TIME_MINUTES_PER_HOUR)
-
-/** Minimum selectable pump duration level (in steps). */
-#define PUMP_DURATION_LEVEL_MIN (1U)
+#define WATERING_PUMP_DURATION_LEVEL_MAX (9U)
 
 /** Duration of one pump level in seconds. */
-#define PUMP_STEP_DURATION_SECONDS (5U)
+#define WATERING_PUMP_STEP_DURATION_SECONDS (5U)
+
+#define WATERING_PUMP_MAX_RUNTIME_SECONDS \
+    (WATERING_PUMP_DURATION_LEVEL_MAX * WATERING_PUMP_STEP_DURATION_SECONDS)
+
+#define WATERING_SOIL_CHECK_INTERVAL_SECONDS \
+    (WATERING_TIME_SECONDS_PER_MINUTE * WATERING_TIME_MINUTES_PER_HOUR)
+
+/** Minimum selectable pump duration level (in steps). */
+#define WATERING_PUMP_DURATION_LEVEL_MIN (1U)
 
 /* ================================================================
  * ASSERTS
  * ================================================================ */
 
 _Static_assert(
-    PUMP_MAX_RUNTIME_SECONDS < SOIL_CHECK_INTERVAL_SECONDS,
+    WATERING_PUMP_MAX_RUNTIME_SECONDS < WATERING_SOIL_CHECK_INTERVAL_SECONDS,
     "Pump runtime must be shorter than soil check interval.");
 
 _Static_assert(
-    PUMP_DURATION_LEVEL_MIN == 1U,
+    WATERING_PUMP_DURATION_LEVEL_MIN == 1U,
     "Minimum pump duration level must be 1. If changed, the display driver "
     "startup pulse logic must be updated to ensure the displayed value "
     "matches the minimum level.");
 
 _Static_assert(
-    SOIL_CHECK_STARTUP_DELAY_SECONDS < TIME_SECONDS_PER_MINUTE,
+    WATERING_SOIL_CHECK_STARTUP_DELAY_SECONDS < WATERING_TIME_SECONDS_PER_MINUTE,
     "Startup delay must be less than 60 seconds.");
 
 _Static_assert(
-    (TIME_MILLISECONDS_PER_SECOND % TIME_BASE_TICK_MS) == 0U,
-    "TIME_BASE_TICK_MS must divide evenly into one second.");
+    (WATERING_TIME_MILLISECONDS_PER_SECOND % WATERING_TIME_BASE_TICK_MS) == 0U,
+    "WATERING_TIME_BASE_TICK_MS must divide evenly into one second.");
 
 _Static_assert(
-    (TIME_MILLISECONDS_PER_SECOND % TIME_BASE_TICK_MS) == 0U,
-    "TIME_BASE_TICK_MS must divide evenly into one second.");
+    (WATERING_TIME_MILLISECONDS_PER_SECOND % WATERING_TIME_BASE_TICK_MS) == 0U,
+    "WATERING_TIME_BASE_TICK_MS must divide evenly into one second.");
 
 /**
  * @note The 'Initialize data' option remains enabled.
@@ -59,15 +59,15 @@ PlantWateringData data =
     {
         .pump =
             {
-                .configured_duration_level = PUMP_DURATION_LEVEL_MIN,
+                .configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN,
                 .remaining_cycle_levels = 0U,
-                .level_remaining_seconds = PUMP_STEP_DURATION_SECONDS},
+                .level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS},
 
         .time =
             {
                 .tick = 0U,
-                .seconds = SOIL_CHECK_STARTUP_SECONDS_INIT,
-                .minutes = SOIL_CHECK_STARTUP_MINUTES_INIT},
+                .seconds = WATERING_SOIL_CHECK_STARTUP_SECONDS_INIT,
+                .minutes = WATERING_SOIL_CHECK_STARTUP_MINUTES_INIT},
 
         .button_was_pressed = false,
         .send_pulse_to_display = false,
@@ -79,7 +79,7 @@ PlantWateringData data =
  *
  * @note Assumption: Executed only when the pump is idle.
  */
-void update_pump_duration(void);
+void watering_update_pump_duration(void);
 
 /*@
     assigns OPTION, TRISGPIO,
@@ -92,8 +92,8 @@ void update_pump_duration(void);
     ensures GPIObits.GP2 == GPIO_LEVEL_LOW;
     ensures GPIObits.GP0 == GPIO_LEVEL_LOW;
 */
-void initialize(void)
-{    
+void watering_initialize(void)
+{
     /* Note: Taking advantage of XC8's support for binary literals (0b syntax). */
 
     /*
@@ -160,7 +160,7 @@ void initialize(void)
         ensures GPIObits.GP2 == GPIO_LEVEL_HIGH;
         ensures data.pump.remaining_cycle_levels ==
             \old(data.pump.remaining_cycle_levels) - 1;
-        ensures data.pump.level_remaining_seconds == PUMP_STEP_DURATION_SECONDS;
+        ensures data.pump.level_remaining_seconds == WATERING_PUMP_STEP_DURATION_SECONDS;
 
     behavior pump_cycle_complete:
         assumes data.pump.remaining_cycle_levels == 1;
@@ -172,7 +172,7 @@ void initialize(void)
     complete behaviors;
     disjoint behaviors;
 */
-void handle_pump(void)
+void watering_handle_pump(void)
 {
     if (data.pump.remaining_cycle_levels > 0U)
     {
@@ -182,16 +182,16 @@ void handle_pump(void)
         {
             data.pump.remaining_cycle_levels--;
 
-            logDebugHigh("Pump level complete (%d remaining)",
-                         data.pump.remaining_cycle_levels);
+            WATERING_LOG_DEBUG_HIGH("Pump level complete (%d remaining)",
+                                    data.pump.remaining_cycle_levels);
 
             if (data.pump.remaining_cycle_levels > 0U)
             {
-                data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+                data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
             }
             else
             {
-                logInfo("Watering cycle complete");
+                WATERING_LOG_INFO("Watering cycle complete");
             }
         }
     }
@@ -205,8 +205,8 @@ void handle_pump(void)
    therefore, pressing the button signals a LOW state. */
 
 /*@
-    requires data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
-    requires data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    requires data.pump.configured_duration_level >= WATERING_PUMP_DURATION_LEVEL_MIN;
+    requires data.pump.configured_duration_level <= WATERING_PUMP_DURATION_LEVEL_MAX;
     requires GPIObits.GP3 == 0 || GPIObits.GP3 == 1;
     requires data.button_was_pressed == true || data.button_was_pressed == false;
     requires data.pump.remaining_cycle_levels > 0
@@ -218,8 +218,8 @@ void handle_pump(void)
         data.pump.configured_duration_level,
         data.display_overflow_pulse;
 
-    ensures data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
-    ensures data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    ensures data.pump.configured_duration_level >= WATERING_PUMP_DURATION_LEVEL_MIN;
+    ensures data.pump.configured_duration_level <= WATERING_PUMP_DURATION_LEVEL_MAX;
     ensures data.pump.remaining_cycle_levels > 0
         ==> data.pump.level_remaining_seconds > 0;
 
@@ -249,10 +249,10 @@ void handle_pump(void)
     complete behaviors;
     disjoint behaviors;
 */
-void handle_button(void)
+void watering_handle_button(void)
 {
     /* Button is currently pressed (active LOW). */
-    if (GPIO_GET(GPIO_USER_BUTTON_INPUT) == false)
+    if (GPIO_IS_HIGH(GPIO_USER_BUTTON_INPUT) == false)
     {
         data.button_was_pressed = true;
         return;
@@ -261,8 +261,8 @@ void handle_button(void)
     /* Button released: detect press-release cycle. */
     if (data.button_was_pressed)
     {
-        logDebugLow("Button released");
-        update_pump_duration();
+        WATERING_LOG_DEBUG_LOW("Button released");
+        watering_update_pump_duration();
     }
 
     /* Clear stored state for next detection cycle. */
@@ -270,46 +270,46 @@ void handle_button(void)
 }
 
 /*@
-    requires data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
-    requires data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    requires data.pump.configured_duration_level >= WATERING_PUMP_DURATION_LEVEL_MIN;
+    requires data.pump.configured_duration_level <= WATERING_PUMP_DURATION_LEVEL_MAX;
     requires GPIObits.GP1 == 0 || GPIObits.GP1 == 1;
     requires data.pump.remaining_cycle_levels > 0
         ==> data.pump.level_remaining_seconds > 0;
 
     assigns data.pump.remaining_cycle_levels,
-        data.pump.level_remaining_seconds;
+            data.pump.level_remaining_seconds;
 
     ensures data.pump.remaining_cycle_levels > 0
         ==> data.pump.level_remaining_seconds > 0;
 
     behavior soil_dry:
-        assumes GPIObits.GP1 == GPIO_LEVEL_HIGH;
+        assumes GPIObits.GP1 == GPIO_LEVEL_LOW;
         ensures data.pump.remaining_cycle_levels ==
             data.pump.configured_duration_level;
-        ensures data.pump.level_remaining_seconds == PUMP_STEP_DURATION_SECONDS;
+        ensures data.pump.level_remaining_seconds == WATERING_PUMP_STEP_DURATION_SECONDS;
 
     behavior soil_moist:
-        assumes GPIObits.GP1 == GPIO_LEVEL_LOW;
+        assumes GPIObits.GP1 == GPIO_LEVEL_HIGH;
         assigns \nothing;
 
     complete behaviors;
     disjoint behaviors;
 */
-void handle_sensor_check(void)
+void watering_handle_sensor_check(void)
 {
-    if (GPIO_GET(GPIO_SOIL_SENSOR_INPUT))
+    if (GPIO_IS_HIGH(GPIO_SOIL_SENSOR_INPUT) == false)
     {
-        logWarning("Soil dry - starting watering (level %d, %ds)",
-                   data.pump.configured_duration_level,
-                   data.pump.configured_duration_level * PUMP_STEP_DURATION_SECONDS);
+        WATERING_LOG_WARNING("Soil dry - starting watering (level %d, %ds)",
+                             data.pump.configured_duration_level,
+                             data.pump.configured_duration_level * WATERING_PUMP_STEP_DURATION_SECONDS);
 
-        /* Pump will be activated during the next handle_pump() call. */
+        /* Pump will be activated during the next watering_handle_pump() call. */
         data.pump.remaining_cycle_levels = data.pump.configured_duration_level;
-        data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+        data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
     }
     else
     {
-        logDebugHigh("Soil check OK - moisture sufficient");
+        WATERING_LOG_DEBUG_HIGH("Soil check OK - moisture sufficient");
     }
 }
 
@@ -360,7 +360,7 @@ void handle_sensor_check(void)
     complete behaviors;
     disjoint behaviors;
 */
-void handle_display(void)
+void watering_handle_display(void)
 {
     if (data.send_pulse_to_display == true)
     {
@@ -383,8 +383,8 @@ void handle_display(void)
 }
 
 /*@
-    requires data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
-    requires data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    requires data.pump.configured_duration_level >= WATERING_PUMP_DURATION_LEVEL_MIN;
+    requires data.pump.configured_duration_level <= WATERING_PUMP_DURATION_LEVEL_MAX;
     requires data.pump.remaining_cycle_levels > 0
         ==> data.pump.level_remaining_seconds > 0;
 
@@ -393,8 +393,8 @@ void handle_display(void)
         data.pump.configured_duration_level,
         data.display_overflow_pulse;
 
-    ensures data.pump.configured_duration_level >= PUMP_DURATION_LEVEL_MIN;
-    ensures data.pump.configured_duration_level <= PUMP_DURATION_LEVEL_MAX;
+    ensures data.pump.configured_duration_level >= WATERING_PUMP_DURATION_LEVEL_MIN;
+    ensures data.pump.configured_duration_level <= WATERING_PUMP_DURATION_LEVEL_MAX;
     ensures data.pump.remaining_cycle_levels > 0
         ==> data.pump.level_remaining_seconds > 0;
 
@@ -403,18 +403,18 @@ void handle_display(void)
         ensures data.send_pulse_to_display == true;
         ensures data.sending_pulse_to_display == false;
 
-        ensures \old(data.pump.configured_duration_level) < PUMP_DURATION_LEVEL_MAX
+        ensures \old(data.pump.configured_duration_level) < WATERING_PUMP_DURATION_LEVEL_MAX
             ==> data.pump.configured_duration_level ==
                 \old(data.pump.configured_duration_level) + 1;
 
-        ensures \old(data.pump.configured_duration_level) < PUMP_DURATION_LEVEL_MAX
+        ensures \old(data.pump.configured_duration_level) < WATERING_PUMP_DURATION_LEVEL_MAX
             ==> data.display_overflow_pulse ==
                 \old(data.display_overflow_pulse);
 
-        ensures \old(data.pump.configured_duration_level) == PUMP_DURATION_LEVEL_MAX
-            ==> data.pump.configured_duration_level == PUMP_DURATION_LEVEL_MIN;
+        ensures \old(data.pump.configured_duration_level) == WATERING_PUMP_DURATION_LEVEL_MAX
+            ==> data.pump.configured_duration_level == WATERING_PUMP_DURATION_LEVEL_MIN;
 
-        ensures \old(data.pump.configured_duration_level) == PUMP_DURATION_LEVEL_MAX
+        ensures \old(data.pump.configured_duration_level) == WATERING_PUMP_DURATION_LEVEL_MAX
             ==> data.display_overflow_pulse == true;
 
     behavior pump_running:
@@ -424,7 +424,7 @@ void handle_display(void)
     complete behaviors;
     disjoint behaviors;
 */
-void update_pump_duration(void)
+void watering_update_pump_duration(void)
 {
     /* Update only when the pump is not running to avoid ambiguity
        between the previous and newly selected duration. */
@@ -439,16 +439,16 @@ void update_pump_duration(void)
         /* Explicit comparison is used instead of a modulo operation.
            The target device has no native modulo support, and the compiler
            would generate significantly more code for modulo handling. */
-        if (data.pump.configured_duration_level > PUMP_DURATION_LEVEL_MAX)
+        if (data.pump.configured_duration_level > WATERING_PUMP_DURATION_LEVEL_MAX)
         {
-            data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+            data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
 
             /* Display overflows 9->0; schedule second pulse to reach 1 */
             data.display_overflow_pulse = true;
         }
 
-        logInfo("Duration set to level %d (%ds)",
-                data.pump.configured_duration_level,
-                data.pump.configured_duration_level * PUMP_STEP_DURATION_SECONDS);
+        WATERING_LOG_INFO("Duration set to level %d (%ds)",
+                          data.pump.configured_duration_level,
+                          data.pump.configured_duration_level * WATERING_PUMP_STEP_DURATION_SECONDS);
     }
 }

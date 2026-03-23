@@ -11,8 +11,8 @@
  *   Connected to the CD4026 clock input of a single-digit seven-segment display.
  *
  * - GP1 (pin 3): Input - Soil moisture sensor
- *   HIGH = soil is dry (watering required)
- *   LOW  = soil is wet (no action)
+ *   HIGH = soil is wet (no action)
+ *   LOW  = soil is dry (watering required)
  *
  * - GP2 (pin 4): Output - Pump MOSFT control
  *   HIGH = pump running
@@ -92,29 +92,29 @@
 */
 int main(void)
 {
-    logInfo("PlantWatering firmware starting");
+    WATERING_LOG_INFO("PlantWatering firmware starting");
 
 #ifdef TARGET_HOST
-    static bool isInitialized = false;
-    if (!isInitialized)
+    static bool is_initialized = false;
+    if (!is_initialized)
     {
 #endif
-        initialize();
+        watering_initialize();
 #ifdef TARGET_HOST
-        isInitialized = true;
+        is_initialized = true;
     }
 #endif
 
 #ifndef TARGET_HOST
     /*@
       loop invariant tick_range:
-          data.time.tick < TIME_TICKS_PER_SECOND;
+          data.time.tick < WATERING_TIME_TICKS_PER_SECOND;
 
       loop invariant seconds_range:
-          data.time.seconds < TIME_SECONDS_PER_MINUTE;
+          data.time.seconds < WATERING_TIME_SECONDS_PER_MINUTE;
 
       loop invariant minutes_range:
-          data.time.minutes < TIME_MINUTES_PER_HOUR;
+          data.time.minutes < WATERING_TIME_MINUTES_PER_HOUR;
 
       loop invariant level_valid:
           data.pump.configured_duration_level >= 1 &&
@@ -145,7 +145,7 @@ int main(void)
     while (true)
 #endif
     {
-        HW_DELAY_MS(TIME_BASE_TICK_MS);
+        HW_DELAY_MS(WATERING_TIME_BASE_TICK_MS);
 
         /* Hardware guarantee: 1-bit GPIO bitfields can only hold 0 or 1.
             WP cannot deduce this after loop havoc of the GPIObits union,
@@ -156,28 +156,28 @@ int main(void)
         //@ admit GPIObits.GP2 == 0 || GPIObits.GP2 == 1;
         //@ admit GPIObits.GP3 == 0 || GPIObits.GP3 == 1;
 
-        handle_button();
-        handle_display();
+        watering_handle_button();
+        watering_handle_display();
 
-        if (++data.time.tick >= TIME_TICKS_PER_SECOND)
+        if (++data.time.tick >= WATERING_TIME_TICKS_PER_SECOND)
         {
             data.time.tick = 0;
 
-            if (++data.time.seconds >= TIME_SECONDS_PER_MINUTE)
+            if (++data.time.seconds >= WATERING_TIME_SECONDS_PER_MINUTE)
             {
                 data.time.seconds = 0;
-                logDebugLow("Minute elapsed: %02d", data.time.minutes + 1);
+                WATERING_LOG_DEBUG_LOW("Minute elapsed: %02d", data.time.minutes + 1);
 
-                if (++data.time.minutes >= TIME_MINUTES_PER_HOUR)
+                if (++data.time.minutes >= WATERING_TIME_MINUTES_PER_HOUR)
                 {
                     data.time.minutes = 0;
-                    logInfo("Hour elapsed - checking soil");
+                    WATERING_LOG_INFO("Hour elapsed - checking soil");
                     //@ admit GPIObits.GP1 == 0 || GPIObits.GP1 == 1;
-                    handle_sensor_check();
+                    watering_handle_sensor_check();
                 }
             }
 
-            handle_pump();
+            watering_handle_pump();
         }
     }
 }

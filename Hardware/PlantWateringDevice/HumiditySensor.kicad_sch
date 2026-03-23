@@ -1,5 +1,5 @@
 (kicad_sch
-	(version 20260101)
+	(version 20260306)
 	(generator "eeschema")
 	(generator_version "10.0")
 	(uuid "551579e4-8350-425f-9a95-7b79871ba77e")
@@ -2277,77 +2277,38 @@
 		)
 		(uuid "ff13e04c-f6f6-4499-a21f-d480fed59023")
 	)
-	(global_label "HUMIDITY_COMPARATION"
+	(hierarchical_label "POTENTIOMETER_DATA"
+		(shape output)
+		(at 104.14 97.79 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "584bff8d-3fb5-4d97-a4df-00b224b52434")
+	)
+	(hierarchical_label "HUMIDITY_COMPARATION"
 		(shape output)
 		(at 146.05 67.31 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "254232d2-2aeb-45b7-8fea-a2535d2df3e9")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 171.6535 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
+		(uuid "67dcbbc7-5ec9-4cb6-8a11-d4317e611871")
 	)
-	(global_label "HUMIDITY_SENSOR"
-		(shape input)
+	(hierarchical_label "HUMIDITY_SENSOR"
+		(shape output)
 		(at 67.31 67.31 90)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "ad9f487c-4468-4c03-bcaf-d81284903892")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 67.31 47.21 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-	)
-	(global_label "POTENTIOMETER_DATA"
-		(shape input)
-		(at 104.14 97.79 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "cb7e2dc1-5580-43a3-b222-6c72574e3a3b")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 127.4451 97.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
+		(uuid "e8fcc63b-a2ca-47ff-aa8b-429bceb241cb")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -2361,7 +2322,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0369c410-ac93-4efb-88d4-b5c81a5257c1")
-		(property "Reference" "R3"
+		(property "Reference" "R10"
 			(at 143.51 80.0099 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2424,8 +2385,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
-					(reference "R3")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -2502,7 +2463,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR07")
 					(unit 1)
 				)
@@ -2580,7 +2541,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR030")
 					(unit 1)
 				)
@@ -2598,7 +2559,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "16721927-20c3-47b2-bfc0-c467fd184afa")
-		(property "Reference" "RV2"
+		(property "Reference" "RV1"
 			(at 90.678 64.77 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2696,9 +2657,9 @@
 			(uuid "6bbf2bdb-2db2-4570-8896-07cc34729f72")
 		)
 		(instances
-			(project ""
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
-					(reference "RV2")
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
+					(reference "RV1")
 					(unit 1)
 				)
 			)
@@ -2794,8 +2755,8 @@
 			(uuid "acdeecc0-e899-4cc8-bef0-436443d11107")
 		)
 		(instances
-			(project ""
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "U2")
 					(unit 1)
 				)
@@ -2873,7 +2834,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR04")
 					(unit 1)
 				)
@@ -2951,7 +2912,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR02")
 					(unit 1)
 				)
@@ -3043,8 +3004,8 @@
 			(uuid "d4b0fff6-ed0e-4784-b6dd-52cb7465cedc")
 		)
 		(instances
-			(project ""
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "D1")
 					(unit 1)
 				)
@@ -3123,7 +3084,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR01")
 					(unit 1)
 				)
@@ -3201,7 +3162,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR027")
 					(unit 1)
 				)
@@ -3283,7 +3244,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "R1")
 					(unit 1)
 				)
@@ -3302,7 +3263,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7551cc19-7e0e-436c-8e69-7e644deba73f")
-		(property "Reference" "R4"
+		(property "Reference" "R5"
 			(at 133.35 58.4199 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3365,8 +3326,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
-					(reference "R4")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
+					(reference "R5")
 					(unit 1)
 				)
 			)
@@ -3384,7 +3345,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7a966787-9384-4074-9b3c-fd4ca6412fce")
-		(property "Reference" "R10"
+		(property "Reference" "R3"
 			(at 118.11 44.45 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3445,8 +3406,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
-					(reference "R10")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -3523,7 +3484,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR031")
 					(unit 1)
 				)
@@ -3601,7 +3562,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR029")
 					(unit 1)
 				)
@@ -3621,7 +3582,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "80fa5a70-f06f-4079-a0e3-92808af11dcf")
-		(property "Reference" "J4"
+		(property "Reference" "J2"
 			(at 54.61 71.1199 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3687,8 +3648,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
-					(reference "J4")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
+					(reference "J2")
 					(unit 1)
 				)
 			)
@@ -3765,7 +3726,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR08")
 					(unit 1)
 				)
@@ -3843,7 +3804,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR013")
 					(unit 1)
 				)
@@ -3925,7 +3886,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "R2")
 					(unit 1)
 				)
@@ -4004,7 +3965,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR05")
 					(unit 1)
 				)
@@ -4082,7 +4043,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR022")
 					(unit 1)
 				)
@@ -4164,7 +4125,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "C2")
 					(unit 1)
 				)
@@ -4183,7 +4144,7 @@
 		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "cc0b841c-3e8c-4703-8924-894c33db2322")
-		(property "Reference" "C7"
+		(property "Reference" "C3"
 			(at 88.9 76.1999 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4246,8 +4207,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
-					(reference "C7")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
+					(reference "C3")
 					(unit 1)
 				)
 			)
@@ -4265,7 +4226,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d0e752da-e580-476c-93df-c756ca7f1bb1")
-		(property "Reference" "TP9"
+		(property "Reference" "TP1"
 			(at 74.93 57.15 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4323,8 +4284,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
-					(reference "TP9")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
+					(reference "TP1")
 					(unit 1)
 				)
 			)
@@ -4342,7 +4303,7 @@
 		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "df81cc80-e79a-4d12-b7e4-13de706d00e2")
-		(property "Reference" "C3"
+		(property "Reference" "C7"
 			(at 111.76 76.1999 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4405,8 +4366,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
-					(reference "C3")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
+					(reference "C7")
 					(unit 1)
 				)
 			)
@@ -4487,7 +4448,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "C1")
 					(unit 1)
 				)
@@ -4584,8 +4545,8 @@
 			(uuid "acdeecc0-e899-4cc8-bef0-436443d11108")
 		)
 		(instances
-			(project ""
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "U2")
 					(unit 2)
 				)
@@ -4663,7 +4624,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "#PWR025")
 					(unit 1)
 				)
@@ -4682,7 +4643,7 @@
 		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "effbb7d7-1707-4699-becb-056fd37dc1d9")
-		(property "Reference" "R5"
+		(property "Reference" "R4"
 			(at 120.65 126.9999 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4745,8 +4706,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
-					(reference "R5")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
+					(reference "R4")
 					(unit 1)
 				)
 			)
@@ -4764,7 +4725,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f162c080-2269-4893-8633-6c792f71428c")
-		(property "Reference" "TP1"
+		(property "Reference" "TP7"
 			(at 102.87 45.72 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4822,8 +4783,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
-					(reference "TP1")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
+					(reference "TP7")
 					(unit 1)
 				)
 			)
@@ -4921,8 +4882,8 @@
 			(uuid "acdeecc0-e899-4cc8-bef0-436443d11109")
 		)
 		(instances
-			(project ""
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/88b4978f-8f13-4520-947f-d4cf07493652"
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/c3968f14-84c3-4882-9899-3d96f158b246"
 					(reference "U2")
 					(unit 3)
 				)

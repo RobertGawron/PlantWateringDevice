@@ -1,58 +1,142 @@
 (kicad_sch
-	(version 20260101)
+	(version 20260306)
 	(generator "eeschema")
 	(generator_version "10.0")
 	(uuid "1ef241b3-83d7-48ae-bcca-b7d0eea44e63")
 	(paper "A4")
 	(lib_symbols)
-	(sheet
-		(at 85.725 24.765)
-		(size 12.7 3.81)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
+	(wire
+		(pts
+			(xy 102.87 54.61) (xy 102.87 64.77)
+		)
 		(stroke
-			(width 0.1524)
-			(type solid)
+			(width 0)
+			(type default)
 		)
-		(fill
-			(color 0 0 0 0)
+		(uuid "2a20c2cd-23db-48c5-acf5-47125a45cd55")
+	)
+	(wire
+		(pts
+			(xy 58.42 53.34) (xy 63.5 53.34)
 		)
-		(uuid "0c2157b4-5762-411a-834e-73665a569667")
-		(property "Sheetname" "PowerManagement"
-			(at 85.725 24.0534 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
-		(property "Sheetfile" "PowerManagement.kicad_sch"
-			(at 85.725 29.1596 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
+		(uuid "497fcc08-39a9-4b8a-80bf-a57e2bcad249")
+	)
+	(wire
+		(pts
+			(xy 66.04 67.31) (xy 106.68 67.31)
 		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63"
-					(page "3")
-				)
-			)
+		(stroke
+			(width 0)
+			(type default)
 		)
+		(uuid "4e84d5d8-1ab1-4fc1-a61c-ca2b8d283d5c")
+	)
+	(wire
+		(pts
+			(xy 58.42 48.26) (xy 71.12 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5a286a8a-0118-43cd-8f7a-8b0a8d9e9ec8")
+	)
+	(wire
+		(pts
+			(xy 96.52 52.07) (xy 102.87 52.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "67dc1544-519a-4365-b394-472f949af7a9")
+	)
+	(wire
+		(pts
+			(xy 58.42 50.8) (xy 66.04 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6be25948-359b-442b-af5e-5df2153f4e36")
+	)
+	(wire
+		(pts
+			(xy 63.5 53.34) (xy 63.5 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "752b65f6-63a9-4fb9-a8ff-2be9928dbd21")
+	)
+	(wire
+		(pts
+			(xy 102.87 52.07) (xy 102.87 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7b38365a-02a6-4512-9f6c-8521d6e91798")
+	)
+	(wire
+		(pts
+			(xy 102.87 48.26) (xy 106.68 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ac3a6cc2-81d2-46da-a043-efce07d18584")
+	)
+	(wire
+		(pts
+			(xy 66.04 50.8) (xy 66.04 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "acea80fd-6420-43fa-bbbc-5bcdedd2b1e1")
+	)
+	(wire
+		(pts
+			(xy 63.5 69.85) (xy 106.68 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "affdf83d-1932-4c9a-9081-ee3ce050cc31")
+	)
+	(wire
+		(pts
+			(xy 96.52 54.61) (xy 102.87 54.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b259310e-5d9a-446e-8f8e-75483e19491b")
+	)
+	(wire
+		(pts
+			(xy 102.87 64.77) (xy 106.68 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ebad3ed5-b201-429d-b07e-51164e8626e9")
 	)
 	(sheet
-		(at 86.995 64.77)
+		(at 61.595 77.47)
 		(size 12.7 3.81)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -64,11 +148,11 @@
 			(type solid)
 		)
 		(fill
-			(color 0 0 0 0)
+			(color 255 255 194 1)
 		)
 		(uuid "5562fc2a-f523-4fb1-93b9-4e5761871338")
 		(property "Sheetname" "Mechanic"
-			(at 86.995 64.0584 0)
+			(at 61.595 76.7584 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -79,7 +163,7 @@
 			)
 		)
 		(property "Sheetfile" "Mechanic.kicad_sch"
-			(at 86.995 69.1646 0)
+			(at 61.595 81.8646 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -98,8 +182,8 @@
 		)
 	)
 	(sheet
-		(at 86.36 38.1)
-		(size 12.7 3.81)
+		(at 106.68 63.5)
+		(size 22.86 8.89)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -110,11 +194,87 @@
 			(type solid)
 		)
 		(fill
-			(color 0 0 0 0)
+			(color 255 255 194 1)
+		)
+		(uuid "677803a8-5f3c-4ac5-8902-74d58e2a1af0")
+		(property "Sheetname" "Display"
+			(at 106.68 62.7884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Display.kicad_sch"
+			(at 106.68 72.9746 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "DISPLAY_DATA" input
+			(at 106.68 64.77 180)
+			(uuid "5081afd6-5ca8-4794-b585-e15f08594859")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "POTENTIOMETER_DATA" input
+			(at 106.68 67.31 180)
+			(uuid "cfeb171b-1283-4139-af90-f928a0766527")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "HUMIDITY_SENSOR" input
+			(at 106.68 69.85 180)
+			(uuid "63923bba-bb4a-4d5f-a181-1fb82314c6ca")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 71.12 46.99)
+		(size 25.4 8.89)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 255 255 194 1)
 		)
 		(uuid "774c5e66-df25-4246-b332-f6d1db12f11e")
 		(property "Sheetname" "DataHandling"
-			(at 86.36 37.3884 0)
+			(at 71.12 46.2784 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -125,7 +285,7 @@
 			)
 		)
 		(property "Sheetfile" "DataHandling.kicad_sch"
-			(at 86.36 42.4946 0)
+			(at 71.12 56.4646 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -133,6 +293,36 @@
 					(size 1.27 1.27)
 				)
 				(justify left top)
+			)
+		)
+		(pin "DISPLAY_DATA" output
+			(at 96.52 54.61 0)
+			(uuid "17717204-c979-4967-b299-3d496c90bb21")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "HUMIDITY_COMPARATION" input
+			(at 71.12 48.26 180)
+			(uuid "4efddce7-9820-4afb-896a-a290fac0840f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "PUMP_ON_OFF" output
+			(at 96.52 52.07 0)
+			(uuid "d857a13e-8845-4a96-83f8-504a021a2bb3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 			)
 		)
 		(instances
@@ -144,8 +334,8 @@
 		)
 	)
 	(sheet
-		(at 86.995 52.07)
-		(size 12.7 3.81)
+		(at 106.68 46.99)
+		(size 16.51 3.81)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -156,11 +346,67 @@
 			(type solid)
 		)
 		(fill
-			(color 0 0 0 0)
+			(color 255 255 194 1)
 		)
-		(uuid "88b4978f-8f13-4520-947f-d4cf07493652")
+		(uuid "a141cb94-983c-4780-96e1-70ed49312478")
+		(property "Sheetname" "PowerManagement"
+			(at 106.68 46.2784 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "PowerManagement.kicad_sch"
+			(at 106.68 51.3846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "PUMP_ON_OFF" input
+			(at 106.68 48.26 180)
+			(uuid "d8ee711b-1923-4881-9ca1-dea24502832a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 33.02 46.99)
+		(size 25.4 8.89)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 255 255 194 1)
+		)
+		(uuid "c3968f14-84c3-4882-9899-3d96f158b246")
 		(property "Sheetname" "HumiditySensor"
-			(at 86.995 51.3584 0)
+			(at 33.02 46.2784 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -171,7 +417,7 @@
 			)
 		)
 		(property "Sheetfile" "HumiditySensor.kicad_sch"
-			(at 86.995 56.4646 0)
+			(at 33.02 56.4646 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -179,58 +425,42 @@
 					(size 1.27 1.27)
 				)
 				(justify left top)
+			)
+		)
+		(pin "HUMIDITY_SENSOR" output
+			(at 58.42 53.34 0)
+			(uuid "dae8c03c-f391-41e4-ba08-35a89e3fc794")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "POTENTIOMETER_DATA" output
+			(at 58.42 50.8 0)
+			(uuid "902d4d5b-737f-47c2-b1a6-1f166d9da897")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "HUMIDITY_COMPARATION" output
+			(at 58.42 48.26 0)
+			(uuid "55ed9bfe-54de-47bc-947f-527edee9ea77")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 			)
 		)
 		(instances
 			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63"
 					(page "2")
-				)
-			)
-		)
-	)
-	(sheet
-		(at 87.63 78.74)
-		(size 12.7 3.81)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(fill
-			(color 0 0 0 0)
-		)
-		(uuid "d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e")
-		(property "Sheetname" "Display"
-			(at 87.63 78.0284 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Sheetfile" "Display.kicad_sch"
-			(at 87.63 83.1346 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(instances
-			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63"
-					(page "8")
 				)
 			)
 		)

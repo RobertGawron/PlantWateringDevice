@@ -1,10 +1,10 @@
 /**
- * @file test_update_pump_duration.c
+ * @file test_watering_update_pump_duration.c
  *
  * @brief Unit tests for the pump duration level update logic.
  *
  * @details
- * update_pump_duration() is called on a button release event and
+ * watering_update_pump_duration() is called on a button release event and
  * advances the user-configured pump duration level.
  *
  * Behavior:
@@ -17,8 +17,8 @@
  * 2. Increment: configured_duration_level is incremented by 1.
  *
  * 3. Wrap-around: When configured_duration_level exceeds
- *    PUMP_DURATION_LEVEL_MAX (9), it wraps to
- *    PUMP_DURATION_LEVEL_MIN (1).
+ *    WATERING_PUMP_DURATION_LEVEL_MAX (9), it wraps to
+ *    WATERING_PUMP_DURATION_LEVEL_MIN (1).
  *
  * 4. Display signaling: On a successful update,
  *    send_pulse_to_display is set to true and
@@ -33,25 +33,25 @@
 #include "xc.h"
 #include "watering.h"
 
-extern void update_pump_duration(void);
+extern void watering_update_pump_duration(void);
 extern PlantWateringData data;
 
 /**
- * @note PUMP_DURATION_LEVEL_MAX is defined in watering.c (translation
+ * @note WATERING_PUMP_DURATION_LEVEL_MAX is defined in watering.c (translation
  *       unit scope). Duplicated here for boundary verification.
  *       Must be kept in sync with the production definition.
  */
-#define PUMP_DURATION_LEVEL_MAX (9U)
+#define WATERING_PUMP_DURATION_LEVEL_MAX (9U)
 
 /** Minimum selectable pump duration level (in steps). */
-#define PUMP_DURATION_LEVEL_MIN (1U)
+#define WATERING_PUMP_DURATION_LEVEL_MIN (1U)
 
 /** Duration of one pump level in seconds. */
-#define PUMP_STEP_DURATION_SECONDS (5U)
+#define WATERING_PUMP_STEP_DURATION_SECONDS (5U)
 
 void setUp(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
     data.pump.level_remaining_seconds = 0U;
     data.send_pulse_to_display = false;
@@ -69,12 +69,12 @@ void tearDown(void) {}
  */
 void test_increments_when_idle(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN + 1U,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN + 1U,
                             data.pump.configured_duration_level);
 }
 
@@ -86,7 +86,7 @@ void test_increments_mid_range(void)
     data.pump.configured_duration_level = 5U;
     data.pump.remaining_cycle_levels = 0U;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_EQUAL_UINT8(6U, data.pump.configured_duration_level);
 }
@@ -104,7 +104,7 @@ void test_blocked_when_pump_active_one_level(void)
     data.pump.configured_duration_level = 3U;
     data.pump.remaining_cycle_levels = 1U;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_EQUAL_UINT8(3U, data.pump.configured_duration_level);
 }
@@ -116,9 +116,9 @@ void test_blocked_when_pump_active_one_level(void)
 void test_blocked_when_pump_active_max_levels(void)
 {
     data.pump.configured_duration_level = 3U;
-    data.pump.remaining_cycle_levels = PUMP_DURATION_LEVEL_MAX;
+    data.pump.remaining_cycle_levels = WATERING_PUMP_DURATION_LEVEL_MAX;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_EQUAL_UINT8(3U, data.pump.configured_duration_level);
 }
@@ -135,7 +135,7 @@ void test_no_display_pulse_when_pump_active(void)
     data.send_pulse_to_display = false;
     data.sending_pulse_to_display = false;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_FALSE(data.send_pulse_to_display);
     TEST_ASSERT_FALSE(data.sending_pulse_to_display);
@@ -154,7 +154,7 @@ void test_in_progress_pulse_not_corrupted_when_active(void)
     data.send_pulse_to_display = false;
     data.sending_pulse_to_display = true;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_TRUE(data.sending_pulse_to_display);
     TEST_ASSERT_FALSE(data.send_pulse_to_display);
@@ -163,13 +163,13 @@ void test_in_progress_pulse_not_corrupted_when_active(void)
 /**
  * @brief Verify remaining_cycle_levels is never modified.
  *
- * update_pump_duration must not alter the pump runtime state.
+ * watering_update_pump_duration must not alter the pump runtime state.
  */
 void test_remaining_cycle_levels_not_modified_when_active(void)
 {
     data.pump.remaining_cycle_levels = 4U;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_EQUAL_UINT8(4U, data.pump.remaining_cycle_levels);
 }
@@ -183,7 +183,7 @@ void test_level_remaining_seconds_not_modified_when_active(void)
     data.pump.remaining_cycle_levels = 2U;
     data.pump.level_remaining_seconds = 3U;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_EQUAL_UINT8(3U, data.pump.level_remaining_seconds);
 }
@@ -196,16 +196,16 @@ void test_level_remaining_seconds_not_modified_when_active(void)
  * @brief Verify wrap from MAX to MIN.
  *
  * Critical boundary: configured_duration_level must wrap to
- * PUMP_DURATION_LEVEL_MIN (1), not to 0.
+ * WATERING_PUMP_DURATION_LEVEL_MIN (1), not to 0.
  */
 void test_wraps_from_max_to_min(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MAX;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MAX;
     data.pump.remaining_cycle_levels = 0U;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN,
                             data.pump.configured_duration_level);
 }
 
@@ -216,12 +216,12 @@ void test_wraps_from_max_to_min(void)
  */
 void test_no_wrap_at_max_minus_one(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MAX - 1U;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MAX - 1U;
     data.pump.remaining_cycle_levels = 0U;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MAX,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MAX,
                             data.pump.configured_duration_level);
 }
 
@@ -233,10 +233,10 @@ void test_no_wrap_at_max_minus_one(void)
  */
 void test_wrap_does_not_produce_zero(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MAX;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MAX;
     data.pump.remaining_cycle_levels = 0U;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_NOT_EQUAL(0U, data.pump.configured_duration_level);
 }
@@ -244,27 +244,27 @@ void test_wrap_does_not_produce_zero(void)
 /**
  * @brief Verify full traversal from MIN through MAX and back to MIN.
  *
- * Calls update_pump_duration exactly PUMP_DURATION_LEVEL_MAX times
+ * Calls watering_update_pump_duration exactly WATERING_PUMP_DURATION_LEVEL_MAX times
  * starting from MIN. The final value must be MIN (one full wrap).
  * Each intermediate value is verified.
  */
 void test_full_cycle_traversal(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
     /* MIN+1, MIN+2, ..., MAX (that is MAX - MIN calls) */
-    for (uint8_t expected = PUMP_DURATION_LEVEL_MIN + 1U;
-         expected <= PUMP_DURATION_LEVEL_MAX; expected++)
+    for (uint8_t expected = WATERING_PUMP_DURATION_LEVEL_MIN + 1U;
+         expected <= WATERING_PUMP_DURATION_LEVEL_MAX; expected++)
     {
-        update_pump_duration();
+        watering_update_pump_duration();
         TEST_ASSERT_EQUAL_UINT8(expected,
                                 data.pump.configured_duration_level);
     }
 
     /* One more call: MAX -> MIN (wrap) */
-    update_pump_duration();
-    TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN,
+    watering_update_pump_duration();
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN,
                             data.pump.configured_duration_level);
 }
 
@@ -276,20 +276,20 @@ void test_full_cycle_traversal(void)
  */
 void test_two_full_cycles(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
     const uint8_t calls_per_cycle =
-        PUMP_DURATION_LEVEL_MAX - PUMP_DURATION_LEVEL_MIN + 1U;
+        WATERING_PUMP_DURATION_LEVEL_MAX - WATERING_PUMP_DURATION_LEVEL_MIN + 1U;
 
     for (uint8_t cycle = 0; cycle < 2U; cycle++)
     {
         for (uint8_t i = 0; i < calls_per_cycle; i++)
         {
-            update_pump_duration();
+            watering_update_pump_duration();
         }
 
-        TEST_ASSERT_EQUAL_UINT8(PUMP_DURATION_LEVEL_MIN,
+        TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_DURATION_LEVEL_MIN,
                                 data.pump.configured_duration_level);
     }
 }
@@ -306,7 +306,7 @@ void test_display_pulse_requested_on_update(void)
     data.pump.remaining_cycle_levels = 0U;
     data.send_pulse_to_display = false;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_TRUE(data.send_pulse_to_display);
 }
@@ -315,14 +315,14 @@ void test_display_pulse_requested_on_update(void)
  * @brief Verify sending_pulse_to_display is cleared on update.
  *
  * If a previous pulse was still in the "sending" phase,
- * update_pump_duration must reset it to ensure a clean new pulse.
+ * watering_update_pump_duration must reset it to ensure a clean new pulse.
  */
 void test_sending_pulse_cleared_on_update(void)
 {
     data.pump.remaining_cycle_levels = 0U;
     data.sending_pulse_to_display = true;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_FALSE(data.sending_pulse_to_display);
 }
@@ -339,7 +339,7 @@ void test_display_pulse_idempotent_when_already_pending(void)
     data.send_pulse_to_display = true;
     data.sending_pulse_to_display = false;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_TRUE(data.send_pulse_to_display);
     TEST_ASSERT_FALSE(data.sending_pulse_to_display);
@@ -353,11 +353,11 @@ void test_display_pulse_idempotent_when_already_pending(void)
  */
 void test_display_pulse_on_wrap(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MAX;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MAX;
     data.pump.remaining_cycle_levels = 0U;
     data.send_pulse_to_display = false;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_TRUE(data.send_pulse_to_display);
 }
@@ -371,17 +371,17 @@ void test_display_pulse_on_wrap(void)
  */
 void test_display_pulse_every_increment(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
     const uint8_t total_calls =
-        PUMP_DURATION_LEVEL_MAX - PUMP_DURATION_LEVEL_MIN + 1U;
+        WATERING_PUMP_DURATION_LEVEL_MAX - WATERING_PUMP_DURATION_LEVEL_MIN + 1U;
 
     for (uint8_t i = 0; i < total_calls; i++)
     {
         data.send_pulse_to_display = false;
 
-        update_pump_duration();
+        watering_update_pump_duration();
 
         TEST_ASSERT_TRUE_MESSAGE(
             data.send_pulse_to_display,
@@ -401,7 +401,7 @@ void test_remaining_cycle_levels_unchanged_on_update(void)
 {
     data.pump.remaining_cycle_levels = 0U;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.remaining_cycle_levels);
 }
@@ -413,11 +413,11 @@ void test_remaining_cycle_levels_unchanged_on_update(void)
 void test_level_remaining_seconds_unchanged_on_update(void)
 {
     data.pump.remaining_cycle_levels = 0U;
-    data.pump.level_remaining_seconds = PUMP_STEP_DURATION_SECONDS;
+    data.pump.level_remaining_seconds = WATERING_PUMP_STEP_DURATION_SECONDS;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
-    TEST_ASSERT_EQUAL_UINT8(PUMP_STEP_DURATION_SECONDS,
+    TEST_ASSERT_EQUAL_UINT8(WATERING_PUMP_STEP_DURATION_SECONDS,
                             data.pump.level_remaining_seconds);
 }
 
@@ -430,7 +430,7 @@ void test_level_remaining_seconds_zero_unchanged_on_update(void)
     data.pump.remaining_cycle_levels = 0U;
     data.pump.level_remaining_seconds = 0U;
 
-    update_pump_duration();
+    watering_update_pump_duration();
 
     TEST_ASSERT_EQUAL_UINT8(0U, data.pump.level_remaining_seconds);
 }
@@ -449,12 +449,12 @@ void test_increment_is_exactly_one(void)
 {
     data.pump.remaining_cycle_levels = 0U;
 
-    for (uint8_t start = PUMP_DURATION_LEVEL_MIN;
-         start < PUMP_DURATION_LEVEL_MAX; start++)
+    for (uint8_t start = WATERING_PUMP_DURATION_LEVEL_MIN;
+         start < WATERING_PUMP_DURATION_LEVEL_MAX; start++)
     {
         data.pump.configured_duration_level = start;
 
-        update_pump_duration();
+        watering_update_pump_duration();
 
         TEST_ASSERT_EQUAL_UINT8(start + 1U,
                                 data.pump.configured_duration_level);
@@ -467,11 +467,11 @@ void test_increment_is_exactly_one(void)
  */
 void test_single_call_does_not_noop(void)
 {
-    data.pump.configured_duration_level = PUMP_DURATION_LEVEL_MIN;
+    data.pump.configured_duration_level = WATERING_PUMP_DURATION_LEVEL_MIN;
     data.pump.remaining_cycle_levels = 0U;
 
     const uint8_t before = data.pump.configured_duration_level;
-    update_pump_duration();
+    watering_update_pump_duration();
     const uint8_t after = data.pump.configured_duration_level;
 
     TEST_ASSERT_NOT_EQUAL(before, after);
