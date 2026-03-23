@@ -1,5 +1,5 @@
 (kicad_sch
-	(version 20260101)
+	(version 20260306)
 	(generator "eeschema")
 	(generator_version "10.0")
 	(uuid "c42072e9-3803-443b-bbb2-7b34f90f35ff")
@@ -2229,29 +2229,16 @@
 		)
 		(uuid "fef75ad3-f4ec-4971-8d50-a1fdce9759d0")
 	)
-	(global_label "PUMP_ON_OFF"
+	(hierarchical_label "PUMP_ON_OFF"
 		(shape input)
 		(at 130.81 119.38 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "b83a9e84-e09a-49e5-8bdb-daaffcd16f8a")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 114.399 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
+		(uuid "92ec3040-b56c-4172-a89c-64e594f1b0e9")
 	)
 	(symbol
 		(lib_id "power:GND")
@@ -2324,7 +2311,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "#PWR050")
 					(unit 1)
 				)
@@ -2343,7 +2330,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "28d48032-3ce7-4b02-baa0-1052506f8f50")
-		(property "Reference" "R12"
+		(property "Reference" "R11"
 			(at 171.45 97.7899 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2406,8 +2393,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "R12")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
+					(reference "R11")
 					(unit 1)
 				)
 			)
@@ -2484,7 +2471,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "#PWR012")
 					(unit 1)
 				)
@@ -2562,7 +2549,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "#PWR028")
 					(unit 1)
 				)
@@ -2581,7 +2568,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "42f330ea-9390-4230-bfe9-cb90c8e600fc")
-		(property "Reference" "C9"
+		(property "Reference" "C5"
 			(at 91.44 89.2809 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2644,8 +2631,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "C9")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
+					(reference "C5")
 					(unit 1)
 				)
 			)
@@ -2663,7 +2650,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "46d64472-bb49-4715-af99-4536010252d8")
-		(property "Reference" "TP13"
+		(property "Reference" "TP5"
 			(at 130.81 55.1179 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2723,8 +2710,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "TP13")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
+					(reference "TP5")
 					(unit 1)
 				)
 			)
@@ -2801,7 +2788,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "#PWR051")
 					(unit 1)
 				)
@@ -2820,7 +2807,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7448df5a-c9f4-40b4-900d-b9bf7c0055e9")
-		(property "Reference" "C5"
+		(property "Reference" "C6"
 			(at 101.6 56.2609 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2883,8 +2870,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "C5")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
+					(reference "C6")
 					(unit 1)
 				)
 			)
@@ -2965,7 +2952,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "R9")
 					(unit 1)
 				)
@@ -3046,8 +3033,8 @@
 			(uuid "a5dec381-c4ed-4503-9891-1fc2b9c7aced")
 		)
 		(instances
-			(project ""
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "M1")
 					(unit 1)
 				)
@@ -3066,7 +3053,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7dd44a97-6501-4d5f-bff4-78b900c3400b")
-		(property "Reference" "TP3"
+		(property "Reference" "TP6"
 			(at 134.62 110.9979 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3127,8 +3114,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "TP3")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
+					(reference "TP6")
 					(unit 1)
 				)
 			)
@@ -3205,7 +3192,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "#PWR06")
 					(unit 1)
 				)
@@ -3283,7 +3270,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "#PWR026")
 					(unit 1)
 				)
@@ -3302,7 +3289,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "95d258f1-77e3-436c-93b8-570e1ca583ea")
-		(property "Reference" "TP12"
+		(property "Reference" "TP2"
 			(at 86.36 46.2279 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3362,8 +3349,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "TP12")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
+					(reference "TP2")
 					(unit 1)
 				)
 			)
@@ -3381,7 +3368,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a718ce6f-56cd-4e84-8e17-1dfb4212df2c")
-		(property "Reference" "TP10"
+		(property "Reference" "TP3"
 			(at 100.33 46.2279 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3441,8 +3428,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "TP10")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
+					(reference "TP3")
 					(unit 1)
 				)
 			)
@@ -3518,7 +3505,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "#PWR011")
 					(unit 1)
 				)
@@ -3596,7 +3583,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "#PWR052")
 					(unit 1)
 				)
@@ -3614,7 +3601,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "b6036a3b-2f0e-4713-98eb-58d0021aa6f1")
-		(property "Reference" "C14/25V"
+		(property "Reference" "C14/25V1"
 			(at 171.831 87.7316 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3677,8 +3664,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "C14/25V")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
+					(reference "C14/25V1")
 					(unit 1)
 				)
 			)
@@ -3757,7 +3744,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "R7")
 					(unit 1)
 				)
@@ -3835,7 +3822,7 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "#PWR018")
 					(unit 1)
 				)
@@ -3927,8 +3914,8 @@
 			(uuid "303500d5-fcf5-4b8c-8824-9e42a0900170")
 		)
 		(instances
-			(project ""
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "J1")
 					(unit 1)
 				)
@@ -4015,8 +4002,8 @@
 			(uuid "2e2ff084-682f-45af-baab-625a9d08294e")
 		)
 		(instances
-			(project ""
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
+			(project "PlantWateringDevice"
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
 					(reference "Q1")
 					(unit 1)
 				)
@@ -4034,7 +4021,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "e2241fcc-2b3d-4b2c-b297-0cb1591c13be")
-		(property "Reference" "C6"
+		(property "Reference" "C8"
 			(at 126.111 90.2716 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4097,8 +4084,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "C6")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
+					(reference "C8")
 					(unit 1)
 				)
 			)
@@ -4116,7 +4103,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ed774e57-8d99-447c-81c7-c98af470fda6")
-		(property "Reference" "TP11"
+		(property "Reference" "TP4"
 			(at 115.57 55.1179 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4176,8 +4163,8 @@
 		)
 		(instances
 			(project "PlantWateringDevice"
-				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/0c2157b4-5762-411a-834e-73665a569667"
-					(reference "TP11")
+				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/a141cb94-983c-4780-96e1-70ed49312478"
+					(reference "TP4")
 					(unit 1)
 				)
 			)

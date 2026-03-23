@@ -25,6 +25,7 @@ These cheap modules were used in this device; they or their clones are available
 
 # Electronic diagrams
 
+![Electronic Design DataHandling](./PlantWateringDevice/PlantWateringDevice.svg)
 ![Electronic Design DataHandling](./PlantWateringDevice/PlantWateringDevice-DataHandling.svg)
 ![Electronic Design Display](./PlantWateringDevice/PlantWateringDevice-Display.svg)
 ![Electronic Design HumiditySensor](./PlantWateringDevice/PlantWateringDevice-HumiditySensor.svg)

@@ -1,5 +1,5 @@
 (kicad_sch
-	(version 20260101)
+	(version 20260306)
 	(generator "eeschema")
 	(generator_version "10.0")
 	(uuid "b59a5efc-67a7-444b-a3f7-c1e75fa13b0e")
@@ -1915,77 +1915,38 @@
 		)
 		(uuid "f29b9aeb-6e9b-444d-aefa-9f427d898073")
 	)
-	(global_label "PUMP_ON_OFF"
+	(hierarchical_label "PUMP_ON_OFF"
 		(shape output)
 		(at 190.5 119.38 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "49820a2c-d13f-4ad0-99f1-f75675ac1b3f")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 206.911 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
+		(uuid "344e1aae-1cb6-4743-ac5f-a5f3bf6beeaf")
 	)
-	(global_label "HUMIDITY_COMPARATION"
+	(hierarchical_label "HUMIDITY_COMPARATION"
 		(shape input)
 		(at 190.5 121.92 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "7ac25994-44d7-4ce0-901d-4e2dd7fc3642")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 216.1035 121.92 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
+		(uuid "34619231-9549-4ca9-baa6-28bb65a3eaa9")
 	)
-	(global_label "BARGRAPH_DATA"
+	(hierarchical_label "DISPLAY_DATA"
 		(shape output)
 		(at 123.19 81.28 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "8490fb33-dc71-4da1-8f54-4cc0b495a8cc")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 104.9647 81.28 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
+		(uuid "5ef5aa0a-46b5-4258-b229-4829a1826cb8")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -2552,7 +2513,7 @@
 			(uuid "bd67a846-7792-460f-a44b-15891618dd6b")
 		)
 		(instances
-			(project ""
+			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/774c5e66-df25-4246-b332-f6d1db12f11e"
 					(reference "J3")
 					(unit 1)
@@ -2886,7 +2847,7 @@
 			(uuid "e5c845e6-bbde-412b-8980-0b4979c4ff5e")
 		)
 		(instances
-			(project ""
+			(project "PlantWateringDevice"
 				(path "/1ef241b3-83d7-48ae-bcca-b7d0eea44e63/774c5e66-df25-4246-b332-f6d1db12f11e"
 					(reference "U4")
 					(unit 1)

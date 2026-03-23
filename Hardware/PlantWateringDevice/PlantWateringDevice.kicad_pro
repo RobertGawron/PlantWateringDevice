@@ -117,6 +117,7 @@
         "too_many_vias": "error",
         "track_angle": "error",
         "track_dangling": "warning",
+        "track_not_centered_on_via": "ignore",
         "track_on_post_machined_layer": "error",
         "track_segment_length": "error",
         "track_width": "error",
@@ -238,11 +239,13 @@
       "zones_allow_external_fillets": false
     },
     "ipc2581": {
+      "bom_rev": "",
       "dist": "",
       "distpn": "",
       "internal_id": "",
       "mfg": "",
-      "mpn": ""
+      "mpn": "",
+      "sch_revision": ""
     },
     "layer_pairs": [],
     "layer_presets": [],
@@ -697,7 +700,7 @@
         "uuid": "1ef241b3-83d7-48ae-bcca-b7d0eea44e63"
       }
     ],
-    "used_designators": "#PWR46,R11",
+    "used_designators": "",
     "variants": []
   },
   "sheets": [
@@ -706,11 +709,11 @@
       "PlantWateringDevice"
     ],
     [
-      "88b4978f-8f13-4520-947f-d4cf07493652",
+      "c3968f14-84c3-4882-9899-3d96f158b246",
       "HumiditySensor"
     ],
     [
-      "0c2157b4-5762-411a-834e-73665a569667",
+      "a141cb94-983c-4780-96e1-70ed49312478",
       "PowerManagement"
     ],
     [
@@ -722,7 +725,7 @@
       "DataHandling"
     ],
     [
-      "d76ecc7e-66e3-47dc-9ce8-30fb2403ed3e",
+      "677803a8-5f3c-4ac5-8902-74d58e2a1af0",
       "Display"
     ]
   ],
